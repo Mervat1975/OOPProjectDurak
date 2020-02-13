@@ -1,0 +1,27 @@
+﻿/*  Rank.cs - Defines  the  Rank enumeration
+ *  Author:     Mervat Mustafa
+ *  Since:      Feb 2020 <update>
+ */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+namespace  CardLib
+{
+    public enum Rank
+    {
+        Ace = 1,
+        Deuce,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+    }
+}

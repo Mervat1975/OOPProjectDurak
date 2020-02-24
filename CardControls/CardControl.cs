@@ -22,6 +22,7 @@ namespace CardControls
 		private string imgResource = "Image";
 		private static Dictionary<int, char> suitCodes;
 		private static Dictionary<int, char> rankCodes;
+		private bool drag = false;
 
 		/// <summary>
 		/// Set or get the default width of the card
@@ -178,7 +179,32 @@ namespace CardControls
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			base.OnMouseDown(e);
+			this.DoDragDrop(CardBase, DragDropEffects.Copy);
+			drag = true;
+		}
+
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			drag = false;
+		}
+
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+			/*
+			if (drag)
+			{
+				this.Location = new Point(e.X, e.Y);
+			}
+			*/
+		}
+
+		protected override void OnDragDrop(DragEventArgs drgevent)
+		{
+			/*
+			this.Location = new Point(drgevent.X, drgevent.Y);
+			this.Invalidate();
+			*/
 		}
 	}
 }

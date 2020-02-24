@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,6 +81,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\cards\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CardControls\CardControls.csproj">
+      <Project>{2f880dc7-2522-40bc-9ca7-921b92b1f777}</Project>
+      <Name>CardControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardLib\CardLib.csproj">
+      <Project>{9a9273e6-b58a-43fd-84b4-2aba4e50d880}</Project>
+      <Name>CardLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

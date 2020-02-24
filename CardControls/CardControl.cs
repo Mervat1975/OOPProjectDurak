@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Drawing;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.ComponentModel.Design;
 using CardLib;
 
@@ -18,6 +19,7 @@ namespace CardControls
 		private static int defaultCardWidth = 65;
 		private static int defaultCardHeight = 86;
 		private Card cardBase;
+		private string imgResource = "Image";
 		private static Dictionary<int, char> suitCodes;
 		private static Dictionary<int, char> rankCodes;
 
@@ -46,6 +48,8 @@ namespace CardControls
 				SetCardImage();
 			} 
 		}
+
+		public string ImgResource { get => imgResource; set => imgResource = value; }
 
 		/// <summary>
 		/// Get the ratio between the default width
@@ -141,6 +145,8 @@ namespace CardControls
 			//Set the image
 			Image cardImage = (Properties.Resources.ResourceManager.GetObject(prefix+rank+suit) as Bitmap);
 
+			ImgResource = prefix+rank+suit;
+
 			this.BackgroundImage = cardImage;
 		}
 
@@ -166,6 +172,7 @@ namespace CardControls
 
 			this.BackgroundImageLayout = ImageLayout.Stretch;
 
+			CardBase = new Card(Suit.Diamond, Rank.Eight);
 			SetCardToDefaultSize();
 		}
 

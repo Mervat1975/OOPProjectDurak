@@ -23,6 +23,9 @@ namespace CardControls
 		private static Dictionary<int, char> suitCodes;
 		private static Dictionary<int, char> rankCodes;
 		private bool drag = false;
+		private bool isDraggable = false;
+		private int previousMouseX = 0;
+		private int previousMouseY = 0;
 
 		/// <summary>
 		/// Set or get the default width of the card
@@ -33,6 +36,20 @@ namespace CardControls
 		/// Set or get the default height of the card
 		/// </summary>
 		public static int DefaultCardHeight { get => defaultCardHeight; set => defaultCardHeight = value; }
+
+		public bool IsDraggable
+		{
+			get
+			{
+				return isDraggable;
+			}
+
+			set
+			{
+				isDraggable = value;
+				drag = false;
+			}
+		}
 
 		/// <summary>
 		/// Get and set the card that the CardControl represents
@@ -51,6 +68,30 @@ namespace CardControls
 		}
 
 		public string ImgResource { get => imgResource; set => imgResource = value; }
+
+		/// <summary>
+		/// Initialize the essential parts of the control
+		/// </summary>
+		public CardControl()
+		{
+			//Initialize rank and suit codes to enable correct image setting
+			rankCodes = new Dictionary<int, char>();
+			rankCodes.Add((int)Rank.Ace, 'A');
+			rankCodes.Add((int)Rank.Jack, 'J');
+			rankCodes.Add((int)Rank.King, 'K');
+			rankCodes.Add((int)Rank.Queen, 'Q');
+
+			suitCodes = new Dictionary<int, char>();
+			suitCodes.Add((int)Suit.Club, 'C');
+			suitCodes.Add((int)Suit.Diamond, 'D');
+			suitCodes.Add((int)Suit.Heart, 'H');
+			suitCodes.Add((int)Suit.Spade, 'S');
+
+			CardBase = new Card(Suit.Diamond, Rank.Eight);
+
+			this.BackgroundImageLayout = ImageLayout.Stretch;
+			SetCardToDefaultSize();
+		}
 
 		/// <summary>
 		/// Get the ratio between the default width
@@ -157,30 +198,17 @@ namespace CardControls
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
-
-			//Initialize rank and suit codes to enable correct image setting
-			rankCodes = new Dictionary<int, char>();
-			rankCodes.Add((int)Rank.Ace, 'A');
-			rankCodes.Add((int)Rank.Jack, 'J');
-			rankCodes.Add((int)Rank.King, 'K');
-			rankCodes.Add((int)Rank.Queen, 'Q');
-
-			suitCodes = new Dictionary<int, char>();
-			suitCodes.Add((int)Suit.Club, 'C');
-			suitCodes.Add((int)Suit.Diamond, 'D');
-			suitCodes.Add((int)Suit.Heart, 'H');
-			suitCodes.Add((int)Suit.Spade, 'S');
-
-			this.BackgroundImageLayout = ImageLayout.Stretch;
-
-			CardBase = new Card(Suit.Diamond, Rank.Eight);
-			SetCardToDefaultSize();
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			this.DoDragDrop(CardBase, DragDropEffects.Copy);
-			drag = true;
+			//this.DoDragDrop(CardBase, DragDropEffects.Copy);
+			if (IsDraggable)
+			{
+				drag = true;
+				previousMouseX = e.X;
+				previousMouseY = e.Y;
+			}
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -190,13 +218,12 @@ namespace CardControls
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			base.OnMouseMove(e);
-			/*
 			if (drag)
 			{
-				this.Location = new Point(e.X, e.Y);
+				int xDifference = e.X - previousMouseX;
+				int yDifference = e.Y - previousMouseY;
+				this.Location = new Point( this.Location.X + xDifference, this.Location.Y + yDifference);
 			}
-			*/
 		}
 
 		protected override void OnDragDrop(DragEventArgs drgevent)

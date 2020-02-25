@@ -8,21 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CardControls;
+using System.Diagnostics;
 using CardLib;
 
 namespace OOP3Durak
 {
     public partial class Form1 : Form
     {
+        private Rank currentRank = Rank.Queen;
+
         public Form1()
         {
             InitializeComponent();
             this.AllowDrop = false;
-        }
 
-        private void cardControl1_Click(object sender, EventArgs e)
-        {
-
+            cardControl1.CardBase = new Card(Suit.Heart, Rank.Nine);
+            cardControl1.IsDraggable = true;
         }
 
         private void Form1_DragEnter(object sender, DragEventArgs e)
@@ -44,11 +45,6 @@ namespace OOP3Durak
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cardControl1_Click_1(object sender, EventArgs e)
         {
 
         }

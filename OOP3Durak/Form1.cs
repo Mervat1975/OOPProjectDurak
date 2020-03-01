@@ -21,9 +21,6 @@ namespace OOP3Durak
         {
             InitializeComponent();
             this.AllowDrop = false;
-
-            cardControl1.CardBase = new Card(Suit.Heart, Rank.Nine);
-            cardControl1.IsDraggable = true;
         }
 
         private void Form1_DragEnter(object sender, DragEventArgs e)
@@ -46,7 +43,8 @@ namespace OOP3Durak
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            cardControl1.CardBase = new Card(Suit.Heart, Rank.Nine);
+            cardControl1.IsDraggable = true;
         }
     }
 }

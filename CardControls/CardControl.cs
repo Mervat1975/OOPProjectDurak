@@ -69,29 +69,15 @@ namespace CardControls
 
 		public string ImgResource { get => imgResource; set => imgResource = value; }
 
+		/*
 		/// <summary>
 		/// Initialize the essential parts of the control
 		/// </summary>
 		public CardControl()
 		{
-			//Initialize rank and suit codes to enable correct image setting
-			rankCodes = new Dictionary<int, char>();
-			rankCodes.Add((int)Rank.Ace, 'A');
-			rankCodes.Add((int)Rank.Jack, 'J');
-			rankCodes.Add((int)Rank.King, 'K');
-			rankCodes.Add((int)Rank.Queen, 'Q');
-
-			suitCodes = new Dictionary<int, char>();
-			suitCodes.Add((int)Suit.Club, 'C');
-			suitCodes.Add((int)Suit.Diamond, 'D');
-			suitCodes.Add((int)Suit.Heart, 'H');
-			suitCodes.Add((int)Suit.Spade, 'S');
-
-			CardBase = new Card(Suit.Diamond, Rank.Eight);
-
-			this.BackgroundImageLayout = ImageLayout.Stretch;
-			SetCardToDefaultSize();
+			
 		}
+		*/
 
 		/// <summary>
 		/// Get the ratio between the default width
@@ -198,6 +184,24 @@ namespace CardControls
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
+
+			//Initialize rank and suit codes to enable correct image setting
+			rankCodes = new Dictionary<int, char>();
+			rankCodes.Add((int)Rank.Ace, 'A');
+			rankCodes.Add((int)Rank.Jack, 'J');
+			rankCodes.Add((int)Rank.King, 'K');
+			rankCodes.Add((int)Rank.Queen, 'Q');
+
+			suitCodes = new Dictionary<int, char>();
+			suitCodes.Add((int)Suit.Club, 'C');
+			suitCodes.Add((int)Suit.Diamond, 'D');
+			suitCodes.Add((int)Suit.Heart, 'H');
+			suitCodes.Add((int)Suit.Spade, 'S');
+
+			CardBase = new Card(Suit.Diamond, Rank.Eight);
+
+			this.BackgroundImageLayout = ImageLayout.Stretch;
+			SetCardToDefaultSize();
 		}
 
 		protected override void OnMouseDown(MouseEventArgs e)

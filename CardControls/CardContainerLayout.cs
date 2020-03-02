@@ -9,11 +9,12 @@ using System.Windows.Forms.Layout;
 
 namespace CardControls
 {
-	class CardContainerLayout : LayoutEngine
+	public class CardContainerLayout : LayoutEngine
 	{
 		public override bool Layout(object container, LayoutEventArgs layoutEventArgs)
 		{
 			Control parent = container as Control;
+			bool result = true;
 			Rectangle parentDisplayRectangle = parent.DisplayRectangle;
 			Point nextCardLocation = parentDisplayRectangle.Location;
 
@@ -25,8 +26,27 @@ namespace CardControls
 					continue;
 				}
 
+				//Set the location of the current card and update the nextCardLocation
+				c.Location = nextCardLocation;
+				nextCardLocation.X += c.Width;
 
+				//If the nextCardLocation is outside the bounds of the parent's horizontal margins
+				if((nextCardLocation.X + c.Width)  > (parentDisplayRectangle.Location.X + parentDisplayRectangle.Width))
+				{
+					//Reset the nextCardLocation to the beginning of the next row
+					nextCardLocation.X = parentDisplayRectangle.Location.X;
+					nextCardLocation.Y += c.Height;
+
+					//If the nextCardLocation is outside the bound of the parent's vertical margins
+					if((nextCardLocation.Y + c.Height) > (parentDisplayRectangle.Location.Y + parentDisplayRectangle.Height))
+					{
+						parent.Height += c.Height;
+						parentDisplayRectangle = parent.DisplayRectangle;
+					}
+				}
 			}
+
+			return result;
 		}
 	}
 }

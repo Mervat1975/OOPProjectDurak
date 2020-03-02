@@ -35,12 +35,12 @@ namespace CardControls
 
 		protected override void OnControlAdded(ControlEventArgs e)
 		{
-			//this.Invalidate();
+			this.Invalidate();
 		}
 
 		protected override void OnControlRemoved(ControlEventArgs e)
 		{
-			//this.Invalidate();
+			this.Invalidate();
 		}
 	}
 }

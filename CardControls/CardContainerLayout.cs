@@ -18,7 +18,8 @@ namespace CardControls
 			Rectangle parentDisplayRectangle = parent.DisplayRectangle;
 			Point nextCardLocation = parentDisplayRectangle.Location;
 
-			foreach(Control c in parent.Controls)
+
+			foreach(CardControl c in parent.Controls)
 			{
 				//skip control if it is not visible
 				if(!c.Visible)
@@ -44,6 +45,9 @@ namespace CardControls
 						parentDisplayRectangle = parent.DisplayRectangle;
 					}
 				}
+
+				//Rotate each control by 30 degrees
+				c.RotationAngle = 30;
 			}
 
 			return result;

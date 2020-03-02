@@ -26,6 +26,8 @@ namespace CardControls
 		private bool isDraggable = false;
 		private int previousMouseX = 0;
 		private int previousMouseY = 0;
+		private float previousRotationAngle = 0;
+		private float rotationAngle = 0;
 
 		/// <summary>
 		/// Set or get the default width of the card
@@ -68,6 +70,15 @@ namespace CardControls
 		}
 
 		public string ImgResource { get => imgResource; set => imgResource = value; }
+		public float RotationAngle { 
+			get {
+				return rotationAngle;
+			}
+			set {
+				rotationAngle = value;
+				this.Invalidate();
+			} 
+		}
 
 		/*
 		/// <summary>
@@ -236,6 +247,13 @@ namespace CardControls
 			this.Location = new Point(drgevent.X, drgevent.Y);
 			this.Invalidate();
 			*/
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			e.Graphics.RotateTransform(RotationAngle - previousRotationAngle);
+			previousRotationAngle = RotationAngle;
+			//this.Refresh();
 		}
 	}
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CardLib
 {
@@ -11,39 +8,46 @@ namespace CardLib
         {
             return MemberwiseClone();
         }
-        public long ID
+
+        public long ID;
+
+        public string UserName;
+        public string Password;
+
+        public int NumberOfGame;
+
+        public int NumberOfDurak;
+        public string EmailAddress;
+        
+        public Player(int id, string userName, string password, int numberOfGame, int numberOfDurak, string emailAddress)
         {
-            get => default;
-            set
-            {
-            }
+            ID = id;
+            UserName = userName;
+            Password = password;
+            NumberOfDurak = numberOfDurak;
+            NumberOfGame = numberOfGame;
+            EmailAddress = emailAddress;
+        }
+        public Player(string userName, string password, string emailAddress)
+        {
+            ID = 0;
+            UserName = userName;
+            Password = password;
+            NumberOfDurak = 0;
+            NumberOfGame = 0;
+            EmailAddress = emailAddress;
         }
 
-        public int UserName
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public Player()
+        { }
 
-        public int NumberOfGame
-        {
-            get => default;
-            set
-            {
-            }
-        }
 
-        public int NumberOFDurak
+        public override string ToString()
         {
-            get => default;
-            set
-            {
-            }
+            return (ID + ", " + UserName + ", " + Password + ", " + NumberOfDurak +
+                ", " + NumberOfGame + ", " + EmailAddress);
         }
     }
-
     public class CopyOfPlayer
     {
     }

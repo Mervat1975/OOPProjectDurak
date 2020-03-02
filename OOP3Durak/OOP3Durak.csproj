@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,16 +61,71 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBL.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSplashScreen.Designer.cs">
+      <DependentUpon>frmSplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmManageAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageAccount.designer.cs">
+      <DependentUpon>frmManageAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewGame.designer.cs">
+      <DependentUpon>frmNewGame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewPlayer.designer.cs">
+      <DependentUpon>frmNewPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPlayerHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPlayerHome.designer.cs">
+      <DependentUpon>frmPlayerHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogin.designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSplashScreen.resx">
+      <DependentUpon>frmSplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManageAccount.resx">
+      <DependentUpon>frmManageAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewGame.resx">
+      <DependentUpon>frmNewGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewPlayer.resx">
+      <DependentUpon>frmNewPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPlayerHome.resx">
+      <DependentUpon>frmPlayerHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -80,7 +150,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="images\cards\" />
+    <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CardControls\CardControls.csproj">
@@ -91,6 +161,27 @@
       <Project>{9a9273e6-b58a-43fd-84b4-2aba4e50d880}</Project>
       <Name>CardLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\DurakDatabase.mdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\DurakDatabase_log.ldf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>DurakDatabase.mdf</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

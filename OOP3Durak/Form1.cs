@@ -45,6 +45,8 @@ namespace OOP3Durak
         {
             cardControl1.CardBase = new Card(Suit.Heart, Rank.Nine);
             cardControl1.IsDraggable = true;
+
+            cardControl2.IsFaceup = false;
         }
     }
 }

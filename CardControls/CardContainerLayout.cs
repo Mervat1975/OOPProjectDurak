@@ -47,7 +47,7 @@ namespace CardControls
 				}
 
 				//Rotate each control by 30 degrees
-				c.RotationAngle = 30;
+				//c.RotationAngle = 30;
 			}
 
 			return result;

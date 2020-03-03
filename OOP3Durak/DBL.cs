@@ -22,8 +22,8 @@ namespace OOP3Durak
             index = AppDomain.CurrentDomain.BaseDirectory.ToString().IndexOf("bin");
 
             string dataFileDir = AppDomain.CurrentDomain.BaseDirectory.Substring(0, index);
-            conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
-                dataFileDir + "App_Data\\DurakDatabase.mdf;Integrated Security=True; Connect Timeout=30";
+            //conString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" +
+            //    dataFileDir + "App_Data\\DurakDatabase.mdf;Integrated Security=True; Connect Timeout=30";
             return conString;
         }
         #endregion

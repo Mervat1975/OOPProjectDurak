@@ -106,6 +106,7 @@
 			this.Controls.Add(this.cardControl2);
 			this.Controls.Add(this.cardControl1);
 			this.Controls.Add(this.cardControl4);
+			
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);

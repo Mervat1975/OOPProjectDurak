@@ -150,6 +150,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DurakData\" />
     <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
@@ -161,15 +162,6 @@
       <Project>{9a9273e6-b58a-43fd-84b4-2aba4e50d880}</Project>
       <Name>CardLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DurakData\DurakDatabase.mdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DurakData\DurakDatabase_log.ldf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <DependentUpon>DurakDatabase.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

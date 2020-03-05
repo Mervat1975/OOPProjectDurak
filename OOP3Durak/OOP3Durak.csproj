@@ -163,10 +163,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\DurakDatabase.mdf">
+    <Content Include="DurakData\DurakDatabase.mdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\DurakDatabase_log.ldf">
+    <Content Include="DurakData\DurakDatabase_log.ldf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>DurakDatabase.mdf</DependentUpon>
     </Content>

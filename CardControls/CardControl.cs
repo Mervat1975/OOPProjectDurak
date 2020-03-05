@@ -251,7 +251,7 @@ namespace CardControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.RotateTransform(RotationAngle - previousRotationAngle);
+			e.Graphics.RotateTransform(20F);
 			previousRotationAngle = RotationAngle;
 			//this.Refresh();
 		}

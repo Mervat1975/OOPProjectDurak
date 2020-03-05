@@ -18,7 +18,7 @@ namespace CardControls
 			Rectangle parentDisplayRectangle = parent.DisplayRectangle;
 			Point nextCardLocation = parentDisplayRectangle.Location;
 
-
+			const int padding = 20;
 			foreach(CardControl c in parent.Controls)
 			{
 				//skip control if it is not visible
@@ -29,10 +29,11 @@ namespace CardControls
 
 				//Set the location of the current card and update the nextCardLocation
 				c.Location = nextCardLocation;
-				nextCardLocation.X += c.Width;
+				nextCardLocation.X += c.Width - padding;
 
+				c.BringToFront(); 
 				//If the nextCardLocation is outside the bounds of the parent's horizontal margins
-				if((nextCardLocation.X + c.Width)  > (parentDisplayRectangle.Location.X + parentDisplayRectangle.Width))
+				if((nextCardLocation.X + c.Width - padding)  > (parentDisplayRectangle.Location.X + parentDisplayRectangle.Width))
 				{
 					//Reset the nextCardLocation to the beginning of the next row
 					nextCardLocation.X = parentDisplayRectangle.Location.X;

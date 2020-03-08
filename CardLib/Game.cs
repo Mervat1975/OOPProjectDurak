@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*  Game.cs - Defines the Game class
+ *  Author:     Mervat Mustafa
+ *  Since:      March 2020 <update>
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +11,7 @@ using System.Text;
 namespace CardLib
 {
     public class Game
+
     {
         public long Id
         {

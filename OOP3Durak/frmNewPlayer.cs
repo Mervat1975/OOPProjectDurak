@@ -12,7 +12,7 @@ namespace OOP3Durak
         }
  
         /// <summary>
-        /// 
+        /// insert new player
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -44,7 +44,7 @@ namespace OOP3Durak
                 
         }
         /// <summary>
-        /// 
+        /// End the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

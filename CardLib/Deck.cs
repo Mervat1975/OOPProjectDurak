@@ -12,31 +12,12 @@ namespace  CardLib
 {
     public class Deck : ICloneable
     {
-        /// <summary>
-        /// Implementing cloning functionality for the Deck class.
-        /// </summary>
-        /// <returns></returns>
-        public object Clone()
-        {
-            Deck newDeck = new Deck(cards.Clone() as Cards);
-            return newDeck;
-        }
+        public event EventHandler LastCardDrawn;
 
-        /// <summary>
-        /// create new deck
-        /// </summary>
-        /// <param name="newCards"></param>
-        private Deck(Cards newCards)
-        {
-            cards = newCards;
-        }
         private Cards cards = new Cards();
-        /// <summary>
-        /// creat new deck (defualt constroctor)
-        /// </summary>
+
         public Deck()
         {
-            // Line of code removed here
             for (int suitVal = 0; suitVal < 4; suitVal++)
             {
                 for (int rankVal = 1; rankVal < 14; rankVal++)
@@ -46,9 +27,48 @@ namespace  CardLib
             }
         }
         /// <summary>
+        ///  Add(), implemented as a strongly typed method.
+        /// </summary>
+        /// <param name="newCards"></param>
+        private Deck(Cards newCards)
+        {
+            cards = newCards;
+        }
+
+        /// <summary>
+        /// Nondefault constructor. Allows aces to be set high.
+        /// </summary>
+        public Deck(bool isAceHigh)
+           : this()
+        {
+            Card.isAceHigh = isAceHigh;
+        }
+
+        /// <summary>
+        /// Nondefault constructor. Allows a trump suit to be used.
+        /// </summary>
+        public Deck(bool useTrumps, Suit trump)
+           : this()
+        {
+            Card.useTrumps = useTrumps;
+            Card.trump = trump;
+        }
+
+        /// <summary>
+        /// Nondefault constructor. Allows aces to be set high and a trump suit
+        /// to be used.
+        /// </summary>
+        public Deck(bool isAceHigh, bool useTrumps, Suit trump)
+           : this()
+        {
+            Card.isAceHigh = isAceHigh;
+            Card.useTrumps = useTrumps;
+            Card.trump = trump;
+        }
+        /// <summary>
         /// get card from the deck
         /// </summary>
-        /// <param name="cardNum"> number of the card which will be gettn</param>
+        /// <param name="cardNum"></param>
         /// <returns></returns>
         public Card GetCard(int cardNum)
         {
@@ -56,10 +76,10 @@ namespace  CardLib
                 return cards[cardNum];
             else
                 throw (new System.ArgumentOutOfRangeException("cardNum", cardNum,
-                "Value must be between 0 and 51."));
+                          "Value must be between 0 and 51."));
         }
         /// <summary>
-        /// to shuffled the deck cards
+        /// to suffle the deck cards
         /// </summary>
         public void Shuffle()
         {
@@ -80,6 +100,15 @@ namespace  CardLib
                 newDeck.Add(cards[sourceCard]);
             }
             newDeck.CopyTo(cards);
+        }
+        /// <summary>
+        /// Implementing cloning functionality for the Deck class.
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            Deck newDeck = new Deck(cards.Clone() as Cards);
+            return newDeck;
         }
     }
 }

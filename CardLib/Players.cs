@@ -1,8 +1,10 @@
-﻿using System;
+﻿/*  Players.cs - Defines an index-based Players collection class
+ *  Author:     Mervat Mustafa
+ *  Since:      Feb 2020 <update>
+ */
+
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CardLib
 {

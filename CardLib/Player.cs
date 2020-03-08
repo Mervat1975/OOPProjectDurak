@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*  Player.cs - Defines an player class
+ *  Author:     Mervat Mustafa
+ *  Since:      Feb 2020 <update>
+ */
+
+using System;
 
 namespace CardLib
 {

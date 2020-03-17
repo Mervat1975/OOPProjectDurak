@@ -16,7 +16,11 @@ namespace CardControls
 			CardContainer parent = container as CardContainer;
 			bool result = true;
 
-			PlayerHandLayout(parent);
+			switch (parent.ContainerType)
+			{
+				case CardContainerType.PlayerHand: PlayerHandLayout(parent); break;
+				case CardContainerType.Deck: DeckLayout(parent); break;
+		    }
 			return result;
 		}
 

@@ -31,6 +31,7 @@ namespace  CardLib
             cards = newCards;
         }
         private Cards cards = new Cards();
+
         /// <summary>
         /// creat new deck (defualt constroctor)
         /// </summary>

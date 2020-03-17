@@ -54,6 +54,16 @@ namespace CardControls
 			}
 		}
 
+		public CardContainerType ContainerType
+		{
+			get => containerType;
+			set
+			{
+				containerType = value;
+				this.Invalidate();
+			}
+		}
+
 		protected override void OnControlAdded(ControlEventArgs e)
 		{
 			//this.Invalidate();

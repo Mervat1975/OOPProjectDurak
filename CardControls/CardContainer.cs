@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Layout;
 using System.ComponentModel.Design;
 using System.ComponentModel;
+using CardLib;
 
 namespace CardControls
 {
@@ -17,7 +18,6 @@ namespace CardControls
 		PlayerHand,
 		Trash,
 		DurakGame,
-
 	}
 
 	[Designer(typeof(Design.CardContainerDesigner), typeof(IRootDesigner))]
@@ -25,6 +25,7 @@ namespace CardControls
 	{
 		private CardContainerLayout layoutEngine;
 		private CardContainerType containerType = CardContainerType.PlayerHand;
+		private Suit trumpSuit;
 
 		protected override void OnCreateControl()
 		{
@@ -40,6 +41,16 @@ namespace CardControls
 					layoutEngine =  new CardContainerLayout();
 
 				return layoutEngine;
+			}
+		}
+
+		public Suit TrumpSuit
+		{
+			get => trumpSuit;
+			set
+			{
+				trumpSuit = value;
+				this.Invalidate();
 			}
 		}
 

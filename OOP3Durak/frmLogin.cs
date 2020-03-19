@@ -5,13 +5,14 @@ namespace OOP3Durak
 {
     public partial class frmLogin : Form
     {
+        public static Player loginPlayer;
         public frmLogin()
         {
             InitializeComponent();
         }
  
         /// <summary>
-        /// 
+        /// End the application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -26,13 +27,16 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnLogin_Click(object sender, EventArgs e)
         { 
-            Player loginPlayer;
+           
             try
             {
                 loginPlayer = DBL.Login(txtUserName.Text.Trim(), txtPassword.Text.Trim());
                 if (loginPlayer != null)
                 {
+                    
+                    
                     new frmPlayerHome().Show();
+
                     this.Close();
                 }
                 else

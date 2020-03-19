@@ -21,5 +21,14 @@ namespace OOP3Durak
         {
 
         }
+        /// <summary>
+        /// End the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

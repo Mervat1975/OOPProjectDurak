@@ -29,20 +29,33 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.cardControl2 = new CardControls.CardControl();
             this.cardContainer1 = new CardControls.CardContainer();
             this.cardControl3 = new CardControls.CardControl();
-            this.cardControl1 = new CardControls.CardControl();
-            this.cardControl2 = new CardControls.CardControl();
             this.cardControl4 = new CardControls.CardControl();
+            this.cardControl1 = new CardControls.CardControl();
             this.cardContainer1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // cardControl2
+            // 
+            this.cardControl2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cardControl2.BackgroundImage")));
+            this.cardControl2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cardControl2.ImgResource = "_8D";
+            this.cardControl2.IsDraggable = false;
+            this.cardControl2.Location = new System.Drawing.Point(90, 0);
+            this.cardControl2.Name = "cardControl2";
+            this.cardControl2.RotationAngle = 30F;
+            this.cardControl2.Size = new System.Drawing.Size(65, 86);
+            this.cardControl2.TabIndex = 1;
+            this.cardControl2.Text = "cardControl2";
             // 
             // cardContainer1
             // 
             this.cardContainer1.Controls.Add(this.cardControl3);
-            this.cardContainer1.Controls.Add(this.cardControl1);
             this.cardContainer1.Controls.Add(this.cardControl2);
             this.cardContainer1.Controls.Add(this.cardControl4);
+            this.cardContainer1.Controls.Add(this.cardControl1);
             this.cardContainer1.Location = new System.Drawing.Point(157, 12);
             this.cardContainer1.Name = "cardContainer1";
             this.cardContainer1.Size = new System.Drawing.Size(332, 204);
@@ -54,38 +67,12 @@
             this.cardControl3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cardControl3.ImgResource = "_8D";
             this.cardControl3.IsDraggable = false;
-            this.cardControl3.Location = new System.Drawing.Point(0, 0);
+            this.cardControl3.Location = new System.Drawing.Point(135, 0);
             this.cardControl3.Name = "cardControl3";
             this.cardControl3.RotationAngle = 30F;
-            this.cardControl3.Size = new System.Drawing.Size(100, 86);
+            this.cardControl3.Size = new System.Drawing.Size(65, 86);
             this.cardControl3.TabIndex = 2;
             this.cardControl3.Text = "cardControl3";
-            // 
-            // cardControl1
-            // 
-            this.cardControl1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cardControl1.BackgroundImage")));
-            this.cardControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cardControl1.ImgResource = "_8D";
-            this.cardControl1.IsDraggable = false;
-            this.cardControl1.Location = new System.Drawing.Point(100, 0);
-            this.cardControl1.Name = "cardControl1";
-            this.cardControl1.RotationAngle = 30F;
-            this.cardControl1.Size = new System.Drawing.Size(65, 86);
-            this.cardControl1.TabIndex = 0;
-            this.cardControl1.Text = "cardControl1";
-            // 
-            // cardControl2
-            // 
-            this.cardControl2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cardControl2.BackgroundImage")));
-            this.cardControl2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cardControl2.ImgResource = "_8D";
-            this.cardControl2.IsDraggable = false;
-            this.cardControl2.Location = new System.Drawing.Point(165, 0);
-            this.cardControl2.Name = "cardControl2";
-            this.cardControl2.RotationAngle = 30F;
-            this.cardControl2.Size = new System.Drawing.Size(65, 86);
-            this.cardControl2.TabIndex = 1;
-            this.cardControl2.Text = "cardControl2";
             // 
             // cardControl4
             // 
@@ -93,12 +80,25 @@
             this.cardControl4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cardControl4.ImgResource = "_8D";
             this.cardControl4.IsDraggable = false;
-            this.cardControl4.Location = new System.Drawing.Point(230, 0);
+            this.cardControl4.Location = new System.Drawing.Point(45, 0);
             this.cardControl4.Name = "cardControl4";
             this.cardControl4.RotationAngle = 30F;
             this.cardControl4.Size = new System.Drawing.Size(65, 86);
             this.cardControl4.TabIndex = 3;
             this.cardControl4.Text = "cardControl4";
+            // 
+            // cardControl1
+            // 
+            this.cardControl1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cardControl1.BackgroundImage")));
+            this.cardControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cardControl1.ImgResource = "_8D";
+            this.cardControl1.IsDraggable = false;
+            this.cardControl1.Location = new System.Drawing.Point(0, 0);
+            this.cardControl1.Name = "cardControl1";
+            this.cardControl1.RotationAngle = 30F;
+            this.cardControl1.Size = new System.Drawing.Size(65, 86);
+            this.cardControl1.TabIndex = 0;
+            this.cardControl1.Text = "cardControl1";
             // 
             // Form1
             // 
@@ -123,6 +123,6 @@
 		private CardControls.CardControl cardControl3;
 		private CardControls.CardControl cardControl4;
 		private CardControls.CardContainer cardContainer1;
-	}
+    }
 }
 

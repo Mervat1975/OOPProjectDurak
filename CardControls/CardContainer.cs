@@ -21,7 +21,7 @@ namespace CardControls
 	}
 
 	[Designer(typeof(Design.CardContainerDesigner), typeof(IRootDesigner))]
-	public class CardContainer : ContainerControl
+	public class CardContainer : Panel //ContainerControl
 	{
 		private CardContainerLayout layoutEngine;
 		private CardContainerType containerType = CardContainerType.PlayerHand;

@@ -79,7 +79,7 @@ namespace CardControls
 			Rectangle parentDisplayRectangle = parent.DisplayRectangle;
 			Point nextCardLocation = parentDisplayRectangle.Location;
 
-			nextCardLocation.X += parent.Controls[0].Height;
+			nextCardLocation.Y += parent.Controls[0].Height;
 
 			for(int index = 0; index < parent.Controls.Count; index++)
 			{
@@ -114,18 +114,19 @@ namespace CardControls
 					card.IsFaceup = true;
 
 					//Set the trump card to the top center of the container
-					int trumpY = parentDisplayRectangle.Location.Y; //nextCardLocation.Y + ((index % cardsPerStack) * yDelta);
+					int trumpY = parent.Height; //nextCardLocation.Y + ((index % cardsPerStack) * yDelta);
 					int midPointX = Convert.ToInt32(
 						Math.Round(
 							Convert.ToDouble(
 								parentDisplayRectangle.Location.X
-								+ parentDisplayRectangle.Width/2)
+								+ (parentDisplayRectangle.Width/2))
 							)
 						);
-					int trumpX = Convert.ToInt32(midPointX - card.Width / 2);
+					int trumpX = Convert.ToInt32(midPointX - (card.Width / 2));
 
-					card.Location = new Point(trumpX, trumpY);
+					//card.Location = new Point(4, 0);
 
+					card.Location = new Point(10, 10);
 					continue;
 				}
 
@@ -157,6 +158,8 @@ namespace CardControls
 					parent.Height += (nextCardLocation.Y + card.Height) - (parentDisplayRectangle.Location.Y + parentDisplayRectangle.Height);
 					parentDisplayRectangle = parent.DisplayRectangle;
 				}
+
+				card.BringToFront();
 			}
 		}
 	}

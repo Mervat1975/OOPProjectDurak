@@ -174,11 +174,6 @@ namespace CardControls
 			this.Refresh();
 		}
 
-		protected override void Dispose(bool disposing)
-		{
-			base.Dispose(disposing);
-		}
-
 		/// <summary>
 		/// Set the image displayed by the control using
 		/// the current CardBase
@@ -190,7 +185,7 @@ namespace CardControls
 				//Use the rank and field to get the appropriate image resource name
 				string rank;
 				string prefix = "";
-				string suit = suitCodes[(int)CardBase.suit].ToString();
+				string suit = CardControl.suitCodes[(int)(CardBase.suit)].ToString();
 				if (CardBase.rank > Rank.Ace && CardBase.rank < Rank.Jack)
 				{
 					rank = ((int)CardBase.rank).ToString();
@@ -218,23 +213,28 @@ namespace CardControls
 		/// <summary>
 		/// Initialize the card to its default state
 		/// </summary>
-		protected override void OnCreateControl()
+		public CardControl()
 		{
-			base.OnCreateControl();
+			//base.OnCreateControl();
 
-			//Initialize rank and suit codes to enable correct image setting
-			rankCodes = new Dictionary<int, char>();
-			rankCodes.Add((int)Rank.Ace, 'A');
-			rankCodes.Add((int)Rank.Jack, 'J');
-			rankCodes.Add((int)Rank.King, 'K');
-			rankCodes.Add((int)Rank.Queen, 'Q');
+			if (rankCodes == null)
+			{
+				//Initialize rank and suit codes to enable correct image setting
+				rankCodes = new Dictionary<int, char>();
+				rankCodes.Add((int)Rank.Ace, 'A');
+				rankCodes.Add((int)Rank.Jack, 'J');
+				rankCodes.Add((int)Rank.King, 'K');
+				rankCodes.Add((int)Rank.Queen, 'Q');
+			}
 
-			suitCodes = new Dictionary<int, char>();
-			suitCodes.Add((int)Suit.Club, 'C');
-			suitCodes.Add((int)Suit.Diamond, 'D');
-			suitCodes.Add((int)Suit.Heart, 'H');
-			suitCodes.Add((int)Suit.Spade, 'S');
-
+			if (suitCodes == null)
+			{
+				suitCodes = new Dictionary<int, char>();
+				suitCodes.Add((int)Suit.Club, 'C');
+				suitCodes.Add((int)Suit.Diamond, 'D');
+				suitCodes.Add((int)Suit.Heart, 'H');
+				suitCodes.Add((int)Suit.Spade, 'S');
+			}
 			CardBase = new Card(Suit.Diamond, Rank.Eight);
 
 			this.BackgroundImageLayout = ImageLayout.Stretch;

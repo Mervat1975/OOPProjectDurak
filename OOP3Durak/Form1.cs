@@ -43,8 +43,34 @@ namespace OOP3Durak
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            /*
             cardControl1.CardBase = new Card(Suit.Heart, Rank.Nine);
             cardControl1.IsDraggable = true;
+
+            cardControl2.IsFaceup = false;
+            */
+
+            cardContainer1.BorderStyle = BorderStyle.FixedSingle;
+            //Test Deck layout of container
+            cardContainer1.TrumpSuit = Suit.Diamond;
+            //Add CardControls to the container
+            for (int suitVal = 0; suitVal <= 3; suitVal++)
+            {
+                for(int rankVal = 6; rankVal <= 13; rankVal++)
+                {
+                    CardControl card = new CardControl();
+                    card.CardBase = new Card((Suit)suitVal, (Rank)rankVal);
+
+                    card.Parent = cardContainer1;
+                }
+            }
+
+            cardContainer1.ContainerType = CardContainerType.Deck;
+        }
+
+        private void cardContainer1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

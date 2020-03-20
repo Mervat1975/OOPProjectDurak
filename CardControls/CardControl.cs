@@ -26,8 +26,9 @@ namespace CardControls
 		private bool isDraggable = false;
 		private int previousMouseX = 0;
 		private int previousMouseY = 0;
-		private float previousRotationAngle = 0;
-		private float rotationAngle = 0;
+		private float rotationAngle = 40;
+		private float previousrotationAngle = 0;
+		private bool isFaceup = true;
 
 		/// <summary>
 		/// Set or get the default width of the card
@@ -70,14 +71,31 @@ namespace CardControls
 		}
 
 		public string ImgResource { get => imgResource; set => imgResource = value; }
-		public float RotationAngle { 
-			get {
+		public float RotationAngle
+		{
+			get
+			{
 				return rotationAngle;
 			}
-			set {
+
+			set
+			{
 				rotationAngle = value;
 				this.Invalidate();
-			} 
+			}
+		}
+
+		public bool IsFaceup
+		{
+			get
+			{
+				return isFaceup;
+			}
+			set
+			{
+				isFaceup = value;
+				SetCardImage();
+			}
 		}
 
 		/*
@@ -156,59 +174,67 @@ namespace CardControls
 			this.Refresh();
 		}
 
-		protected override void Dispose(bool disposing)
-		{
-			base.Dispose(disposing);
-		}
-
 		/// <summary>
 		/// Set the image displayed by the control using
 		/// the current CardBase
 		/// </summary>
 		private void SetCardImage()
 		{
-			//Use the rank and field to get the appropriate image resource name
-			string rank;
-			string prefix = "";
-			string suit = suitCodes[(int)CardBase.suit].ToString();
-			if(CardBase.rank > Rank.Ace && CardBase.rank < Rank.Jack)
+			if (IsFaceup)
 			{
-				rank = ((int)CardBase.rank).ToString();
-				prefix = "_";
+				//Use the rank and field to get the appropriate image resource name
+				string rank;
+				string prefix = "";
+				string suit = CardControl.suitCodes[(int)(CardBase.suit)].ToString();
+				if (CardBase.rank > Rank.Ace && CardBase.rank < Rank.Jack)
+				{
+					rank = ((int)CardBase.rank).ToString();
+					prefix = "_";
+				}
+				else
+				{
+					rank = rankCodes[(int)CardBase.rank].ToString();
+				}
+
+				//Set the image
+				Image cardImage = (Properties.Resources.ResourceManager.GetObject(prefix + rank + suit) as Bitmap);
+
+				ImgResource = prefix + rank + suit;
+
+				this.BackgroundImage = cardImage;
 			}
 			else
 			{
-				rank = rankCodes[(int)CardBase.rank].ToString();
+				Image cardImage = (Properties.Resources.blue_back as Bitmap);
+				this.BackgroundImage = cardImage;
 			}
-
-			//Set the image
-			Image cardImage = (Properties.Resources.ResourceManager.GetObject(prefix+rank+suit) as Bitmap);
-
-			ImgResource = prefix+rank+suit;
-
-			this.BackgroundImage = cardImage;
 		}
 
 		/// <summary>
 		/// Initialize the card to its default state
 		/// </summary>
-		protected override void OnCreateControl()
+		public CardControl()
 		{
-			base.OnCreateControl();
+			//base.OnCreateControl();
 
-			//Initialize rank and suit codes to enable correct image setting
-			rankCodes = new Dictionary<int, char>();
-			rankCodes.Add((int)Rank.Ace, 'A');
-			rankCodes.Add((int)Rank.Jack, 'J');
-			rankCodes.Add((int)Rank.King, 'K');
-			rankCodes.Add((int)Rank.Queen, 'Q');
+			if (rankCodes == null)
+			{
+				//Initialize rank and suit codes to enable correct image setting
+				rankCodes = new Dictionary<int, char>();
+				rankCodes.Add((int)Rank.Ace, 'A');
+				rankCodes.Add((int)Rank.Jack, 'J');
+				rankCodes.Add((int)Rank.King, 'K');
+				rankCodes.Add((int)Rank.Queen, 'Q');
+			}
 
-			suitCodes = new Dictionary<int, char>();
-			suitCodes.Add((int)Suit.Club, 'C');
-			suitCodes.Add((int)Suit.Diamond, 'D');
-			suitCodes.Add((int)Suit.Heart, 'H');
-			suitCodes.Add((int)Suit.Spade, 'S');
-
+			if (suitCodes == null)
+			{
+				suitCodes = new Dictionary<int, char>();
+				suitCodes.Add((int)Suit.Club, 'C');
+				suitCodes.Add((int)Suit.Diamond, 'D');
+				suitCodes.Add((int)Suit.Heart, 'H');
+				suitCodes.Add((int)Suit.Spade, 'S');
+			}
 			CardBase = new Card(Suit.Diamond, Rank.Eight);
 
 			this.BackgroundImageLayout = ImageLayout.Stretch;
@@ -251,9 +277,12 @@ namespace CardControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.RotateTransform(20F);
-			previousRotationAngle = RotationAngle;
-			//this.Refresh();
+			e.Graphics.RotateTransform(RotationAngle);
+			
+			//Font font = new Font(FontFamily.GenericSansSerif, 10);
+			//e.Graphics.DrawString("Hello", font, Brushes.Black, this.Width / 2, this.Height / 2);
+			//base.OnPaint(e);
+			//e.Graphics.RotateTransform(0);
 		}
 	}
 }

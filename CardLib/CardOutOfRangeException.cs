@@ -6,7 +6,7 @@ using System;
  
 namespace CardLib
 {
-    class CardOutOfRange : Exception
+    class CardOutOfRangeException : Exception
     {
         private Cards deckContents;
 
@@ -18,7 +18,7 @@ namespace CardLib
             }
         }
 
-        public CardOutOfRange(Cards sourceDeckContents)
+        public CardOutOfRangeException(Cards sourceDeckContents)
            : base("There are only 52 cards in the deck.")
         {
             deckContents = sourceDeckContents;

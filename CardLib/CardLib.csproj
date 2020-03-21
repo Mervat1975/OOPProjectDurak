@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,19 +43,190 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
-    <Compile Include="CardOutOfRange.cs" />
+    <Compile Include="CardDealer.cs" />
+    <Compile Include="CardOutOfRangeException.cs" />
     <Compile Include="Cards.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Hand.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Players.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Rank.cs" />
     <Compile Include="Suit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram\ClassDiagram1.cd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\D13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\S13.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

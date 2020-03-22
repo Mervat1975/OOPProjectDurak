@@ -7,7 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOP3Durak", "OOP3Durak.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardLib", "..\CardLib\CardLib.csproj", "{9A9273E6-B58A-43FD-84B4-2ABA4E50D880}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "..\..\..\..\Tutorial\Tutorial-8\TestCardcontrolClientProg\CardBox\CardBox.csproj", "{F9B3A252-EFD3-48CC-B763-FAE2F1AE6B4B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A442DCCA-4431-4579-AA50-77EB2DA183BF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "..\CardBox\CardBox.csproj", "{F9B3A252-EFD3-48CC-B763-FAE2F1AE6B4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

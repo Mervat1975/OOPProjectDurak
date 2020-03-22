@@ -137,6 +137,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include=".editorconfig" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -154,7 +155,7 @@
     <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Tutorial\Tutorial-8\TestCardcontrolClientProg\CardBox\CardBox.csproj">
+    <ProjectReference Include="..\CardBox\CardBox.csproj">
       <Project>{f9b3a252-efd3-48cc-b763-fae2f1ae6b4b}</Project>
       <Name>CardBox</Name>
     </ProjectReference>

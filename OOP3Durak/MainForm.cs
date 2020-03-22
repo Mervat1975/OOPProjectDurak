@@ -470,11 +470,11 @@ namespace OOP3Durak
                     // Wire CardBox_Click
                     aCardBox.Click += CardBox_Click;
 
-                    // otherwise...
+                     
                     // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
-                     //  aCardBox.MouseDown += CardBox_MouseDown;
-                    //  aCardBox.DragDrop  += CardBox_DragDrop;
-                    //   aCardBox.DragEnter += CardBox_DragEnter;
+                        aCardBox.MouseDown += CardBox_MouseDown;
+                      aCardBox.DragDrop  += CardBox_DragDrop;
+                      aCardBox.DragEnter += CardBox_DragEnter;
 
                     // wire CardBox_MouseEnter for the "POP" visual effect  
                     aCardBox.MouseEnter += CardBox_MouseEnter;

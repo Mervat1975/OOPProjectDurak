@@ -169,7 +169,7 @@ namespace CardBox
        /// <summary>
         /// 
         /// </summary>
-        new public event EventHandler MouseDown;
+        new public event MouseEventHandler MouseDown;
         /// <summary>
         /// 
         /// </summary>
@@ -184,19 +184,19 @@ namespace CardBox
         /// <summary>
         /// 
         /// </summary>
-        new public event EventHandler MouseEnter;
+        new public event MouseEventHandler MouseEnter;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pbMyPictureBox_MouseEnter(object sender, EventArgs e)
+        private void pbMyPictureBox_MouseEnter(object sender, MouseEventArgs e)
         {
             if (MouseEnter != null)
                 MouseEnter(this, e);
         }
         
-        new public event EventHandler DragDrop;
+        new public event DragEventHandler DragDrop;
         private void pbMyPictureBox_DragDrop(object sender, DragEventArgs e)
         {
             if (DragDrop != null)
@@ -205,13 +205,13 @@ namespace CardBox
         /// <summary>
         /// 
         /// </summary>
-        new public event EventHandler MouseLeave;
+        new public event MouseEventHandler MouseLeave;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pbMyPictureBox_MouseLeave(object sender, EventArgs e)
+        private void pbMyPictureBox_MouseLeave(object sender, MouseEventArgs e)
         {
             if (MouseLeave != null)
                 MouseLeave(this, e);
@@ -220,7 +220,7 @@ namespace CardBox
         /// <summary>
         /// 
         /// </summary>
-        new public event EventHandler DragEnter;
+        new public event DragEventHandler DragEnter;
         /// <summary>
         /// 
         /// </summary>

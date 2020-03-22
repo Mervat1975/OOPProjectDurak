@@ -57,7 +57,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Project\OOPProjectDurak\OOPProjectDurak\CardLib\CardLib.csproj">
+    <ProjectReference Include="..\CardLib\CardLib.csproj">
       <Project>{9a9273e6-b58a-43fd-84b4-2aba4e50d880}</Project>
       <Name>CardLib</Name>
     </ProjectReference>

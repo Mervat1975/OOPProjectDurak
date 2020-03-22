@@ -472,7 +472,7 @@ namespace OOP3Durak
 
                      
                     // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
-                        aCardBox.MouseDown += CardBox_MouseDown;
+                      aCardBox.MouseDown += CardBox_MouseDown;
                       aCardBox.DragDrop  += CardBox_DragDrop;
                       aCardBox.DragEnter += CardBox_DragEnter;
 

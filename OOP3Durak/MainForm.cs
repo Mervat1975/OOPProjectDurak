@@ -228,8 +228,7 @@ namespace OOP3Durak
         /// </summary>
         void CardBox_MouseEnter(object sender, EventArgs e)
         {
-
-
+            
             // Convert sender to a CardBox
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
             // If the conversion worked
@@ -307,7 +306,7 @@ namespace OOP3Durak
         {
             //// Convert sender to a CardBox
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-
+           
             //// If the conversion worked
             if (aCardBox != null)
             {
@@ -414,42 +413,13 @@ namespace OOP3Durak
             btnNewGame.Enabled = false;
             btnNewGame.ForeColor = Color.Gray;
         }
-
-        private CardBox.CardBox GetCardFromDealer(int player)
-        {
-            Card card = new Card();
-            CardBox.CardBox aCardBox = null;
-            // Draw a card from the card dealer. If it worked...
-            if (myDealer.DrawCard(ref card))
-            {
-                // Create a new CardBox control based on the card drawn
-                aCardBox = new CardBox.CardBox(card);
-                if (player != 0)
-                {
-                    aCardBox.FaceUp = true;
-                    // Wire events handlers to the new control:
-                    // if Click radio button is checked...
-
-                    // Wire CardBox_Click
-                    aCardBox.Click += CardBox_Click;
-
-                    // otherwise...
-                    // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
-                     aCardBox.MouseDown += CardBox_MouseDown;
-                     aCardBox.DragDrop  += CardBox_DragDrop;
-                     aCardBox.DragEnter += CardBox_DragEnter;
-
-                    // wire CardBox_MouseEnter for the "POP" visual effect  
-                    aCardBox.MouseEnter += CardBox_MouseEnter;
-                    // wire CardBox_MouseLeave for the regular visual effect
-                    aCardBox.MouseLeave += CardBox_MouseLeave;
-                }
-               
-
-            }
-            return aCardBox;
-        }
-
+         
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="card"></param>
+         /// <param name="player"></param>
+         /// <returns></returns>         
         private CardBox.CardBox GetCardBox(Card card , int player)
         {
              
@@ -469,9 +439,9 @@ namespace OOP3Durak
 
                      
                     // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
-                    //    aCardBox.MouseDown += CardBox_MouseDown;
-                   //   aCardBox.DragDrop  += CardBox_DragDrop;
-                   //   aCardBox.DragEnter += CardBox_DragEnter;
+                     aCardBox.MouseDown += CardBox_MouseDown;
+                     aCardBox.DragDrop  += CardBox_DragDrop;
+                    aCardBox.DragEnter += CardBox_DragEnter;
 
                     // wire CardBox_MouseEnter for the "POP" visual effect  
                     aCardBox.MouseEnter += CardBox_MouseEnter;

@@ -44,9 +44,7 @@
             this.pbMyPictureBox.Click += new System.EventHandler(this.pbMyPictureBox_Click);
             this.pbMyPictureBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbMyPictureBox_DragDrop);
             this.pbMyPictureBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbMyPictureBox_DragEnter);
-            this.pbMyPictureBox.MouseEnter += new System.EventHandler(this.pbMyPictureBox_MouseEnter);
-            this.pbMyPictureBox.MouseLeave += new System.EventHandler(this.pbMyPictureBox_MouseLeave);
-            // 
+             // 
             // CardBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

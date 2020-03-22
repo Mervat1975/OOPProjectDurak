@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using CardLib;
 namespace CardBox
 {
-    public partial class CardBox: UserControl
+    public partial class CardBox : UserControl
     {
         #region FIELDS_AND_PROPERTIES
         /// <summary>
@@ -79,15 +79,17 @@ namespace CardBox
         /// iIf setting this property chanages the state of control, swaps
         /// the height and width of the control and update the image
         /// </summary>
-        private  Orientation myOrientation;
-        public  Orientation TheOrientation
-        { set {
+        private Orientation myOrientation;
+        public Orientation TheOrientation
+        {
+            set
+            {
                 if (myOrientation != value)
                 {
-                     myOrientation =  value;
+                    myOrientation = value;
                     this.Size = new Size(this.Size.Height, this.Size.Width);
                     UpdateCardImage();
-                }                        
+                }
             }
             get { return myOrientation; }
         }
@@ -123,9 +125,9 @@ namespace CardBox
 
             if (myOrientation == Orientation.Horizontal)
             {
-                  
-                   pbMyPictureBox.Image.RotateFlip  (  RotateFlipType.Rotate90FlipNone);
-               
+
+                pbMyPictureBox.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
             }
         }
         /// <summary>
@@ -166,7 +168,7 @@ namespace CardBox
                 Click(this, e);
         }
 
-       /// <summary>
+        /// <summary>
         /// 
         /// </summary>
         new public event MouseEventHandler MouseDown;
@@ -175,48 +177,22 @@ namespace CardBox
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
         private void pbMyPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (MouseDown != null)
                 MouseDown(this, e);
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        new public event MouseEventHandler MouseEnter;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pbMyPictureBox_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (MouseEnter != null)
-                MouseEnter(this, e);
-        }
-        
+    
+
         new public event DragEventHandler DragDrop;
         private void pbMyPictureBox_DragDrop(object sender, DragEventArgs e)
         {
             if (DragDrop != null)
                 DragDrop(this, e);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        new public event MouseEventHandler MouseLeave;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pbMyPictureBox_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (MouseLeave != null)
-                MouseLeave(this, e);
-
-        }
+       
         /// <summary>
         /// 
         /// </summary>
@@ -231,8 +207,35 @@ namespace CardBox
             if (DragEnter != null)
                 DragEnter(this, e);
         }
+
+
+       
+        new public event EventHandler MouseEnter;
+        /// <summary>
+        /// An event  handler for the user clicking the picturebox control.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pbMyPictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            if (MouseEnter != null)
+                MouseEnter(this, e);
+        }
+       
+        new public event EventHandler MouseLeave;
+        /// <summary>
+        /// An event  handler for the user clicking the picturebox control.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pbMyPictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            if (MouseLeave != null)
+                MouseLeave(this, e);
+
+        }
         #endregion
+    } 
 
-
-    }
+       
 }

@@ -138,17 +138,14 @@ namespace OOP3Durak
         {
             Card card = null;
              // fill hand of the player 1
-            for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
+            for (int i = 0; i < INITIAL_CARDS_NUMBER * 2; i++)
             {
                 myDealer.DrawCard(ref card);
-              playerHand1.Add(card);       
-            }
-            for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
-            {
+               playerHand1.Add(card); 
                 myDealer.DrawCard(ref card);
-                playerHand2.Add(card);
-
+                playerHand2.Add(card);      
             }
+            
             playerHand1.Sort();
             playerHand2.Sort();
             for (int i = 1; i < INITIAL_CARDS_NUMBER; i++)
@@ -472,9 +469,9 @@ namespace OOP3Durak
 
                      
                     // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
-                        aCardBox.MouseDown += CardBox_MouseDown;
-                      aCardBox.DragDrop  += CardBox_DragDrop;
-                      aCardBox.DragEnter += CardBox_DragEnter;
+                    //    aCardBox.MouseDown += CardBox_MouseDown;
+                   //   aCardBox.DragDrop  += CardBox_DragDrop;
+                   //   aCardBox.DragEnter += CardBox_DragEnter;
 
                     // wire CardBox_MouseEnter for the "POP" visual effect  
                     aCardBox.MouseEnter += CardBox_MouseEnter;

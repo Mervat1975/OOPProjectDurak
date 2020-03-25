@@ -37,18 +37,20 @@
             this.lblPlayer = new System.Windows.Forms.Label();
             this.lblCardNumber = new System.Windows.Forms.Label();
             this.pnlCardPlayer2 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbcTrash = new System.Windows.Forms.PictureBox();
             this.pbTrumpCard = new System.Windows.Forms.PictureBox();
             this.lblCardCount = new System.Windows.Forms.Label();
             this.pnlPlay = new System.Windows.Forms.Panel();
             this.btnNewGame = new System.Windows.Forms.Button();
-            this.optClick = new System.Windows.Forms.RadioButton();
-            this.optDrag = new System.Windows.Forms.RadioButton();
             this.btnReady = new System.Windows.Forms.Button();
             this.btnBat = new System.Windows.Forms.Button();
             this.btnTake = new System.Windows.Forms.Button();
+            this.lblTurn = new System.Windows.Forms.Label();
+            this.lblPlayer1CardCount = new System.Windows.Forms.Label();
+            this.lblPlayer2CardCount = new System.Windows.Forms.Label();
+            this.lblTrashCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbcTrash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrumpCard)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,8 +90,7 @@
             this.pnlCardPlayer1.Size = new System.Drawing.Size(948, 190);
             this.pnlCardPlayer1.TabIndex = 10;
             this.FormUiDemoTips.SetToolTip(this.pnlCardPlayer1, "Click cards to move them to the play area.");
-            this.pnlCardPlayer1.DragDrop += new System.Windows.Forms.DragEventHandler(this.Panel_DragDrop);
-            this.pnlCardPlayer1.DragEnter += new System.Windows.Forms.DragEventHandler(this.Panel_DragEnter);
+            this.pnlCardPlayer1.DragOver += new System.Windows.Forms.DragEventHandler(this.pnlCardPlayer1_DragOver);
             // 
             // lblPlayer
             // 
@@ -122,20 +123,20 @@
             this.pnlCardPlayer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCardPlayer2.Location = new System.Drawing.Point(367, 12);
             this.pnlCardPlayer2.Name = "pnlCardPlayer2";
-            this.pnlCardPlayer2.Size = new System.Drawing.Size(550, 190);
+            this.pnlCardPlayer2.Size = new System.Drawing.Size(550, 177);
             this.pnlCardPlayer2.TabIndex = 12;
             this.FormUiDemoTips.SetToolTip(this.pnlCardPlayer2, "Click cards to move them to the play area.");
             // 
-            // pictureBox1
+            // pbcTrash
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(933, 227);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(160, 170);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
-            this.FormUiDemoTips.SetToolTip(this.pictureBox1, "Click the deck to draw a card.");
+            this.pbcTrash.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbcTrash.Location = new System.Drawing.Point(934, 274);
+            this.pbcTrash.Name = "pbcTrash";
+            this.pbcTrash.Size = new System.Drawing.Size(160, 170);
+            this.pbcTrash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbcTrash.TabIndex = 13;
+            this.pbcTrash.TabStop = false;
+            this.FormUiDemoTips.SetToolTip(this.pbcTrash, "Click the deck to draw a card.");
             // 
             // pbTrumpCard
             // 
@@ -165,12 +166,14 @@
             this.pnlPlay.AllowDrop = true;
             this.pnlPlay.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.pnlPlay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlay.Location = new System.Drawing.Point(367, 209);
+            this.pnlPlay.Location = new System.Drawing.Point(367, 227);
             this.pnlPlay.Name = "pnlPlay";
-            this.pnlPlay.Size = new System.Drawing.Size(550, 348);
+            this.pnlPlay.Size = new System.Drawing.Size(550, 300);
             this.pnlPlay.TabIndex = 8;
-            this.pnlPlay.DragDrop += new System.Windows.Forms.DragEventHandler(this.Panel_DragDrop);
-            this.pnlPlay.DragEnter += new System.Windows.Forms.DragEventHandler(this.Panel_DragEnter);
+            this.pnlPlay.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnlPlay_DragDrop);
+            this.pnlPlay.DragEnter += new System.Windows.Forms.DragEventHandler(this.pnlPlay_DragEnter);
+            this.pnlPlay.DragOver += new System.Windows.Forms.DragEventHandler(this.pnlPlay_DragOver);
+            this.pnlPlay.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlPlay_Paint);
             // 
             // btnNewGame
             // 
@@ -186,31 +189,6 @@
             this.btnNewGame.Text = "New Game";
             this.btnNewGame.UseVisualStyleBackColor = false;
             this.btnNewGame.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // optClick
-            // 
-            this.optClick.AutoSize = true;
-            this.optClick.Checked = true;
-            this.optClick.ForeColor = System.Drawing.Color.White;
-            this.optClick.Location = new System.Drawing.Point(67, 227);
-            this.optClick.Name = "optClick";
-            this.optClick.Size = new System.Drawing.Size(48, 17);
-            this.optClick.TabIndex = 3;
-            this.optClick.TabStop = true;
-            this.optClick.Text = "Clic&k";
-            this.optClick.UseVisualStyleBackColor = true;
-            this.optClick.CheckedChanged += new System.EventHandler(this.optClick_CheckedChanged);
-            // 
-            // optDrag
-            // 
-            this.optDrag.AutoSize = true;
-            this.optDrag.ForeColor = System.Drawing.Color.White;
-            this.optDrag.Location = new System.Drawing.Point(67, 271);
-            this.optDrag.Name = "optDrag";
-            this.optDrag.Size = new System.Drawing.Size(48, 17);
-            this.optDrag.TabIndex = 4;
-            this.optDrag.Text = "&Drag";
-            this.optDrag.UseVisualStyleBackColor = true;
             // 
             // btnReady
             // 
@@ -239,6 +217,7 @@
             this.btnBat.TabIndex = 7;
             this.btnBat.Text = "Bat";
             this.btnBat.UseVisualStyleBackColor = false;
+            this.btnBat.Click += new System.EventHandler(this.btnBat_Click);
             // 
             // btnTake
             // 
@@ -255,6 +234,51 @@
             this.btnTake.UseVisualStyleBackColor = false;
             this.btnTake.Click += new System.EventHandler(this.btnTake_Click);
             // 
+            // lblTurn
+            // 
+            this.lblTurn.AutoSize = true;
+            this.lblTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTurn.Location = new System.Drawing.Point(1013, 530);
+            this.lblTurn.Name = "lblTurn";
+            this.lblTurn.Size = new System.Drawing.Size(0, 24);
+            this.lblTurn.TabIndex = 15;
+            // 
+            // lblPlayer1CardCount
+            // 
+            this.lblPlayer1CardCount.BackColor = System.Drawing.Color.Black;
+            this.lblPlayer1CardCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer1CardCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblPlayer1CardCount.Location = new System.Drawing.Point(371, 529);
+            this.lblPlayer1CardCount.Name = "lblPlayer1CardCount";
+            this.lblPlayer1CardCount.Size = new System.Drawing.Size(75, 32);
+            this.lblPlayer1CardCount.TabIndex = 16;
+            this.lblPlayer1CardCount.Text = "88";
+            this.lblPlayer1CardCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPlayer2CardCount
+            // 
+            this.lblPlayer2CardCount.BackColor = System.Drawing.Color.Black;
+            this.lblPlayer2CardCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer2CardCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblPlayer2CardCount.Location = new System.Drawing.Point(367, 192);
+            this.lblPlayer2CardCount.Name = "lblPlayer2CardCount";
+            this.lblPlayer2CardCount.Size = new System.Drawing.Size(75, 32);
+            this.lblPlayer2CardCount.TabIndex = 17;
+            this.lblPlayer2CardCount.Text = "88";
+            this.lblPlayer2CardCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblTrashCount
+            // 
+            this.lblTrashCount.BackColor = System.Drawing.Color.Black;
+            this.lblTrashCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTrashCount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblTrashCount.Location = new System.Drawing.Point(971, 239);
+            this.lblTrashCount.Name = "lblTrashCount";
+            this.lblTrashCount.Size = new System.Drawing.Size(75, 32);
+            this.lblTrashCount.TabIndex = 18;
+            this.lblTrashCount.Text = "88";
+            this.lblTrashCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -262,14 +286,16 @@
             this.BackColor = System.Drawing.Color.Black;
             this.CancelButton = this.btnNewGame;
             this.ClientSize = new System.Drawing.Size(1267, 752);
+            this.Controls.Add(this.lblTrashCount);
+            this.Controls.Add(this.lblPlayer2CardCount);
+            this.Controls.Add(this.lblPlayer1CardCount);
+            this.Controls.Add(this.lblTurn);
             this.Controls.Add(this.btnReady);
             this.Controls.Add(this.btnBat);
             this.Controls.Add(this.btnTake);
             this.Controls.Add(this.pbTrumpCard);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pbcTrash);
             this.Controls.Add(this.pnlCardPlayer2);
-            this.Controls.Add(this.optDrag);
-            this.Controls.Add(this.optClick);
             this.Controls.Add(this.pbDeck);
             this.Controls.Add(this.lblCardNumber);
             this.Controls.Add(this.lblPlayer);
@@ -288,7 +314,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbcTrash)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrumpCard)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -306,14 +332,16 @@
         private System.Windows.Forms.Label lblPlayer;
         private System.Windows.Forms.Label lblCardNumber;
         private System.Windows.Forms.Button btnNewGame;
-        private System.Windows.Forms.RadioButton optClick;
-        private System.Windows.Forms.RadioButton optDrag;
         private System.Windows.Forms.Panel pnlCardPlayer2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbcTrash;
         private System.Windows.Forms.PictureBox pbTrumpCard;
         private System.Windows.Forms.Button btnTake;
         private System.Windows.Forms.Button btnBat;
         private System.Windows.Forms.Button btnReady;
+        private System.Windows.Forms.Label lblTurn;
+        private System.Windows.Forms.Label lblPlayer1CardCount;
+        private System.Windows.Forms.Label lblPlayer2CardCount;
+        private System.Windows.Forms.Label lblTrashCount;
     }
 }
 

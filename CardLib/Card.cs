@@ -141,10 +141,10 @@ namespace CardLib
         public override int GetHashCode()
         {
             if (TheRank==Rank.Ace)
-            return 13 * (int)TheSuit + (int)TheRank + 13;
+            return 13 * (int)TheSuit + ((int)TheRank +12);
             else
 
-            return 13 * (int)TheSuit + (int)TheRank;
+            return 13 * (int)TheSuit +  ((int)TheRank -1);
         }
 
         /// <summary>

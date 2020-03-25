@@ -87,6 +87,22 @@ namespace CardLib
 
           
         }
+        /// <summary>
+        /// Get  a specific card from the dealer deck
+        /// </summary>
+        /// <param name="cardIndex"></param>
+        /// <returns></returns>
+        public Card GetCard( int cardIndex)
+        {
+            return myDeck.GetCard(cardIndex);
+        }
+        public void AddCard(Card aCard)
+        {   
+            CardsRemaining++;
+            myDeck.Add(aCard);
+            
+             
+        }
         #endregion
         #region EVENT AND EVENT HANDLER
         public event EventHandler OutOfCards;

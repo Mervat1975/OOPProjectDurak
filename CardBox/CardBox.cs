@@ -94,6 +94,7 @@ namespace CardBox
             get { return myOrientation; }
         }
 
+        
         #endregion
         #region CONTRUCTORS
         /// <summary>

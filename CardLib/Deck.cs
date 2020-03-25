@@ -138,7 +138,11 @@ namespace  CardLib
             }
             newDeck.CopyTo(cards);
         }
-
+        public void Add(Card aCard)
+        {
+            cards.Add(aCard);
+            
+        }
 
     }
 }

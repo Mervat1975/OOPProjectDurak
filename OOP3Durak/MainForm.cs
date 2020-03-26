@@ -69,19 +69,19 @@ namespace OOP3Durak
         /// The size of the space at the sides of each card that seperate it
         /// from everything else 
         /// </summary>
-        private int playPanelSidePadding = 1;
+        private int playPanelSidePadding = 6;
 
         /// <summary>
         /// The size of the space above and below the card that seperate it from everything
         /// else
         /// </summary>
-        private int playPanelTopBottomPadding = 1;
+        private int playPanelTopBottomPadding = 6;
 
         /// <summary>
         /// Percentage of the card's width that is covered when cards are stacked on each
         /// other
         /// </summary>
-        private float playPanelPercOfCardWidthCovered = 0.10F;
+        private float playPanelPercOfCardWidthCovered = 0.30F;
 
         /// <summary>
         /// Used to generate Card objects from a Deck
@@ -397,6 +397,18 @@ namespace OOP3Durak
         public void AddCardTPlayPanel(CardBox.CardBox cardBox)
         {
             //MessageBox.Show("1");
+            // Remove the card from the Panel it started in
+            pnlCardPlayer1.Controls.Remove(dragCard);
+            // Add the card to the Panel it was dropped in 
+            pnlPlay.Controls.Add(dragCard);
+            // Realign cards in both Panels
+            RealignCards(pnlCardPlayer1);
+            dragCard.MouseEnter -= CardBox_MouseEnter;
+            dragCard.MouseLeave -= CardBox_MouseLeave;
+            dragCard.MouseDown -= CardBox_MouseDown;
+            RealignPlayPanel(pnlPlay);
+
+            /*
             if (playerHand1.IsAttacker == true)
             {
 
@@ -436,8 +448,8 @@ namespace OOP3Durak
                 
 
             }
+            */
 
-            
 
         }
 
@@ -495,17 +507,37 @@ namespace OOP3Durak
 
             }
         }
-    
+
+        /// <summary>
+        /// Arrange the cards that have been played according to the rules of Durak
+        /// </summary>
+        /// <param name="playPanel"></param>
         private void RealignPlayPanel(Panel playPanel)
         {
             int numberOfCards = playPanel.Controls.Count;
             int nMovesPerRow = 3;
             int nMovesPerColumn = numberOfCards / nMovesPerRow;
             float visibleWidthPercentage = 1-playPanelPercOfCardWidthCovered;
+            int cardWidth = playPanel.Controls[0].Width;
+            int cardHeight = playPanel.Controls[0].Height;
+            double currentRatio = (double)cardWidth / cardHeight;
+            int visibleWidth = Convert.ToInt32(visibleWidthPercentage * cardWidth);
 
-            //Choose the width and height of the cards to make them fit
-            int cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
-            int cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1))/nMovesPerColumn);
+            //If the width of the cards is too big for them to fit in the panel
+            if ((nMovesPerRow * (cardWidth + visibleWidth)) + ((nMovesPerRow + 1) * playPanelSidePadding) > playPanel.Width)
+            {
+                //Choose the width of the cards to make them fit
+                cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
+                cardHeight = Convert.ToInt32(cardWidth / currentRatio);
+            }
+
+            //If the height of the cards is too big for them to fit in the panel
+            if ((nMovesPerColumn * cardHeight) + ((nMovesPerColumn + 1) * playPanelTopBottomPadding) > playPanel.Height)
+            {
+                //Choose the height of the cards to make them fit
+                cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1)) / nMovesPerColumn);
+                cardWidth = Convert.ToInt32(currentRatio * cardHeight);
+            }
 
             bool foundFailedDefense = false;
 
@@ -516,7 +548,7 @@ namespace OOP3Durak
 
             //arrange the cards in the deck in reverse because the data structure returned
             //by the "Controls" property behaves kinda like a stack
-            for(int index = numberOfCards; index >= 0; index--)
+            for(int index = 0; index < numberOfCards; index++)
             {
                 CardBox.CardBox currentCardBox = playPanel.Controls[index] as CardBox.CardBox;
 
@@ -524,7 +556,7 @@ namespace OOP3Durak
                 currentCardBox.Height = cardHeight;
                 currentCardBox.Location = nextCardLocation;
 
-                //if the card of the failed defense has been found and passed
+                //if the card of the failed defense has been found
                 if (foundFailedDefense)
                 {
                     //if the end of the row has been reached
@@ -546,19 +578,22 @@ namespace OOP3Durak
                     if (currentCardBox == firstSuccessfulAttackInRound)
                     {
                         foundFailedDefense = true;
-                        
+
+                        //reprocess the card at this index
+                        index--;
                     }
                     else
                     {
-                        //an even numbered index is an attack 
+                        //if the index is an even number then the card is an attack 
                         if(index % 2 == 0)
                         {
                             nextCardLocation.X += Convert.ToInt32(visibleWidthPercentage * currentCardBox.Width);
                         }
                         else
                         {
+                            currentCardBox.BringToFront();
                             //if the end of the row has been reached
-                            if (index % nMovesPerRow == nMovesPerRow - 1)
+                            if (((index+1)/2) % nMovesPerRow == 0)
                             {
                                 //move nextCardLocation to the next row
                                 nextCardLocation = playPanel.DisplayRectangle.Location;

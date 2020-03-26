@@ -498,11 +498,14 @@ namespace OOP3Durak
     
         private void RealignPlayPanel(Panel playPanel)
         {
-            int numberOfCards = 6;
-            int nCardsPerRow = 3;
-            int nCardsPerColumn = numberOfCards / nCardsPerRow;
-            int cardWidth = Convert.ToInt32((playPanel.Width - (nCardsPerRow * playPanelSidePadding + 1)) / nCardsPerRow);
-            int cardHeight = Convert.ToInt32((playPanel.Height - (nCardsPerColumn * playPanelTopBottomPadding + 1))/nCardsPerColumn);
+            int numberOfCards = playPanel.Controls.Count;
+            int nMovesPerRow = 3;
+            int nMovesPerColumn = numberOfCards / nMovesPerRow;
+            float visibleWidthPercentage = 1-playPanelPercOfCardWidthCovered;
+
+            //Choose the width and height of the cards to make them fit
+            int cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
+            int cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1))/nMovesPerColumn);
 
             bool foundFailedDefense = false;
 
@@ -511,18 +514,21 @@ namespace OOP3Durak
             nextCardLocation.X += playPanelSidePadding;
             nextCardLocation.Y += playPanelTopBottomPadding;
 
-            //arrange the cards in the deck in reverse
+            //arrange the cards in the deck in reverse because the data structure returned
+            //by the "Controls" property behaves kinda like a stack
             for(int index = numberOfCards; index >= 0; index--)
             {
                 CardBox.CardBox currentCardBox = playPanel.Controls[index] as CardBox.CardBox;
-                
-                //if the card of the failed defense has been found and passed
-                if(foundFailedDefense)
-                {
-                    currentCardBox.Location = nextCardLocation;
 
+                currentCardBox.Width = cardWidth;
+                currentCardBox.Height = cardHeight;
+                currentCardBox.Location = nextCardLocation;
+
+                //if the card of the failed defense has been found and passed
+                if (foundFailedDefense)
+                {
                     //if the end of the row has been reached
-                    if (index % nCardsPerRow == nCardsPerRow - 1)
+                    if (index % nMovesPerRow == nMovesPerRow - 1)
                     {
                         //move nextCardLocation to the next row
                         nextCardLocation = playPanel.DisplayRectangle.Location;
@@ -540,14 +546,29 @@ namespace OOP3Durak
                     if (currentCardBox == firstSuccessfulAttackInRound)
                     {
                         foundFailedDefense = true;
-                        currentCardBox.Location = nextCardLocation;
+                        
                     }
                     else
                     {
-                        //an even numbered index is an attack while
+                        //an even numbered index is an attack 
                         if(index % 2 == 0)
                         {
-                            nextCardLocation.X += Convert.ToInt32((1 - playPanelPercOfCardWidthCovered) * currentCardBox.Width);
+                            nextCardLocation.X += Convert.ToInt32(visibleWidthPercentage * currentCardBox.Width);
+                        }
+                        else
+                        {
+                            //if the end of the row has been reached
+                            if (index % nMovesPerRow == nMovesPerRow - 1)
+                            {
+                                //move nextCardLocation to the next row
+                                nextCardLocation = playPanel.DisplayRectangle.Location;
+                                nextCardLocation.X += playPanelSidePadding;
+                                nextCardLocation.Y += playPanelTopBottomPadding + playPanelTopBottomPadding + currentCardBox.Height;
+                            }
+                            else
+                            {
+                                nextCardLocation.X += currentCardBox.Width + playPanelSidePadding;
+                            }
                         }
                     }
                 }

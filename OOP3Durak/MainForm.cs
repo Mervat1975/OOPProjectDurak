@@ -56,6 +56,33 @@ namespace OOP3Durak
         /// the trump card object
         /// </summary>
         private Card TrumpCard = null;
+
+        /// <summary>
+        /// The cardbox that contains the card of the first successful attack.
+        /// 
+        /// This needs to be stored because according to the rules of Durak, the cards
+        /// after this card will appear on their own(i.e no card will be stackd on them)
+        /// </summary>
+        private CardBox.CardBox firstSuccessfulAttackInRound = null;
+
+        /// <summary>
+        /// The size of the space at the sides of each card that seperate it
+        /// from everything else 
+        /// </summary>
+        private int playPanelSidePadding = 1;
+
+        /// <summary>
+        /// The size of the space above and below the card that seperate it from everything
+        /// else
+        /// </summary>
+        private int playPanelTopBottomPadding = 1;
+
+        /// <summary>
+        /// Percentage of the card's width that is covered when cards are stacked on each
+        /// other
+        /// </summary>
+        private float playPanelPercOfCardWidthCovered = 0.10F;
+
         /// <summary>
         /// Used to generate Card objects from a Deck
         /// </summary>
@@ -390,8 +417,7 @@ namespace OOP3Durak
                     GetComputerDefence(dragCard.TheCard);
                 }
             }
-            else
-               if (IsValidDefence(dragCard.TheCard))
+            else if (IsValidDefence(dragCard.TheCard))
             {
 
                 pnlCardPlayer1.Controls.Remove(dragCard);
@@ -469,7 +495,64 @@ namespace OOP3Durak
 
             }
         }
-     
+    
+        private void RealignPlayPanel(Panel playPanel)
+        {
+            int numberOfCards = 6;
+            int nCardsPerRow = 3;
+            int nCardsPerColumn = numberOfCards / nCardsPerRow;
+            int cardWidth = Convert.ToInt32((playPanel.Width - (nCardsPerRow * playPanelSidePadding + 1)) / nCardsPerRow);
+            int cardHeight = Convert.ToInt32((playPanel.Height - (nCardsPerColumn * playPanelTopBottomPadding + 1))/nCardsPerColumn);
+
+            bool foundFailedDefense = false;
+
+            //set position of first card
+            Point nextCardLocation = playPanel.DisplayRectangle.Location;
+            nextCardLocation.X += playPanelSidePadding;
+            nextCardLocation.Y += playPanelTopBottomPadding;
+
+            //arrange the cards in the deck in reverse
+            for(int index = numberOfCards; index >= 0; index--)
+            {
+                CardBox.CardBox currentCardBox = playPanel.Controls[index] as CardBox.CardBox;
+                
+                //if the card of the failed defense has been found and passed
+                if(foundFailedDefense)
+                {
+                    currentCardBox.Location = nextCardLocation;
+
+                    //if the end of the row has been reached
+                    if (index % nCardsPerRow == nCardsPerRow - 1)
+                    {
+                        //move nextCardLocation to the next row
+                        nextCardLocation = playPanel.DisplayRectangle.Location;
+                        nextCardLocation.X += playPanelSidePadding;
+                        nextCardLocation.Y += playPanelTopBottomPadding + playPanelTopBottomPadding + currentCardBox.Height;
+                    }
+                    else
+                    {
+                        nextCardLocation.X += currentCardBox.Width + playPanelSidePadding;
+                    }
+                }
+                else
+                {
+                    //Stack the cards on each other as dictated by the rules of Durak.
+                    if (currentCardBox == firstSuccessfulAttackInRound)
+                    {
+                        foundFailedDefense = true;
+                        currentCardBox.Location = nextCardLocation;
+                    }
+                    else
+                    {
+                        //an even numbered index is an attack while
+                        if(index % 2 == 0)
+                        {
+                            nextCardLocation.X += Convert.ToInt32((1 - playPanelPercOfCardWidthCovered) * currentCardBox.Width);
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Clears the panels and reloads the deck.
         /// </summary>
@@ -524,18 +607,20 @@ namespace OOP3Durak
            
                 // Create a new CardBox control based on the card drawn
                 aCardBox = new CardBox.CardBox(card);
+
                if (player != COMPUTER)
                 {
-                    aCardBox.FaceUp = true;
-                    // Wire events handlers to the new control:
-                    // if Click radio button is checked...
+                
+                aCardBox.FaceUp = true;
+                // Wire events handlers to the new control:
+                // if Click radio button is checked...
 
                     // Wire CardBox_Click
                     aCardBox.Click += CardBox_Click;
+                System.Diagnostics.Debug.WriteLine("Set click event for " + card);
 
-                     
-                    // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
-                     aCardBox.MouseDown += CardBox_MouseDown;
+                // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
+                aCardBox.MouseDown += CardBox_MouseDown;
                      aCardBox.DragDrop  += CardBox_DragDrop;
                     aCardBox.DragEnter += CardBox_DragEnter;
 

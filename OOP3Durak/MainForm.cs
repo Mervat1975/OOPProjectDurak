@@ -1,14 +1,12 @@
 ﻿/**
  * MainForm.cs - The MainForm of the FormUIDemo Project
- * 
  * This project demonstrates adding and removing form controls dynamically. It also shows
  * relocating controls by clicking and by dragging. 
- *  
  * @author      Thom MacDonald <thom.macdonald@durhamcollege.ca>
  * @author      Mervat Mustafa <mervat.mustafa@durhamcollege.ca>
+ * @author      Oghenefejiro Theodore Abohweyere <oghenefejiro.abohweyere@durhamcollege.ca>
  * @version     3.0
  * @since       2020-03-18
- * @see         <video link>
  */
 
 
@@ -34,7 +32,7 @@ namespace OOP3Durak
         /// <summary>
         /// The amount, in points, that CardBox controls are enlarged when hovered over. 
         /// </summary>
-
+        private bool isResult = false;
         private const int POP = 25;
         /// <summary>;
         /// The regular size of a CardBox control
@@ -102,6 +100,8 @@ namespace OOP3Durak
         private const int PLAER = 1;
         private const int COMPUTER = 0;
 
+        private Cards PlyRoundCards = new Cards();
+
         /// <summary>
         /// Constructor for frmMainForm
         /// </summary>
@@ -124,9 +124,9 @@ namespace OOP3Durak
             // Show the number of cards in the deck
             lblCardCount.Text = myDealer.CardsRemaining.ToString();
             // show number of cards for the game
-            lblPlayer1CardCount.Text = "0";
-            lblPlayer2CardCount.Text = "0";
-            lblTrashCount.Text = TrashCardCount.ToString();
+            lblPlayer1CardCount.Text = "";
+            lblPlayer2CardCount.Text = "";
+            lblTrashCount.Text = "";
             lblCardNumber.Text += " " + myDealer.CardsRemaining.ToString();
             lblPlayer.Text += " " + NumberOfPlayer;
             btnReady.Focus();
@@ -149,22 +149,13 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnBat_Click(object sender, EventArgs e)
         {
+            playerHand1.CahangeRole();
+            playerHand2.CahangeRole();
             FillHand();
             SendTrash();
             GetComputerAttack();
-
-
         }
-        /// <summary>
-        /// Clears the panels and resets the card dealer.
-        /// </summary>
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            // Reset the card dealer
-            ResetDealer();
 
-
-        }
 
         /// <summary>
         /// Drag Drop on the play area 
@@ -177,8 +168,11 @@ namespace OOP3Durak
             // If there is a CardBox to move
             if (dragCard != null)
             {
-                AddCardTPlayPanel(dragCard);
-                GetResult();
+                if (!AddCardTPlayPanel(dragCard))
+                    MessageBox.Show(" Unacceptable Card","ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
+
+                 
+                //GetResult();
             }
         }
         /// <summary>
@@ -207,10 +201,11 @@ namespace OOP3Durak
             // get the trump card
             myDealer.DrawCard(ref TrumpCard);
             TrumpCard.FaceUp = true;
+            lblTrump.Text ="Trump: " + TrumpCard.TheSuit.ToString();
             pbTrumpCard.Image = TrumpCard.GetCardImage() as Image;
             TrumpCard.FaceUp = false;
             myDealer.AddCard(TrumpCard);
-           
+
             for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
             {
 
@@ -228,21 +223,34 @@ namespace OOP3Durak
             btnReady.ForeColor = Color.Gray;
             btnNewGame.Enabled = true;
             btnNewGame.ForeColor = Color.Orange;
-            lblTurn.Text = "Your Turn";
+            lblTurn.Text = "Attack";
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
         }
-
+        /// <summary>
+        /// add the cards fromplay area to player 1 area
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnTake_Click(object sender, EventArgs e)
         {
-            playerHand1.Add((pnlPlay.Controls[0] as CardBox.CardBox).TheCard as Card);
-            pnlPlay.Controls.Clear();
-            FillHand();
-            GetComputerAttack();
+
+            foreach (CardBox.CardBox aCardBox in pnlPlay.Controls)
+            {
+                aCardBox.TheCard.FaceUp = true;
+                playerHand1.Add(aCardBox.TheCard);
+            }
+            pnlPlay.Controls.Clear();          
+            PlyRoundCards.Clear();
+            FillHand(); 
             lblTurn.Text = "";
             btnTake.Enabled = false;
             btnTake.ForeColor = Color.Gray;
-
+            btnBat.Enabled = false;
+            btnBat.ForeColor = Color.Gray;
+            btnPass.Enabled = false;
+            btnPass.ForeColor = Color.Gray;
+            GetComputerAttack();
 
         }
 
@@ -283,6 +291,42 @@ namespace OOP3Durak
             }
         }
 
+
+        /// <summary>
+        /// Clears the panels and resets the card dealer.
+        /// </summary>
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            // Reset the card dealer
+            ResetDealer();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnPass_Click(object sender, EventArgs e)
+        {
+            foreach (CardBox.CardBox aCardBox in pnlPlay.Controls)
+            {
+
+                aCardBox.TheCard.FaceUp = false;
+                playerHand2.Add(aCardBox.TheCard);
+            }
+            pnlPlay.Controls.Clear();
+            PlyRoundCards.Clear();
+            btnTake.Enabled = false;
+            btnTake.ForeColor = Color.Gray;
+            btnBat.Enabled = false;
+            btnBat.ForeColor = Color.Gray;
+            btnPass.Enabled = false;
+            btnPass.ForeColor = Color.Gray;
+            lblTurn.Text = "Attack";
+             
+            FillHand();
+
+        }
         #endregion
 
         #region CARD BOX EVENT HANDLERS
@@ -394,61 +438,57 @@ namespace OOP3Durak
         /// Add new card to the play area
         /// </summary>
         /// <param name="cardBox"></param>
-        public void AddCardTPlayPanel(CardBox.CardBox cardBox)
+        public bool AddCardTPlayPanel(CardBox.CardBox cardBox)
         {
-            //MessageBox.Show("1");
-            // Remove the card from the Panel it started in
-            pnlCardPlayer1.Controls.Remove(dragCard);
-            // Add the card to the Panel it was dropped in 
-            pnlPlay.Controls.Add(dragCard);
-            // Realign cards in both Panels
-            RealignCards(pnlCardPlayer1);
-            dragCard.MouseEnter -= CardBox_MouseEnter;
-            dragCard.MouseLeave -= CardBox_MouseLeave;
-            dragCard.MouseDown -= CardBox_MouseDown;
-            RealignPlayPanel(pnlPlay);
-
-            /*
-            if (playerHand1.IsAttacker == true)
-            {
-
-                if (pnlPlay.Controls.Count == 0)
+            bool isAcceptable = false;
+           // the droped card comes from player1 as attacker
+            if (playerHand1.IsAttacker == true) 
+              {
+                //  either the first attack or re-attack
+                if (pnlPlay.Controls.Count == 0 ||  IsValidReAttack(dragCard.TheCard))
                 {
-                    // (this would happen if a card is dragged from one spot in the Panel to another)
-                    // Remove the card from the Panel it started in
-                    pnlCardPlayer1.Controls.Remove(dragCard);
-                    // Add the card to the Panel it was dropped in 
-                    pnlPlay.Controls.Add(dragCard);
-                    // Realign cards in both Panels
-                    RealignCards(pnlCardPlayer1);
-                    RealignCards(pnlPlay);
-                    lblTurn.Text = "";
-                    // waite for a while
-                     
+                    isAcceptable = true;
+                    // reomve cardbox events
+                    dragCard.MouseEnter -= CardBox_MouseEnter;
+                    dragCard.MouseLeave -= CardBox_MouseLeave;
+                    dragCard.MouseDown -= CardBox_MouseDown;
+                    dragCard.Click -= CardBox_Click;
 
-                    GetComputerDefence(dragCard.TheCard);
+                    // Remove the card from the Player1 Panel and hand
+                    playerHand1.Remove(dragCard.TheCard);
+                    
+                    pnlCardPlayer1.Controls.Remove(dragCard);
+                    // Add the card to the play Panel  and play card list  
+                    pnlPlay.Controls.Add(dragCard);
+                    PlyRoundCards.Add(dragCard.TheCard);
+                    
+                    lblTurn.Text = "";
+                    // get the computer defence
+                    GetComputerDefence(dragCard.TheCard); 
                 }
             }
-            else if (IsValidDefence(dragCard.TheCard))
+            else
+            if (IsValidDefence(dragCard.TheCard))
             {
+                isAcceptable = true;
+                dragCard.MouseEnter -= CardBox_MouseEnter;
+                dragCard.MouseLeave -= CardBox_MouseLeave;
+                dragCard.MouseDown -= CardBox_MouseDown;
 
                 pnlCardPlayer1.Controls.Remove(dragCard);
                 playerHand1.Remove(dragCard.TheCard);
                 // Add the card to the Panel it was dropped in 
                 pnlPlay.Controls.Add(dragCard);
-                SendTrash();
-                FillHand();
-                btnBat.Enabled = false;
-                btnBat.ForeColor = Color.Gray;
-                btnTake.Enabled = false;
-                btnTake.ForeColor = Color.Gray;
-                // Realign cards in both Panels
-                RealignCards(pnlCardPlayer1);
-                RealignCards(pnlPlay);
-                
-
+                PlyRoundCards.Add(dragCard.TheCard);
+                GetComputerReAttack();
             }
-            */
+            // Realign cards in both Panels
+            lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
+            RealignCards(pnlCardPlayer1);
+            RealignPlayPanel(pnlPlay);
+            return isAcceptable;
+
+                
 
 
         }
@@ -491,19 +531,19 @@ namespace OOP3Durak
                 // are stored in the controls collection. This is so that cards on the left 
                 // appear underneath cards to the right. This allows the user to see the rank
                 // and suit more easily.
-                 // Align the "first" card (which is the last control in the collection)
-                    panelHand.Controls[myCount - 1].Top = POP;
-                    System.Diagnostics.Debug.Write(panelHand.Controls[myCount - 1].Top.ToString() + "\n");
-                    panelHand.Controls[myCount - 1].Left = startPoint;
-                    // for each of the remaining controls, in reverse order.
-                    for (int index = myCount - 2; index >= 0; index--)
-                    {// Align the current card
-                        panelHand.Controls[index].Top = POP;
+                // Align the "first" card (which is the last control in the collection)
+                panelHand.Controls[myCount - 1].Top = POP;
+                System.Diagnostics.Debug.Write(panelHand.Controls[myCount - 1].Top.ToString() + "\n");
+                panelHand.Controls[myCount - 1].Left = startPoint;
+                // for each of the remaining controls, in reverse order.
+                for (int index = myCount - 2; index >= 0; index--)
+                {// Align the current card
+                    panelHand.Controls[index].Top = POP;
 
-                        panelHand.Controls[index].Left = panelHand.Controls[index + 1].Left + offset;
-                    }
-                
-                
+                    panelHand.Controls[index].Left = panelHand.Controls[index + 1].Left + offset;
+                }
+
+
 
             }
         }
@@ -514,95 +554,95 @@ namespace OOP3Durak
         /// <param name="playPanel"></param>
         private void RealignPlayPanel(Panel playPanel)
         {
-            int numberOfCards = playPanel.Controls.Count;
-            int nMovesPerRow = 3;
-            int nMovesPerColumn = numberOfCards / nMovesPerRow;
-            float visibleWidthPercentage = 1-playPanelPercOfCardWidthCovered;
-            int cardWidth = playPanel.Controls[0].Width;
-            int cardHeight = playPanel.Controls[0].Height;
-            double currentRatio = (double)cardWidth / cardHeight;
-            int visibleWidth = Convert.ToInt32(visibleWidthPercentage * cardWidth);
-
-            //If the width of the cards is too big for them to fit in the panel
-            if ((nMovesPerRow * (cardWidth + visibleWidth)) + ((nMovesPerRow + 1) * playPanelSidePadding) > playPanel.Width)
+            if (playPanel.Controls.Count > 0)
             {
-                //Choose the width of the cards to make them fit
-                cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
-                cardHeight = Convert.ToInt32(cardWidth / currentRatio);
-            }
+                int numberOfCards = playPanel.Controls.Count;
+                int nMovesPerRow = 3;
+                int nMovesPerColumn = numberOfCards / nMovesPerRow;
+                float visibleWidthPercentage = 1 - playPanelPercOfCardWidthCovered;
+                int cardWidth = playPanel.Controls[0].Width;
+                int cardHeight = playPanel.Controls[0].Height;
+                double currentRatio = (double)cardWidth / cardHeight;
+                int visibleWidth = Convert.ToInt32(visibleWidthPercentage * cardWidth);
 
-            //If the height of the cards is too big for them to fit in the panel
-            if ((nMovesPerColumn * cardHeight) + ((nMovesPerColumn + 1) * playPanelTopBottomPadding) > playPanel.Height)
-            {
-                //Choose the height of the cards to make them fit
-                cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1)) / nMovesPerColumn);
-                cardWidth = Convert.ToInt32(currentRatio * cardHeight);
-            }
-
-            bool foundFailedDefense = false;
-
-            //set position of first card
-            Point nextCardLocation = playPanel.DisplayRectangle.Location;
-            nextCardLocation.X += playPanelSidePadding;
-            nextCardLocation.Y += playPanelTopBottomPadding;
-
-            //arrange the cards in the deck in reverse because the data structure returned
-            //by the "Controls" property behaves kinda like a stack
-            for(int index = 0; index < numberOfCards; index++)
-            {
-                CardBox.CardBox currentCardBox = playPanel.Controls[index] as CardBox.CardBox;
-
-                currentCardBox.Width = cardWidth;
-                currentCardBox.Height = cardHeight;
-                currentCardBox.Location = nextCardLocation;
-
-                //if the card of the failed defense has been found
-                if (foundFailedDefense)
+                //If the width of the cards is too big for them to fit in the panel
+                if ((nMovesPerRow * (cardWidth + visibleWidth)) + ((nMovesPerRow + 1) * playPanelSidePadding) > playPanel.Width)
                 {
-                    //if the end of the row has been reached
-                    if (index % nMovesPerRow == nMovesPerRow - 1)
-                    {
-                        //move nextCardLocation to the next row
-                        nextCardLocation = playPanel.DisplayRectangle.Location;
-                        nextCardLocation.X += playPanelSidePadding;
-                        nextCardLocation.Y += playPanelTopBottomPadding + playPanelTopBottomPadding + currentCardBox.Height;
-                    }
-                    else
-                    {
-                        nextCardLocation.X += currentCardBox.Width + playPanelSidePadding;
-                    }
+                    //Choose the width of the cards to make them fit
+                    cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
+                    cardHeight = Convert.ToInt32(cardWidth / currentRatio);
                 }
-                else
-                {
-                    //Stack the cards on each other as dictated by the rules of Durak.
-                    if (currentCardBox == firstSuccessfulAttackInRound)
-                    {
-                        foundFailedDefense = true;
 
-                        //reprocess the card at this index
-                        index--;
-                    }
-                    else
+                //If the height of the cards is too big for them to fit in the panel
+                if ((nMovesPerColumn * cardHeight) + ((nMovesPerColumn + 1) * playPanelTopBottomPadding) > playPanel.Height)
+                {
+                    //Choose the height of the cards to make them fit
+                    cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1)) / nMovesPerColumn);
+                    cardWidth = Convert.ToInt32(currentRatio * cardHeight);
+                }
+
+                bool foundFailedDefense = false;
+
+                //set position of first card
+                Point nextCardLocation = playPanel.DisplayRectangle.Location;
+                nextCardLocation.X += playPanelSidePadding;
+                nextCardLocation.Y += playPanelTopBottomPadding;
+                //arrange the cards in the deck in reverse because the data structure returned
+                //by the "Controls" property behaves kinda like a stack
+                for (int index = 0; index < numberOfCards; index++)
+                {
+                    CardBox.CardBox currentCardBox = playPanel.Controls[index] as CardBox.CardBox;
+                    currentCardBox.Width = cardWidth;
+                    currentCardBox.Height = cardHeight;
+                    currentCardBox.Location = nextCardLocation;
+                    //if the card of the failed defense has been found
+                    if (foundFailedDefense)
                     {
-                        //if the index is an even number then the card is an attack 
-                        if(index % 2 == 0)
+                        //if the end of the row has been reached
+                        if (index % nMovesPerRow == nMovesPerRow - 1)
                         {
-                            nextCardLocation.X += Convert.ToInt32(visibleWidthPercentage * currentCardBox.Width);
+                            //move nextCardLocation to the next row
+                            nextCardLocation = playPanel.DisplayRectangle.Location;
+                            nextCardLocation.X += playPanelSidePadding;
+                            nextCardLocation.Y += playPanelTopBottomPadding + playPanelTopBottomPadding + currentCardBox.Height;
                         }
                         else
                         {
-                            currentCardBox.BringToFront();
-                            //if the end of the row has been reached
-                            if (((index+1)/2) % nMovesPerRow == 0)
+                            nextCardLocation.X += currentCardBox.Width + playPanelSidePadding;
+                        }
+                    }
+                    else
+                    {
+                        //Stack the cards on each other as dictated by the rules of Durak.
+                        if (currentCardBox == firstSuccessfulAttackInRound)
+                        {
+                            foundFailedDefense = true;
+
+                            //reprocess the card at this index
+                            index--;
+                        }
+                        else
+                        {
+                            //if the index is an even number then the card is an attack 
+                            if (index % 2 == 0)
                             {
-                                //move nextCardLocation to the next row
-                                nextCardLocation = playPanel.DisplayRectangle.Location;
-                                nextCardLocation.X += playPanelSidePadding;
-                                nextCardLocation.Y += playPanelTopBottomPadding + playPanelTopBottomPadding + currentCardBox.Height;
+                                nextCardLocation.X += Convert.ToInt32(visibleWidthPercentage * currentCardBox.Width);
                             }
                             else
                             {
-                                nextCardLocation.X += currentCardBox.Width + playPanelSidePadding;
+                                currentCardBox.BringToFront();
+                                //if the end of the row has been reached
+                                if (((index + 1) / 2) % nMovesPerRow == 0)
+                                {
+                                    //move nextCardLocation to the next row
+                                    nextCardLocation = playPanel.DisplayRectangle.Location;
+                                    nextCardLocation.X += playPanelSidePadding;
+                                    nextCardLocation.Y += playPanelTopBottomPadding + playPanelTopBottomPadding + currentCardBox.Height;
+                                }
+                                else
+                                {
+                                    nextCardLocation.X += currentCardBox.Width + playPanelSidePadding;
+                                }
                             }
                         }
                     }
@@ -614,22 +654,24 @@ namespace OOP3Durak
         /// </summary>
         void ResetDealer()
         {
-            // Clear the panels
+            // Clear the panels and lists
+
             pnlCardPlayer1.Controls.Clear();
             pnlCardPlayer2.Controls.Clear();
             playerHand1.Clear();
             playerHand2.Clear();
             pnlPlay.Controls.Clear();
-
+            PlyRoundCards.Clear();
+            lblTrump.Text = "";
             // Load the card dealer 
             myDealer.LoadCardDealer();
-
             // Set the image to a card back
             pbDeck.Image = Properties.Resources.ResourceManager.GetObject("deck_more_2") as Image;
             pbcTrash.Image = null;
             pbTrumpCard.Image = null;
             TrashCardCount = 0;
-            lblTrashCount.Text = TrashCardCount.ToString();
+            lblTrashCount.Text ="";
+            
             // Display the number of cards remaining in the deck. 
             lblCardCount.Text = myDealer.CardsRemaining.ToString();
             // fix the buttons Enabels and Fore color
@@ -637,190 +679,267 @@ namespace OOP3Durak
             btnTake.ForeColor = Color.Gray;
             btnBat.Enabled = false;
             btnBat.ForeColor = Color.Gray;
+            btnPass.Enabled = false;
+            btnPass.ForeColor = Color.Gray;
             btnNewGame.Enabled = true;
             btnNewGame.ForeColor = Color.Orange;
-            lblTurn.Text = "Your Turn";
+            lblTurn.Text = "Attack";
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
             btnReady.Enabled = true;
             btnReady.ForeColor = Color.Orange;
             btnNewGame.Enabled = false;
             btnNewGame.ForeColor = Color.Gray;
-            lblTurn.Text = "";
-        }
-         
-         /// <summary>
-         /// Get the cardbox control has the passing card 
-         /// </summary>
-         /// <param name="card"></param>
-         /// <param name="player"></param>
-         /// <returns></returns>         
-        private CardBox.CardBox GetCardBox(Card card , int player)
-        {
-             
-            CardBox.CardBox aCardBox = null;
-            // Draw a card from the card dealer. If it worked...
-           
-                // Create a new CardBox control based on the card drawn
-                aCardBox = new CardBox.CardBox(card);
+            lblPlayer1CardCount.Text = "";
+            lblPlayer2CardCount.Text = "";
+              
+            isResult = false;
 
-               if (player != COMPUTER)
-                {
-                
+
+        }
+
+        /// <summary>
+        /// Get the cardbox control has the passing card 
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>         
+        private CardBox.CardBox GetCardBox(Card card, int player)
+        {
+            CardBox.CardBox aCardBox = null;
+            // Create a new CardBox control based on the card drawn
+            aCardBox = new CardBox.CardBox(card);
+            if (player != COMPUTER)
+            {
                 aCardBox.FaceUp = true;
                 // Wire events handlers to the new control:
-                // if Click radio button is checked...
-
-                    // Wire CardBox_Click
-                    aCardBox.Click += CardBox_Click;
-                System.Diagnostics.Debug.WriteLine("Set click event for " + card);
-
+                // Wire CardBox_Click
+                aCardBox.Click += CardBox_Click;
                 // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
                 aCardBox.MouseDown += CardBox_MouseDown;
-                     aCardBox.DragDrop  += CardBox_DragDrop;
-                    aCardBox.DragEnter += CardBox_DragEnter;
-
-                    // wire CardBox_MouseEnter for the "POP" visual effect  
-                    aCardBox.MouseEnter += CardBox_MouseEnter;
-                    // wire CardBox_MouseLeave for the regular visual effect
-                    aCardBox.MouseLeave += CardBox_MouseLeave;
-                }
-
-
-             
+                aCardBox.DragDrop += CardBox_DragDrop;
+                aCardBox.DragEnter += CardBox_DragEnter;
+                // wire CardBox_MouseEnter for the "POP" visual effect  
+                aCardBox.MouseEnter += CardBox_MouseEnter;
+                // wire CardBox_MouseLeave for the regular visual effect
+                aCardBox.MouseLeave += CardBox_MouseLeave;
+            }
             return aCardBox;
         }
         /// <summary>
         /// get the computer defence card
         /// </summary>
         /// <param name="aCard"></param>
-        public  void GetComputerDefence( Card aCard)
+        public void GetComputerDefence(Card aCard)
         {
-             
             
-            //System.Threading.Thread.Sleep(1000);
-            playerHand1.Remove(aCard);
-            
+
             Card defencCard = playerHand2.GetDefenceCard(aCard);
-           
-            if ( !(defencCard  is null))
+
+            if (!(defencCard is null))
             {
                 playerHand2.Remove(defencCard);
-              
+
                 for (int i = 0; i < pnlCardPlayer2.Controls.Count; i++)
-                {  
+                {
                     CardBox.CardBox aCardBox = pnlCardPlayer2.Controls[i] as CardBox.CardBox;
                     if (aCardBox.TheCard == defencCard)
                     {
                         pnlCardPlayer2.Controls.Remove(aCardBox);
                         aCardBox.FaceUp = true;
                         pnlPlay.Controls.Add(aCardBox);
+                        PlyRoundCards.Add(aCardBox.TheCard);
                         btnBat.Enabled = true;
                         btnBat.ForeColor = Color.Orange;
+                        btnPass.Enabled = false;
+                        btnPass.ForeColor = Color.Gray;
+                        btnTake.Enabled = false;
+                        btnTake.ForeColor = Color.Gray;
                         btnBat.Focus();
-                        lblTurn.Text = "Click Bat";
+                        lblTurn.Text = "Bat or Re-attack";
+
                     }
-                } 
+                }
+                RealignCards(pnlCardPlayer2);
+                RealignCards(pnlPlay);
+                lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
+                lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
+              GetResult(); 
             }
-                 
+
             else// no defence card
             {
 
-                CardBox.CardBox attackCard=pnlPlay.Controls[0] as CardBox.CardBox;
-                
-                playerHand2.Add(attackCard.TheCard);
-                attackCard.TheCard.FaceUp = false;
-                pnlPlay.Controls.Clear();
-                lblTurn.Text = "Your Turn";
-
-                    FillHand();
-           }   
-            RealignCards(pnlCardPlayer2);
-            RealignCards(pnlPlay);
-            lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
-            lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
-
+                btnPass.Enabled = true;
+                btnPass.ForeColor = Color.Orange;
+                btnBat.Enabled = false;
+                btnBat.ForeColor = Color.Gray;
+                btnTake.Enabled = false;
+                btnTake.ForeColor = Color.Gray;
+                btnPass.Focus();
+                lblTurn.Text = "Pass";                
+            }
+            
         }
         /// <summary>
         /// to fill the players hand from the card dealer
         /// </summary>
         public void FillHand()
         {
-            if (myDealer.CardsRemaining == 0) return;
+             
             Card card = null;
-
-            for (int i= 0; i< INITIAL_CARDS_NUMBER- playerHand1.RemainingCards();i++)
-            {  if (myDealer.CardsRemaining>0)
+             
+            while (playerHand1.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
+            { if (myDealer.CardsRemaining > 0)
                 {
                     myDealer.DrawCard(ref card);
-
                     playerHand1.Add(card);
                 }
-               
+
             }
-            for (int i = 0; i < INITIAL_CARDS_NUMBER - playerHand2.RemainingCards(); i++)
-            {
+            
+           while ( playerHand2.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
+            {    
                 if (myDealer.CardsRemaining > 0)
                 {
                     myDealer.DrawCard(ref card);
-
                     playerHand2.Add(card);
                 }
             }
-           
 
+           
             playerHand1.Sort();
             playerHand2.Sort();
-            
+
             pnlCardPlayer1.Controls.Clear();
             pnlCardPlayer2.Controls.Clear();
             for (int i = 0; i < playerHand1.RemainingCards(); i++)
             {
 
                 pnlCardPlayer1.Controls.Add(GetCardBox(playerHand1.CardList[i] as Card, 1));
-                
+
             }
-             for (int i = 0; i < playerHand2.RemainingCards(); i++)
-            {              
-                pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, 0));
-            }
-         
-            lblCardCount.Text = myDealer.CardsRemaining.ToString();
-            lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();   
-            
-            lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
-            RealignCards(pnlCardPlayer1);
-            RealignCards(pnlCardPlayer2);
-            if (myDealer.CardsRemaining==0)
-            {
-                pbDeck.Image = null;
-                pbTrumpCard.Image = null;
-            }
-        }
-        /// <summary>
-        /// Get  the computer attack
-        /// </summary>
-         public void  GetComputerAttack()
-        {
-            Card aCard = playerHand2.getAttack();   
-            CardBox.CardBox  aCardBox = new CardBox.CardBox(aCard);
-            aCardBox.FaceUp = true;
-            pnlCardPlayer2.Controls.Clear();
-            playerHand2.Remove(aCard);
+
             for (int i = 0; i < playerHand2.RemainingCards(); i++)
             {
                 pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, 0));
             }
+
+            lblCardCount.Text = myDealer.CardsRemaining.ToString();
+            lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
-            btnTake.Enabled = true;
-            btnTake.ForeColor = Color.Orange;
-            btnTake.Focus();
-            // Add the card to the play panel   
-            pnlPlay.Controls.Add(aCardBox);
-            // Realign cards in both Panels
-            RealignCards(pnlPlay);
+            RealignCards(pnlCardPlayer1);
             RealignCards(pnlCardPlayer2);
-            lblTurn.Text = "Your Turn";
+            if (myDealer.CardsRemaining == 0)
+            {
+                pbDeck.Image = null;
+                pbTrumpCard.Image = null;
+            }
+            else if (myDealer.CardsRemaining == 3)
+            {
+                pbDeck.Image =Properties.Resources.ResourceManager.GetObject("deck_equal_2") as Image;
+
+            }
+            else if (myDealer.CardsRemaining == 2)
+            {
+                pbDeck.Image = Properties.Resources.ResourceManager.GetObject("back") as Image;
+
+            }
+            else if (myDealer.CardsRemaining == 1)
+            {
+                pbDeck.Image = null;
+            }
+
+        }
+        /// <summary>
+        /// Get the computer attack
+        /// </summary>
+        public void GetComputerAttack()
+        {   
+            Card aCard = playerHand2.getAttack();
+            if (!(aCard is null))
+            {
+                CardBox.CardBox aCardBox = new CardBox.CardBox(aCard);
+                aCardBox.FaceUp = true;
+                pnlCardPlayer2.Controls.Clear();
+                playerHand2.Remove(aCard);
+                for (int i = 0; i < playerHand2.RemainingCards(); i++)
+                {
+                    pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, 0));
+
+                }
+                lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
+                btnTake.Enabled = true;
+                btnTake.ForeColor = Color.Orange;
+                btnBat.Enabled = false;
+                btnBat.ForeColor = Color.Gray;
+                btnPass.Enabled = false;
+                btnPass.ForeColor = Color.Gray;
+                btnTake.Focus();
+
+                // Add the card to the play panel   
+                pnlPlay.Controls.Add(aCardBox);
+                PlyRoundCards.Add(aCardBox.TheCard);
+                // Realign cards in both Panels
+                RealignPlayPanel(pnlPlay);
+                RealignCards(pnlCardPlayer2);
+                lblTurn.Text = "Defence or Take";
+            }else
+            {
+                GetResult();
+            }
+        }
+        /// <summary>
+        /// Get the computer attack
+        /// </summary>
+        public void GetComputerReAttack()
+        {
+            Card aCard = playerHand2.getReAttack(PlyRoundCards);
+
+            if (!(aCard is null))
+            {
+                CardBox.CardBox aCardBox = new CardBox.CardBox(aCard);
+                aCardBox.FaceUp = true;
+                pnlCardPlayer2.Controls.Clear();
+                playerHand2.Remove(aCard);
+                for (int i = 0; i < playerHand2.RemainingCards(); i++)
+                {
+                    pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, 0));
+                }
+                lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
+                btnTake.Enabled = true;
+                btnTake.ForeColor = Color.Orange;
+                btnTake.Focus();
+                btnBat.Enabled = false;
+                btnBat.ForeColor = Color.Gray;
+                btnPass.Enabled = false;
+                btnPass.ForeColor = Color.Gray;
+                // Add the card to the play panel   
+                pnlPlay.Controls.Add(aCardBox);
+                PlyRoundCards.Add(aCardBox.TheCard);
+                // Realign cards in both Panels
+                RealignPlayPanel(pnlPlay);
+                RealignCards(pnlCardPlayer2);
+                lblTurn.Text = "Defence or Take";
+                GetResult();
+            }
+            else
+            {
+                btnTake.Enabled = false;
+                btnTake.ForeColor = Color.Gray;
+                btnTake.Focus();
+                btnBat.Enabled = false;
+                btnBat.ForeColor = Color.Gray;
+                btnPass.Enabled = false;
+                btnPass.ForeColor = Color.Gray;
+                playerHand1.CahangeRole();
+                playerHand2.CahangeRole();
+                lblTurn.Text = "Attack";
+                SendTrash();
+                FillHand();
+
+            }
+            
 
         }
         /// <summary>
@@ -828,59 +947,75 @@ namespace OOP3Durak
         /// </summary>
         /// <param name="aCard"></param>
         /// <returns></returns>
-         public  bool IsValidDefence( Card  aCard)
+        public bool IsValidDefence(Card aCard)
         {
-            CardBox.CardBox attakedCard = pnlPlay.Controls[0] as CardBox.CardBox;
-             if(aCard.TheSuit== attakedCard.TheCard.TheSuit)
-                {
+            CardBox.CardBox attakedCard = pnlPlay.Controls[pnlPlay.Controls.Count - 1] as CardBox.CardBox;
+            if (aCard.TheSuit == attakedCard.TheCard.TheSuit)
+            {
                 return (aCard.CompareTo(attakedCard.TheCard) > 0);
-                }
-             else
-              {
-                return (aCard.TheSuit == TrumpCard.TheSuit);               
+            }
+            else
+            {
+                return (aCard.TheSuit == TrumpCard.TheSuit);
             }
 
         }
         /// <summary>
-        /// 
+        /// Move the card from play area to trash area
         /// </summary>
-         public void SendTrash()
-        {
-            playerHand1.CahangeRole();
-            playerHand2.CahangeRole();
-            TrashCardCount += 2;
+        public void SendTrash()
+        {   
+            TrashCardCount += pnlPlay.Controls.Count;
+           
+            PlyRoundCards.Clear();           
             lblTrashCount.Text = TrashCardCount.ToString();
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
-            pbcTrash.Image = Properties.Resources.ResourceManager.GetObject("deck_more_2") as Image;
+            if (TrashCardCount==2)
+                pbcTrash.Image = Properties.Resources.ResourceManager.GetObject("deck_equal_2") as Image;
+
+            else
+                pbcTrash.Image = Properties.Resources.ResourceManager.GetObject("deck_more_2") as Image;
             pnlPlay.Controls.Clear();
         }
-
-        public void  GetResult()
+        /// <summary>
+        /// Get the Result
+        /// </summary>
+        public void GetResult()
         {
 
             String result = "";
             if (playerHand1.RemainingCards() == 0)
 
-                result = "Congrats!! You are the Winner";
+                result = "Congrats!! You are the WINNER";
             else
                     if (playerHand2.RemainingCards() == 0)
-              result="Sorry!! your the Druk ";
+                result = "Sorry!! your are the DURAK ";
             else if (playerHand1.RemainingCards() == 0 && playerHand2.RemainingCards() == 0)
-               result="Draw!!! ";
-            if(!result.Equals(""))
+                result = "Draw!!! ";
+            if (!result.Equals("")  && ! isResult)
             {
-                MessageBox.Show(result);
+                MessageBox.Show(result ,"GAME RESULT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                isResult = true;
                 ResetDealer();
             }
 
         }
-        #endregion
-
-        private void pnlPlay_Paint(object sender, PaintEventArgs e)
+    
+       
+        public bool IsValidReAttack(Card aReAttackCard)
         {
 
+            foreach (Card aCard in PlyRoundCards)
+            {
+                if (aReAttackCard.TheRank == aCard.TheRank)
+                    return true;
+            }
+            return false;
         }
+        #endregion
+ 
+        
     }
 }
  

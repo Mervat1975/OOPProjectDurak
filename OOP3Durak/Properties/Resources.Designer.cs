@@ -73,6 +73,16 @@ namespace OOP3Durak.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap deck_equal_2 {
+            get {
+                object obj = ResourceManager.GetObject("deck_equal_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap deck_more_2 {
             get {
                 object obj = ResourceManager.GetObject("deck_more_2", resourceCulture);

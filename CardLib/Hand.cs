@@ -92,11 +92,12 @@ namespace CardLib
                     }
                 }
             }
-
+           if (aCard.TheSuit != TrumpSuit)
             foreach (Card listCard in CardList)
             {
-                if (listCard.TheSuit == TrumpSuit)
-                    return listCard;
+                if (listCard.TheSuit == TrumpSuit )
+
+                 return listCard;
             }
 
 
@@ -116,9 +117,29 @@ namespace CardLib
                     return listCard;
                 }
             }
-            return CardList[0] as Card;
+            if (CardList.Count > 0)
+                return CardList[0] as Card;
+            else
+                return null;
         }
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Card getReAttack(Cards aCards)
+        {
+
+            foreach (Card listCard in CardList)
+            {  
+                foreach(Card aCard in aCards)
+                if (listCard.TheRank == aCard.TheRank)
+                {
+                    return listCard;
+                }
+            }
+            return null;
+        }
+
         #endregion
     }
 }

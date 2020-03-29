@@ -184,6 +184,7 @@
       <DependentUpon>DurakDatabase.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\deck_equal_2.png" />
     <None Include="Resources\deck_more_2.png" />
     <None Include="Resources\back.png" />
   </ItemGroup>

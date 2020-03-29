@@ -16,6 +16,7 @@ using CardLib;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace OOP3Durak
 {
@@ -87,6 +88,11 @@ namespace OOP3Durak
         /// Used to generate Card objects from a Deck
         /// </summary>
         private CardDealer myDealer;
+
+        /// <summary>
+        /// Previous max index of the card in the play panel
+        /// </summary>
+        private int pmi = 0;
 
         /// <summary>
         /// Refers to the card being dragged from one panel to another.
@@ -484,6 +490,7 @@ namespace OOP3Durak
                 PlyRoundCards.Add(dragCard.TheCard);
                 GetComputerReAttack();
             }
+
             // Realign cards in both Panels
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             RealignCards(pnlCardPlayer1);
@@ -587,11 +594,22 @@ namespace OOP3Durak
                 Point nextCardLocation = playPanel.DisplayRectangle.Location;
                 nextCardLocation.X += playPanelSidePadding;
                 nextCardLocation.Y += playPanelTopBottomPadding;
+
+                //Copy controls in panel to an array in order to maintain their order
+                CardBox.CardBox[] staticCardsArray = new CardBox.CardBox[numberOfCards];
+                playPanel.Controls.CopyTo(staticCardsArray, 0);
+
                 //arrange the cards in the deck in reverse because the data structure returned
                 //by the "Controls" property behaves kinda like a stack
                 for (int index = 0; index < numberOfCards; index++)
                 {
-                    CardBox.CardBox currentCardBox = playPanel.Controls[index] as CardBox.CardBox;
+                    int working_index = index;
+                    if(working_index <= pmi)
+                    {
+                        working_index = pmi - working_index;
+                    }
+                    System.Diagnostics.Debug.WriteLine("Working index: " + working_index + "; Index: " + index);
+                    CardBox.CardBox currentCardBox = staticCardsArray[working_index];
                     currentCardBox.Width = cardWidth;
                     currentCardBox.Height = cardHeight;
                     currentCardBox.Location = nextCardLocation;
@@ -618,9 +636,19 @@ namespace OOP3Durak
                         if (currentCardBox == firstSuccessfulAttackInRound)
                         {
                             foundFailedDefense = true;
-
-                            //reprocess the card at this index
-                            index--;
+                            System.Diagnostics.Debug.WriteLine("First successful attack found: " + currentCardBox);
+                            //if the end of the row has been reached
+                            if (index % nMovesPerRow == nMovesPerRow - 1)
+                            {
+                                //move nextCardLocation to the next row
+                                nextCardLocation = playPanel.DisplayRectangle.Location;
+                                nextCardLocation.X += playPanelSidePadding;
+                                nextCardLocation.Y += playPanelTopBottomPadding + playPanelTopBottomPadding + currentCardBox.Height;
+                            }
+                            else
+                            {
+                                nextCardLocation.X += currentCardBox.Width + playPanelSidePadding;
+                            }
                         }
                         else
                         {
@@ -647,6 +675,11 @@ namespace OOP3Durak
                         }
                     }
                 }
+                pmi = numberOfCards - 1;
+            }
+            else
+            {
+                pmi = 0;
             }
         }
         /// <summary>
@@ -654,6 +687,8 @@ namespace OOP3Durak
         /// </summary>
         void ResetDealer()
         {
+            pmi = 0;
+            firstSuccessfulAttackInRound = null;
             // Clear the panels and lists
 
             pnlCardPlayer1.Controls.Clear();
@@ -769,7 +804,7 @@ namespace OOP3Durak
 
             else// no defence card
             {
-
+                //firstSuccessfulAttackInRound = dragCard;
                 btnPass.Enabled = true;
                 btnPass.ForeColor = Color.Orange;
                 btnBat.Enabled = false;
@@ -977,6 +1012,7 @@ namespace OOP3Durak
             else
                 pbcTrash.Image = Properties.Resources.ResourceManager.GetObject("deck_more_2") as Image;
             pnlPlay.Controls.Clear();
+            pmi = 0;
         }
         /// <summary>
         /// Get the Result

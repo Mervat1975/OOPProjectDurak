@@ -588,6 +588,11 @@ namespace OOP3Durak
                         cardWidth = Convert.ToInt32(currentRatio * cardHeight);
                     }
                 }
+
+                if(pmi > numberOfCards-1)
+                {
+                    pmi = 0;
+                }
                 bool foundFailedDefense = false;
 
                 //set position of first card
@@ -599,6 +604,8 @@ namespace OOP3Durak
                 CardBox.CardBox[] staticCardsArray = new CardBox.CardBox[numberOfCards];
                 playPanel.Controls.CopyTo(staticCardsArray, 0);
 
+                int secondColumnX = 0;
+                int thirdColummnX = 0;
                 //arrange the cards in the deck in reverse because the data structure returned
                 //by the "Controls" property behaves kinda like a stack
                 for (int index = 0; index < numberOfCards; index++)
@@ -638,7 +645,7 @@ namespace OOP3Durak
                             foundFailedDefense = true;
                             System.Diagnostics.Debug.WriteLine("First successful attack found: " + currentCardBox);
                             //if the end of the row has been reached
-                            if (index % nMovesPerRow == nMovesPerRow - 1)
+                            if (index == 4)
                             {
                                 //move nextCardLocation to the next row
                                 nextCardLocation = playPanel.DisplayRectangle.Location;
@@ -682,6 +689,7 @@ namespace OOP3Durak
                 pmi = 0;
             }
         }
+
         /// <summary>
         /// Clears the panels and reloads the deck.
         /// </summary>
@@ -804,7 +812,10 @@ namespace OOP3Durak
 
             else// no defence card
             {
-                //firstSuccessfulAttackInRound = dragCard;
+                if (firstSuccessfulAttackInRound == null)
+                {
+                    firstSuccessfulAttackInRound = dragCard;
+                }
                 btnPass.Enabled = true;
                 btnPass.ForeColor = Color.Orange;
                 btnBat.Enabled = false;

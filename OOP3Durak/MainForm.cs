@@ -81,6 +81,8 @@ namespace OOP3Durak
         /// </summary>
         private float playPanelPercOfCardWidthCovered = 0.30F;
 
+        bool reversePlayPanel = false;
+
         /// <summary>
         /// Used to generate Card objects from a Deck
         /// </summary>
@@ -487,10 +489,6 @@ namespace OOP3Durak
             RealignCards(pnlCardPlayer1);
             RealignPlayPanel(pnlPlay);
             return isAcceptable;
-
-                
-
-
         }
 
         /// <summary>
@@ -565,22 +563,24 @@ namespace OOP3Durak
                 double currentRatio = (double)cardWidth / cardHeight;
                 int visibleWidth = Convert.ToInt32(visibleWidthPercentage * cardWidth);
 
-                //If the width of the cards is too big for them to fit in the panel
-                if ((nMovesPerRow * (cardWidth + visibleWidth)) + ((nMovesPerRow + 1) * playPanelSidePadding) > playPanel.Width)
+                if (numberOfCards > nMovesPerRow * 2)
                 {
-                    //Choose the width of the cards to make them fit
-                    cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
-                    cardHeight = Convert.ToInt32(cardWidth / currentRatio);
-                }
+                    //If the width of the cards is too big for them to fit in the panel
+                    if ((nMovesPerRow * (cardWidth + visibleWidth)) + ((nMovesPerRow + 1) * playPanelSidePadding) > playPanel.Width)
+                    {
+                        //Choose the width of the cards to make them fit
+                        cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
+                        cardHeight = Convert.ToInt32(cardWidth / currentRatio);
+                    }
 
-                //If the height of the cards is too big for them to fit in the panel
-                if ((nMovesPerColumn * cardHeight) + ((nMovesPerColumn + 1) * playPanelTopBottomPadding) > playPanel.Height)
-                {
-                    //Choose the height of the cards to make them fit
-                    cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1)) / nMovesPerColumn);
-                    cardWidth = Convert.ToInt32(currentRatio * cardHeight);
+                    //If the height of the cards is too big for them to fit in the panel
+                    if ((nMovesPerColumn * cardHeight) + ((nMovesPerColumn + 1) * playPanelTopBottomPadding) > playPanel.Height)
+                    {
+                        //Choose the height of the cards to make them fit
+                        cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1)) / nMovesPerColumn);
+                        cardWidth = Convert.ToInt32(currentRatio * cardHeight);
+                    }
                 }
-
                 bool foundFailedDefense = false;
 
                 //set position of first card
@@ -595,6 +595,7 @@ namespace OOP3Durak
                     currentCardBox.Width = cardWidth;
                     currentCardBox.Height = cardHeight;
                     currentCardBox.Location = nextCardLocation;
+                    currentCardBox.BringToFront();
                     //if the card of the failed defense has been found
                     if (foundFailedDefense)
                     {
@@ -630,7 +631,6 @@ namespace OOP3Durak
                             }
                             else
                             {
-                                currentCardBox.BringToFront();
                                 //if the end of the row has been reached
                                 if (((index + 1) / 2) % nMovesPerRow == 0)
                                 {
@@ -761,7 +761,7 @@ namespace OOP3Durak
                     }
                 }
                 RealignCards(pnlCardPlayer2);
-                RealignCards(pnlPlay);
+                //RealignCards(pnlPlay);
                 lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
                 lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
               GetResult(); 
@@ -881,7 +881,7 @@ namespace OOP3Durak
                 pnlPlay.Controls.Add(aCardBox);
                 PlyRoundCards.Add(aCardBox.TheCard);
                 // Realign cards in both Panels
-                RealignPlayPanel(pnlPlay);
+                //RealignPlayPanel(pnlPlay);
                 RealignCards(pnlCardPlayer2);
                 lblTurn.Text = "Defence or Take";
             }else
@@ -918,7 +918,7 @@ namespace OOP3Durak
                 pnlPlay.Controls.Add(aCardBox);
                 PlyRoundCards.Add(aCardBox.TheCard);
                 // Realign cards in both Panels
-                RealignPlayPanel(pnlPlay);
+                //RealignPlayPanel(pnlPlay);
                 RealignCards(pnlCardPlayer2);
                 lblTurn.Text = "Defence or Take";
                 GetResult();

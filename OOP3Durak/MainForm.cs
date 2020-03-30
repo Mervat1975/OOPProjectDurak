@@ -673,7 +673,7 @@ namespace OOP3Durak
                     {
                         working_index = pmi - working_index;
                     }
-                    System.Diagnostics.Debug.WriteLine("Working index: " + working_index + "; Index: " + index);
+                    //System.Diagnostics.Debug.WriteLine("Working index: " + working_index + "; Index: " + index);
                     CardBox.CardBox currentCardBox = staticCardsArray[working_index];
                     currentCardBox.Width = cardWidth;
                     currentCardBox.Height = cardHeight;
@@ -683,7 +683,8 @@ namespace OOP3Durak
                     if (foundFailedDefense)
                     {
                         //if the end of the row has been reached
-                        if (index % nMovesPerRow == nMovesPerRow - 1)
+                        if ((index == 3 && (pnlPlay.Controls[1] as CardBox.CardBox) == firstSuccessfulAttackInRound)
+                            || (index == 2 && (pnlPlay.Controls[2] as CardBox.CardBox) == firstSuccessfulAttackInRound))
                         {
                             //move nextCardLocation to the next row
                             nextCardLocation = playPanel.DisplayRectangle.Location;

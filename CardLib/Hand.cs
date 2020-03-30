@@ -82,6 +82,8 @@ namespace CardLib
         /// <returns></returns>
         public Card GetDefenceCard(Card aCard)
         {
+
+            
             foreach (Card listCard in CardList)
             {
                 if (aCard.TheSuit == listCard.TheSuit)

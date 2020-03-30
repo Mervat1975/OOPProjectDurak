@@ -184,6 +184,10 @@
       <DependentUpon>DurakDatabase.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\wrong.png" />
+    <None Include="Resources\good_jop.png" />
+    <None Include="Resources\winner.png" />
+    <None Include="Resources\durak.png" />
     <None Include="Resources\deck_equal_2.png" />
     <None Include="Resources\deck_more_2.png" />
     <None Include="Resources\back.png" />

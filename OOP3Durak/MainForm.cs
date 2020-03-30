@@ -7,6 +7,7 @@
  * @author      Oghenefejiro Theodore Abohweyere <oghenefejiro.abohweyere@durhamcollege.ca>
  * @version     3.0
  * @since       2020-03-18
+ * @image source https://favpng.com/png_view/king-cap-and-bells-jester-hat-card-game-durak-club-penguin-png/1gqKmMAV
  */
 
 
@@ -30,6 +31,7 @@ namespace OOP3Durak
         ///  Min number of the player card 
         /// </summary>
         private const int INITIAL_CARDS_NUMBER = 6;
+        private CardBox.CardBox lastComputerAttack = null;
         /// <summary>
         /// The amount, in points, that CardBox controls are enlarged when hovered over. 
         /// </summary>
@@ -43,6 +45,10 @@ namespace OOP3Durak
         /// start card to fill the deck 
         /// </summary>
         public static int StartCard = 6;
+        /// <summary>
+        /// 
+        /// </summary>
+        int[] CardSettingData = new int[] { 10, 6, 2 };
         /// <summary>
         /// number of player to display
         /// </summary>
@@ -75,7 +81,7 @@ namespace OOP3Durak
         /// else
         /// </summary>
         private int playPanelTopBottomPadding = 6;
-
+        
         /// <summary>
         /// Percentage of the card's width that is covered when cards are stacked on each
         /// other
@@ -131,6 +137,7 @@ namespace OOP3Durak
             myDealer.OutOfCards += myDealer_OutOfCards;
             // Show the number of cards in the deck
             lblCardCount.Text = myDealer.CardsRemaining.ToString();
+            cmpCardsNumber.Text = lblCardCount.Text;
             // show number of cards for the game
             lblPlayer1CardCount.Text = "";
             lblPlayer2CardCount.Text = "";
@@ -140,6 +147,23 @@ namespace OOP3Durak
             btnReady.Focus();
 
 
+        }
+        /// <summary>
+        /// change the cards number setting
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            pnlNumberOfCard.Visible = false;
+            StartCard = CardSettingData[cmpCardsNumber.SelectedIndex];
+            myDealer = new CardDealer(StartCard, TrumpIndexCard);
+            lblCardNumber.Text = "Number of Cards:"+myDealer.CardsRemaining.ToString();
+            pnlLeftButtons.Enabled = true;
+            pnlRightButtons.Enabled = true;
+            pnlPlay.Enabled = true;
+            pnlCardPlayer1.Enabled = true;
+            ResetDealer();
         }
 
         /// <summary>
@@ -161,9 +185,20 @@ namespace OOP3Durak
             playerHand2.CahangeRole();
             FillHand();
             SendTrash();
+            GetResult();
             GetComputerAttack();
         }
 
+        private void btnOkResult_Click(object sender, EventArgs e)
+        {
+            pnlResult.Visible = false;
+            pnlLeftButtons.Enabled = true;
+            pnlRightButtons.Enabled = true;
+            pnlPlay.Enabled = true;
+            pnlCardPlayer1.Enabled = true;
+            ResetDealer();
+
+        }
 
         /// <summary>
         /// Drag Drop on the play area 
@@ -173,14 +208,17 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void pnlPlay_DragDrop(object sender, DragEventArgs e)
         {
+           // MessageBox.Show("isAttacer"+playerHand1.IsAttacker.ToString());
+
+            
             // If there is a CardBox to move
             if (dragCard != null)
-            {
-                if (!AddCardTPlayPanel(dragCard))
-                    MessageBox.Show(" Unacceptable Card","ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
-
+            { bool x = AddCardTPlayPanel(dragCard);
+               // MessageBox.Show( "Add card"+ x.ToString());
+                if (!x)
+                   ShowMessage("Unacceptable Card", "wrong");
                  
-                //GetResult();
+                GetResult();
             }
         }
         /// <summary>
@@ -209,8 +247,10 @@ namespace OOP3Durak
             // get the trump card
             myDealer.DrawCard(ref TrumpCard);
             TrumpCard.FaceUp = true;
+            
             lblTrump.Text ="Trump: " + TrumpCard.TheSuit.ToString();
             pbTrumpCard.Image = TrumpCard.GetCardImage() as Image;
+            pbTrumpCard.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             TrumpCard.FaceUp = false;
             myDealer.AddCard(TrumpCard);
 
@@ -306,7 +346,15 @@ namespace OOP3Durak
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             // Reset the card dealer
-            ResetDealer();
+            pnlNumberOfCard.Top = (this.Height - pnlNumberOfCard.Height) / 2;
+            pnlNumberOfCard.Left = (this.Width - pnlNumberOfCard.Width) / 2;
+            pnlNumberOfCard.Visible = true;
+            pnlLeftButtons.Enabled = false;
+            pnlRightButtons.Enabled = false;
+            pnlPlay.Enabled = false;
+            pnlCardPlayer1.Enabled = false;
+            
+             
         }
 
         /// <summary>
@@ -331,9 +379,18 @@ namespace OOP3Durak
             btnPass.Enabled = false;
             btnPass.ForeColor = Color.Gray;
             lblTurn.Text = "Attack";
-             
+           
             FillHand();
-
+            GetResult();
+        }
+        /// <summary>
+        /// Demise the panel Messsage
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnMessageOk_Click(object sender, EventArgs e)
+        {
+            DemiseMessage();
         }
         #endregion
 
@@ -412,7 +469,7 @@ namespace OOP3Durak
         {
             //// Convert sender to a CardBox
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-            MessageBox.Show("Card DragEnter" + aCardBox.ToString());
+             
             //// If the conversion worked
             if (aCardBox != null)
             {
@@ -428,7 +485,7 @@ namespace OOP3Durak
         {
             //// Convert sender to a CardBox
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-            MessageBox.Show("Card DragDrop" + aCardBox.ToString());
+             
             //// If the conversion worked
             if (aCardBox != null)
             {
@@ -482,7 +539,7 @@ namespace OOP3Durak
                 dragCard.MouseEnter -= CardBox_MouseEnter;
                 dragCard.MouseLeave -= CardBox_MouseLeave;
                 dragCard.MouseDown -= CardBox_MouseDown;
-
+           
                 pnlCardPlayer1.Controls.Remove(dragCard);
                 playerHand1.Remove(dragCard.TheCard);
                 // Add the card to the Panel it was dropped in 
@@ -495,6 +552,7 @@ namespace OOP3Durak
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             RealignCards(pnlCardPlayer1);
             RealignPlayPanel(pnlPlay);
+         
             return isAcceptable;
         }
 
@@ -726,16 +784,16 @@ namespace OOP3Durak
             btnPass.ForeColor = Color.Gray;
             btnNewGame.Enabled = true;
             btnNewGame.ForeColor = Color.Orange;
-            lblTurn.Text = "Attack";
+            
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
             btnReady.Enabled = true;
             btnReady.ForeColor = Color.Orange;
-            btnNewGame.Enabled = false;
-            btnNewGame.ForeColor = Color.Gray;
+            
             lblPlayer1CardCount.Text = "";
             lblPlayer2CardCount.Text = "";
-              
+            lblTurn.Text = "";
+            lblTrump.Text = "";
             isResult = false;
 
 
@@ -775,9 +833,9 @@ namespace OOP3Durak
         /// <param name="aCard"></param>
         public void GetComputerDefence(Card aCard)
         {
-            
-
-            Card defencCard = playerHand2.GetDefenceCard(aCard);
+            Card defencCard;
+             
+                defencCard = playerHand2.GetDefenceCard(aCard);
 
             if (!(defencCard is null))
             {
@@ -831,7 +889,7 @@ namespace OOP3Durak
         /// to fill the players hand from the card dealer
         /// </summary>
         public void FillHand()
-        {
+        { 
              
             Card card = null;
              
@@ -929,6 +987,7 @@ namespace OOP3Durak
                 // Realign cards in both Panels
                 //RealignPlayPanel(pnlPlay);
                 RealignCards(pnlCardPlayer2);
+                lastComputerAttack = aCardBox;
                 lblTurn.Text = "Defence or Take";
             }else
             {
@@ -963,6 +1022,7 @@ namespace OOP3Durak
                 // Add the card to the play panel   
                 pnlPlay.Controls.Add(aCardBox);
                 PlyRoundCards.Add(aCardBox.TheCard);
+                lastComputerAttack = aCardBox;
                 // Realign cards in both Panels
                 //RealignPlayPanel(pnlPlay);
                 RealignCards(pnlCardPlayer2);
@@ -995,10 +1055,13 @@ namespace OOP3Durak
         /// <returns></returns>
         public bool IsValidDefence(Card aCard)
         {
-            CardBox.CardBox attakedCard = pnlPlay.Controls[pnlPlay.Controls.Count - 1] as CardBox.CardBox;
+            
+            CardBox.CardBox attakedCard = lastComputerAttack;
+           // MessageBox.Show(lastComputerAttack.ToString());
             if (aCard.TheSuit == attakedCard.TheCard.TheSuit)
             {
-                return (aCard.CompareTo(attakedCard.TheCard) > 0);
+              //  MessageBox.Show(aCard.CompareTo(attakedCard.TheCard).ToString());
+                return (aCard.CompareTo( attakedCard.TheCard) > 0);
             }
             else
             {
@@ -1030,26 +1093,50 @@ namespace OOP3Durak
         /// </summary>
         public void GetResult()
         {
-
+            if (myDealer.CardsRemaining > 0)
+                return;
             String result = "";
             if (playerHand1.RemainingCards() == 0)
-
+            {
                 result = "Congrats!! You are the WINNER";
+             pbResult.Image = Properties.Resources.ResourceManager.GetObject("winner") as Image;
+            }
             else
                     if (playerHand2.RemainingCards() == 0)
+            {
                 result = "Sorry!! your are the DURAK ";
+                pbResult.Image = Properties.Resources.ResourceManager.GetObject("durak") as Image;
+            }
             else if (playerHand1.RemainingCards() == 0 && playerHand2.RemainingCards() == 0)
+            {
                 result = "Draw!!! ";
+                pbResult.Image = Properties.Resources.ResourceManager.GetObject("good_jop") as Image;
+
+            }
             if (!result.Equals("")  && ! isResult)
             {
-                MessageBox.Show(result ,"GAME RESULT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                pnlResult.Top = (this.Height - pnlResult.Height) / 2;
+                pnlResult.Left = (this.Width - pnlResult.Width) / 2;
+                lblResult.Text = result;
+                pnlResult.Visible = true;
+                pnlLeftButtons.Enabled = false;
+                pnlRightButtons.Enabled = false;
+                pnlPlay.Enabled = false;
+                pnlCardPlayer1.Enabled = false;
                 isResult = true;
-                ResetDealer();
+                 
+               
+                
             }
 
         }
     
-       
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="aReAttackCard"></param>
+       /// <returns></returns>
         public bool IsValidReAttack(Card aReAttackCard)
         {
 
@@ -1060,9 +1147,33 @@ namespace OOP3Durak
             }
             return false;
         }
+         public void ShowMessage( string message, string imgName)
+        {
+            lblMessage.Text = message;
+            pbMessage.Image = Properties.Resources.ResourceManager.GetObject(imgName) as Image;
+
+            pnlMessage.Top = (this.Height - pnlMessage.Height) / 2;
+            pnlMessage.Left = (this.Width - pnlMessage.Width) / 2;
+            pnlMessage.Visible = true;
+            pnlLeftButtons.Enabled = false;
+            pnlRightButtons.Enabled = false;
+            pnlPlay.Enabled = false;
+            pnlCardPlayer1.Enabled = false;
+        }
+        public void DemiseMessage()
+        {
+            pnlMessage.Visible = false;
+            pnlLeftButtons.Enabled = true;
+            pnlRightButtons.Enabled = true;
+            pnlPlay.Enabled = true;
+            pnlCardPlayer1.Enabled = true;
+        }
+
+
+
         #endregion
- 
-        
+
+       
     }
 }
  

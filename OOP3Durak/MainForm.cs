@@ -276,7 +276,7 @@ namespace OOP3Durak
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
         }
         /// <summary>
-        /// add the cards fromplay area to player 1 area
+        /// add the cards from play area to  the player area hand
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -358,7 +358,7 @@ namespace OOP3Durak
         }
 
         /// <summary>
-        /// 
+        /// Pass the play area cards to the computer hand
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1050,7 +1050,8 @@ namespace OOP3Durak
 
         }
         /// <summary>
-        /// check if the player defence card is valid 
+        /// This function checks if the player defence card is valid
+        /// returns true unless returns false
         /// </summary>
         /// <param name="aCard"></param>
         /// <returns></returns>
@@ -1134,7 +1135,8 @@ namespace OOP3Durak
         }
     
        /// <summary>
-       /// 
+       /// This function checks the player reattack returns true 
+       /// if it is valid unless returns false
        /// </summary>
        /// <param name="aReAttackCard"></param>
        /// <returns></returns>
@@ -1148,6 +1150,11 @@ namespace OOP3Durak
             }
             return false;
         }
+        /// <summary>
+        /// View the message panel and enable/disenable form panels
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="imgName"></param>
          public void ShowMessage( string message, string imgName)
         {
             lblMessage.Text = message;
@@ -1161,6 +1168,9 @@ namespace OOP3Durak
             pnlPlay.Enabled = false;
             pnlCardPlayer1.Enabled = false;
         }
+        /// <summary>
+        /// Demise the Messag box panel and enable/disanable form panels
+        /// </summary>
         public void DemiseMessage()
         {
             pnlMessage.Visible = false;
@@ -1172,9 +1182,10 @@ namespace OOP3Durak
 
 
 
+
         #endregion
 
-       
+     
     }
 }
  

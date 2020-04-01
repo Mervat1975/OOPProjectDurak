@@ -96,11 +96,11 @@
             this.lblPlayer.ForeColor = System.Drawing.Color.White;
             this.lblPlayer.Location = new System.Drawing.Point(1, 12);
             this.lblPlayer.Name = "lblPlayer";
-            this.lblPlayer.Size = new System.Drawing.Size(134, 20);
+            this.lblPlayer.Size = new System.Drawing.Size(142, 20);
             this.lblPlayer.TabIndex = 9;
-            this.lblPlayer.Text = "Number of Player:";
+            this.lblPlayer.Text = "Number of Players:";
             this.FormUiDemoTips.SetToolTip(this.lblPlayer, "Home ");
-            // 
+             // 
             // lblCardNumber
             // 
             this.lblCardNumber.AutoSize = true;

@@ -1088,6 +1088,7 @@ namespace OOP3Durak
                 pbcTrash.Image = Properties.Resources.ResourceManager.GetObject("deck_more_2") as Image;
             pnlPlay.Controls.Clear();
             pmi = 0;
+            firstSuccessfulAttackInRound = null;
         }
         /// <summary>
         /// Get the Result

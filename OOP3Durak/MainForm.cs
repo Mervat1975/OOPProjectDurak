@@ -107,6 +107,8 @@ namespace OOP3Durak
         private CardBox.CardBox dragCard;
         private Hand playerHand1;
         private Hand playerHand2;
+        private static int player1Move;
+        private static int player2Move;
 
         #endregion
 
@@ -115,6 +117,7 @@ namespace OOP3Durak
         private const int COMPUTER = 0;
 
         private Cards PlyRoundCards = new Cards();
+        private bool isComputerFaildeffense;
 
         /// <summary>
         /// Constructor for frmMainForm
@@ -145,6 +148,8 @@ namespace OOP3Durak
             lblCardNumber.Text += " " + myDealer.CardsRemaining.ToString();
             lblPlayer.Text += " " + NumberOfPlayer;
             btnReady.Focus();
+            player1Move = 0;
+            player2Move = 0;
 
 
         }
@@ -183,6 +188,7 @@ namespace OOP3Durak
         {
             playerHand1.CahangeRole();
             playerHand2.CahangeRole();
+            isComputerFaildeffense = false;
             FillHand();
             SendTrash();
             GetResult();
@@ -213,9 +219,9 @@ namespace OOP3Durak
             
             // If there is a CardBox to move
             if (dragCard != null)
-            { bool x = AddCardTPlayPanel(dragCard);
+            {  
                // MessageBox.Show( "Add card"+ x.ToString());
-                if (!x)
+                if (! AddCardTPlayPanel(dragCard))
                    ShowMessage("Unacceptable Card", "wrong");
                  
                 GetResult();
@@ -274,6 +280,8 @@ namespace OOP3Durak
             lblTurn.Text = "Attack";
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
+            player1Move = 0;
+            player2Move = 0;
         }
         /// <summary>
         /// add the cards from play area to  the player area hand
@@ -288,6 +296,7 @@ namespace OOP3Durak
                 aCardBox.TheCard.FaceUp = true;
                 playerHand1.Add(aCardBox.TheCard);
             }
+            isComputerFaildeffense = false;
             pnlPlay.Controls.Clear();          
             PlyRoundCards.Clear();
             FillHand(); 
@@ -299,6 +308,8 @@ namespace OOP3Durak
             btnPass.Enabled = false;
             btnPass.ForeColor = Color.Gray;
             GetComputerAttack();
+            player1Move = 0;
+            player2Move = 0;
 
         }
 
@@ -379,7 +390,7 @@ namespace OOP3Durak
             btnPass.Enabled = false;
             btnPass.ForeColor = Color.Gray;
             lblTurn.Text = "Attack";
-           
+            isComputerFaildeffense = false;
             FillHand();
             GetResult();
         }
@@ -505,13 +516,21 @@ namespace OOP3Durak
         /// <param name="cardBox"></param>
         public bool AddCardTPlayPanel(CardBox.CardBox cardBox)
         {
+            //MessageBox.Show("playerHand1.IsAttacker: " + playerHand1.IsAttacker.ToString());
+           
+            
+
+            if (player1Move == 6) return false;
             bool isAcceptable = false;
-           // the droped card comes from player1 as attacker
-            if (playerHand1.IsAttacker == true) 
-              {
+            // the droped card comes from player1 as attacker
+            if (playerHand1.IsAttacker == true)
+            {
+                //MessageBox.Show("IsValidAttack: " + (IsValidAttack(dragCard.TheCard)).ToString());
                 //  either the first attack or re-attack
-                if (pnlPlay.Controls.Count == 0 ||  IsValidReAttack(dragCard.TheCard))
+                if (IsValidAttack(dragCard.TheCard))
                 {
+
+                    player1Move++;
                     isAcceptable = true;
                     // reomve cardbox events
                     dragCard.MouseEnter -= CardBox_MouseEnter;
@@ -521,33 +540,37 @@ namespace OOP3Durak
 
                     // Remove the card from the Player1 Panel and hand
                     playerHand1.Remove(dragCard.TheCard);
-                    
+
                     pnlCardPlayer1.Controls.Remove(dragCard);
                     // Add the card to the play Panel  and play card list  
                     pnlPlay.Controls.Add(dragCard);
                     PlyRoundCards.Add(dragCard.TheCard);
-                    
+
                     lblTurn.Text = "";
                     // get the computer defence
-                    GetComputerDefence(dragCard.TheCard); 
+                    if (!isComputerFaildeffense)
+                        GetComputerDefence(dragCard.TheCard);
                 }
             }
             else
-            if (IsValidDefence(dragCard.TheCard))
             {
-                isAcceptable = true;
-                dragCard.MouseEnter -= CardBox_MouseEnter;
-                dragCard.MouseLeave -= CardBox_MouseLeave;
-                dragCard.MouseDown -= CardBox_MouseDown;
-           
-                pnlCardPlayer1.Controls.Remove(dragCard);
-                playerHand1.Remove(dragCard.TheCard);
-                // Add the card to the Panel it was dropped in 
-                pnlPlay.Controls.Add(dragCard);
-                PlyRoundCards.Add(dragCard.TheCard);
-                GetComputerReAttack();
-            }
+               // MessageBox.Show("IsValidDefence:" + (IsValidDefence(dragCard.TheCard)).ToString());
+                if (IsValidDefence(dragCard.TheCard))
+                {
 
+                    player1Move++;
+                    isAcceptable = true;
+                    dragCard.MouseEnter -= CardBox_MouseEnter;
+                    dragCard.MouseLeave -= CardBox_MouseLeave;
+                    dragCard.MouseDown -= CardBox_MouseDown;
+                    pnlCardPlayer1.Controls.Remove(dragCard);
+                    playerHand1.Remove(dragCard.TheCard);
+                    // Add the card to the Panel it was dropped in 
+                    pnlPlay.Controls.Add(dragCard);
+                    PlyRoundCards.Add(dragCard.TheCard);
+                    GetComputerReAttack();
+                }
+            }
             // Realign cards in both Panels
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             RealignCards(pnlCardPlayer1);
@@ -834,12 +857,15 @@ namespace OOP3Durak
         /// <param name="aCard"></param>
         public void GetComputerDefence(Card aCard)
         {
-            Card defencCard;
+            if ( player2Move == 6) return;
+                Card defencCard;
              
                 defencCard = playerHand2.GetDefenceCard(aCard);
 
             if (!(defencCard is null))
             {
+                isComputerFaildeffense = false;
+                player2Move++;
                 playerHand2.Remove(defencCard);
 
                 for (int i = 0; i < pnlCardPlayer2.Controls.Count; i++)
@@ -875,6 +901,7 @@ namespace OOP3Durak
                 {
                     firstSuccessfulAttackInRound = dragCard;
                 }
+                isComputerFaildeffense = true;
                 btnPass.Enabled = true;
                 btnPass.ForeColor = Color.Orange;
                 btnBat.Enabled = false;
@@ -960,10 +987,12 @@ namespace OOP3Durak
         /// Get the computer attack
         /// </summary>
         public void GetComputerAttack()
-        {   
+        {
+            if (player2Move == 6) return;
             Card aCard = playerHand2.getAttack();
             if (!(aCard is null))
             {
+                player2Move++;
                 CardBox.CardBox aCardBox = new CardBox.CardBox(aCard);
                 aCardBox.FaceUp = true;
                 pnlCardPlayer2.Controls.Clear();
@@ -1000,10 +1029,13 @@ namespace OOP3Durak
         /// </summary>
         public void GetComputerReAttack()
         {
+            if (player2Move == 6) return;
+
             Card aCard = playerHand2.getReAttack(PlyRoundCards);
 
             if (!(aCard is null))
-            {
+            {   
+              player2Move ++;
                 CardBox.CardBox aCardBox = new CardBox.CardBox(aCard);
                 aCardBox.FaceUp = true;
                 pnlCardPlayer2.Controls.Clear();
@@ -1059,16 +1091,21 @@ namespace OOP3Durak
         {
             
             CardBox.CardBox attakedCard = lastComputerAttack;
-           // MessageBox.Show(lastComputerAttack.ToString());
-            if (aCard.TheSuit == attakedCard.TheCard.TheSuit)
-            {
-              //  MessageBox.Show(aCard.CompareTo(attakedCard.TheCard).ToString());
-                return (aCard.CompareTo( attakedCard.TheCard) > 0);
-            }
-            else
-            {
-                return (aCard.TheSuit == TrumpCard.TheSuit);
-            }
+             // MessageBox.Show(lastComputerAttack.ToString() + "VS" + aCard.ToString());
+              
+             
+                if (aCard.TheSuit == attakedCard.TheCard.TheSuit)
+                {
+                if (aCard.TheRank == Rank.Ace) return true;
+                if (attakedCard.TheRank == Rank.Ace) return false;
+                return (aCard.TheRank > attakedCard.TheRank);
+
+                }
+                else
+                {
+                    return (aCard.TheSuit == TrumpCard.TheSuit);
+                }
+            
 
         }
         /// <summary>
@@ -1088,6 +1125,8 @@ namespace OOP3Durak
             else
                 pbcTrash.Image = Properties.Resources.ResourceManager.GetObject("deck_more_2") as Image;
             pnlPlay.Controls.Clear();
+            player1Move = 0;
+            player2Move = 0;
             pmi = 0;
         }
         /// <summary>
@@ -1140,14 +1179,16 @@ namespace OOP3Durak
        /// </summary>
        /// <param name="aReAttackCard"></param>
        /// <returns></returns>
-        public bool IsValidReAttack(Card aReAttackCard)
+        public bool IsValidAttack(Card aReAttackCard)
         {
-
+            if (PlyRoundCards.Count == 0) return true;
+             
             foreach (Card aCard in PlyRoundCards)
             {
                 if (aReAttackCard.TheRank == aCard.TheRank)
                     return true;
             }
+
             return false;
         }
         /// <summary>

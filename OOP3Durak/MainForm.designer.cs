@@ -65,6 +65,8 @@
             this.pbMessage = new System.Windows.Forms.PictureBox();
             this.lblMessage = new System.Windows.Forms.Label();
             this.btnMessageOk = new System.Windows.Forms.Button();
+            this.prgTrash = new System.Windows.Forms.ProgressBar();
+            this.timTrash = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrumpCard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbcTrash)).BeginInit();
@@ -100,7 +102,7 @@
             this.lblPlayer.TabIndex = 9;
             this.lblPlayer.Text = "Number of Players:";
             this.FormUiDemoTips.SetToolTip(this.lblPlayer, "Home ");
-             // 
+            // 
             // lblCardNumber
             // 
             this.lblCardNumber.AutoSize = true;
@@ -399,7 +401,7 @@
             this.pnlResult.Controls.Add(this.pbResult);
             this.pnlResult.Controls.Add(this.lblResult);
             this.pnlResult.Controls.Add(this.btnOkResult);
-            this.pnlResult.Location = new System.Drawing.Point(27, 538);
+            this.pnlResult.Location = new System.Drawing.Point(27, 330);
             this.pnlResult.Name = "pnlResult";
             this.pnlResult.Size = new System.Drawing.Size(287, 202);
             this.pnlResult.TabIndex = 27;
@@ -442,7 +444,7 @@
             this.pnlMessage.Controls.Add(this.pbMessage);
             this.pnlMessage.Controls.Add(this.lblMessage);
             this.pnlMessage.Controls.Add(this.btnMessageOk);
-            this.pnlMessage.Location = new System.Drawing.Point(1037, 441);
+            this.pnlMessage.Location = new System.Drawing.Point(1053, 498);
             this.pnlMessage.Name = "pnlMessage";
             this.pnlMessage.Size = new System.Drawing.Size(287, 202);
             this.pnlMessage.TabIndex = 28;
@@ -479,12 +481,26 @@
             this.btnMessageOk.UseVisualStyleBackColor = false;
             this.btnMessageOk.Click += new System.EventHandler(this.btnMessageOk_Click);
             // 
+            // prgTrash
+            // 
+            this.prgTrash.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.prgTrash.Location = new System.Drawing.Point(974, 445);
+            this.prgTrash.Name = "prgTrash";
+            this.prgTrash.Size = new System.Drawing.Size(119, 23);
+            this.prgTrash.TabIndex = 29;
+            this.prgTrash.Visible = false;
+            // 
+            // timTrash
+            // 
+            this.timTrash.Tick += new System.EventHandler(this.timTrash_Tick);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1267, 752);
+            this.Controls.Add(this.prgTrash);
             this.Controls.Add(this.pnlMessage);
             this.Controls.Add(this.pnlResult);
             this.Controls.Add(this.pnlRightButtons);
@@ -564,6 +580,8 @@
         private System.Windows.Forms.PictureBox pbMessage;
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Button btnMessageOk;
+        private System.Windows.Forms.ProgressBar prgTrash;
+        private System.Windows.Forms.Timer timTrash;
     }
 }
 

@@ -339,7 +339,7 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnTake_Click(object sender, EventArgs e)
         {
-
+            
             foreach (CardBox.CardBox aCardBox in pnlPlay.Controls)
             {
                 aCardBox.TheCard.FaceUp = true;
@@ -433,6 +433,7 @@ namespace OOP3Durak
                 aCardBox.TheCard.FaceUp = false;
                 playerHand2.Add(aCardBox.TheCard);
             }
+            
             pnlPlay.Controls.Clear();
             plyRoundCards.Clear();
             orderedCardBoxes.Clear();

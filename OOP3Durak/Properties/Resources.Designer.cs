@@ -149,6 +149,15 @@ namespace OOP3Durak.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream slide {
+            get {
+                return ResourceManager.GetStream("slide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream trash1 {
             get {
                 return ResourceManager.GetStream("trash1", resourceCulture);

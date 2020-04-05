@@ -256,12 +256,17 @@ namespace OOP3Durak
             pbTrumpCard.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             TrumpCard.FaceUp = false;
             myDealer.AddCard(TrumpCard);
-
+            Card smallestTrumpPlayer1 = null;
+            Card smallestTrumpPlayer2 = null;
             for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
             {
 
                 pnlCardPlayer1.Controls.Add(GetCardBox(playerHand1.CardList[i] as Card, PLAER));
-                pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
+                if ((playerHand1.CardList[i] as Card).TheSuit == TrumpCard.TheSuit)
+                    smallestTrumpPlayer1 = playerHand1.CardList[i] as Card;
+                   pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
+                if ((playerHand2.CardList[i] as Card).TheSuit == TrumpCard.TheSuit)
+                    smallestTrumpPlayer2 = playerHand2.CardList[i] as Card;
             }
 
             RealignCards(pnlCardPlayer2);
@@ -274,7 +279,46 @@ namespace OOP3Durak
             btnReady.ForeColor = Color.Gray;
             btnNewGame.Enabled = true;
             btnNewGame.ForeColor = Color.Orange;
-            lblTurn.Text = "Attack";
+            ///  determine who is the first attacker
+            if (smallestTrumpPlayer1 is null && smallestTrumpPlayer2 is null)
+            { 
+                playerHand1.IsAttacker = true;
+                playerHand2.IsAttacker = false;
+            }
+            else if (smallestTrumpPlayer1 is null && !( smallestTrumpPlayer2 is null))
+               {
+                playerHand1.IsAttacker = false;
+                playerHand2.IsAttacker = true;
+                }
+            else if (!(smallestTrumpPlayer1 is null) &&  smallestTrumpPlayer2 is null)
+            {
+                playerHand1.IsAttacker = true;
+                playerHand2.IsAttacker = false;
+            }
+            else
+            {
+                if(smallestTrumpPlayer1.TheRank< smallestTrumpPlayer2.TheRank)
+                {
+                    playerHand1.IsAttacker = true;
+                    playerHand2.IsAttacker = false;
+                }
+                    else
+                {
+                    playerHand1.IsAttacker = false;
+                    playerHand2.IsAttacker = true;
+                }
+
+            }
+             if(playerHand1.IsAttacker)
+            {
+                lblTurn.Text = "Attack";
+            }
+             else
+            {
+                GetComputerAttack();
+            }
+            ///
+
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
             player1Move = 0;

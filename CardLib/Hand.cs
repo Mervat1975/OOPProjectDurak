@@ -110,16 +110,33 @@ namespace CardLib
         /// <returns></returns>
         public Card getAttack()
         {
-               
-            foreach (Card listCard in CardList)
-            {
-                if ( listCard.TheSuit!= TrumpSuit)
-                {
-                    return listCard;
-                }
-            }
             if (CardList.Count > 0)
-                return CardList[0] as Card;
+            {
+                Card smallestRankCard = null;
+                int listCounter = 0;
+                while ( listCounter< CardList.Count && smallestRankCard is null)
+                {
+                    if ((CardList[listCounter] as Card).TheSuit != TrumpSuit)
+                    {
+
+                        smallestRankCard = CardList[listCounter] as Card;
+                    }
+                }
+
+                foreach (Card cardList in CardList )
+                {
+                    if (cardList.TheSuit != TrumpSuit)
+                        if (cardList.TheRank != Rank.Ace)
+                            if (smallestRankCard.TheRank > cardList.TheRank)
+                                smallestRankCard = cardList;
+                }
+
+                if (smallestRankCard is null)
+                    smallestRankCard = CardList[0] as Card;
+
+                return smallestRankCard;
+
+            }
             else
                 return null;
         }

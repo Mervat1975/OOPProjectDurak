@@ -436,6 +436,8 @@ namespace OOP3Durak
             btnPass.ForeColor = Color.Gray;
             lblTurn.Text = "Attack";
             isComputerFaildeffense = false;
+            player1Move = 0;
+            player2Move = 0;
             FillHand();
             GetResult();
         }
@@ -1269,7 +1271,9 @@ namespace OOP3Durak
        /// <returns></returns>
         public bool IsValidAttack(Card aReAttackCard)
         {
-            if (plyRoundCards.Count == 0) return true;
+
+             
+            if (plyRoundCards.Count == 0 ) return true;
              
             foreach (Card aCard in plyRoundCards)
             {

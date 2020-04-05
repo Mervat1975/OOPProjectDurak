@@ -18,6 +18,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Media;
 
 namespace OOP3Durak
 {
@@ -215,10 +216,13 @@ namespace OOP3Durak
             
             // If there is a CardBox to move
             if (dragCard != null)
-            {  
-               // MessageBox.Show( "Add card"+ x.ToString());
-                if (! AddCardTPlayPanel(dragCard))
-                   ShowMessage("Unacceptable Card", "wrong");
+            {
+                // MessageBox.Show( "Add card"+ x.ToString());
+                if (!AddCardTPlayPanel(dragCard))
+                {
+                    SoundPlayer snd = new SoundPlayer(Properties.Resources.wrong1);
+                    snd.Play();
+                    ShowMessage("Unacceptable Card", "wrong"); }
                  
                 GetResult();
             }
@@ -230,6 +234,10 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnReady_Click(object sender, EventArgs e)
         {
+
+            SoundPlayer snd = new SoundPlayer(Properties.Resources.ready);
+            snd.Play();
+
             prgTrash.Visible = false;
             Card card = null;
             //  create hand for players
@@ -452,6 +460,12 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void timTrash_Tick(object sender, EventArgs e)
         {
+            if (prgTrash.Value == 0)
+            {
+                SoundPlayer snd = new SoundPlayer(Properties.Resources.trash1);
+                snd.Play();
+            }
+
             prgTrash.Visible = true;
             prgTrash.Value += 10;
             if (prgTrash.Value == prgTrash.Maximum)
@@ -611,18 +625,21 @@ namespace OOP3Durak
         public bool AddCardTPlayPanel(CardBox.CardBox cardBox)
         {
             //MessageBox.Show("playerHand1.IsAttacker: " + playerHand1.IsAttacker.ToString());
+
            
-            
 
             if (player1Move == 6) return false;
             bool isAcceptable = false;
             // the droped card comes from player1 as attacker
             if (playerHand1.IsAttacker == true)
-            {
+            { 
+                
                 //MessageBox.Show("IsValidAttack: " + (IsValidAttack(dragCard.TheCard)).ToString());
                 //  either the first attack or re-attack
                 if (IsValidAttack(dragCard.TheCard))
                 {
+                    SoundPlayer snd = new SoundPlayer(Properties.Resources.card);
+                    snd.Play();
 
                     player1Move++;
                     isAcceptable = true;
@@ -652,6 +669,8 @@ namespace OOP3Durak
                // MessageBox.Show("IsValidDefence:" + (IsValidDefence(dragCard.TheCard)).ToString());
                 if (IsValidDefence(dragCard.TheCard))
                 {
+                    SoundPlayer snd = new SoundPlayer(Properties.Resources.card);
+                    snd.Play();
 
                     player1Move++;
                     isAcceptable = true;
@@ -953,6 +972,8 @@ namespace OOP3Durak
 
             if (!(defencCard is null))
             {
+                SoundPlayer snd = new SoundPlayer(Properties.Resources.card);
+                snd.Play();
                 isComputerFaildeffense = false;
                 player2Move++;
                 playerHand2.Remove(defencCard);
@@ -1084,6 +1105,8 @@ namespace OOP3Durak
             Card aCard = playerHand2.getAttack();
             if (!(aCard is null))
             {
+                SoundPlayer snd = new SoundPlayer(Properties.Resources.card);
+                snd.Play();
                 player2Move++;
                 CardBox.CardBox aCardBox = new CardBox.CardBox(aCard);
                 aCardBox.FaceUp = true;
@@ -1127,7 +1150,9 @@ namespace OOP3Durak
             Card aCard = playerHand2.getReAttack(plyRoundCards);
 
             if (!(aCard is null))
-            {   
+            {
+                SoundPlayer snd = new SoundPlayer(Properties.Resources.card);
+                snd.Play();
               player2Move ++;
                 CardBox.CardBox aCardBox = new CardBox.CardBox(aCard);
                 aCardBox.FaceUp = true;
@@ -1200,7 +1225,11 @@ namespace OOP3Durak
         public  void SendTrash()
         {
 
-            
+            //
+           
+
+            //
+
             TrashCardCount += pnlPlay.Controls.Count;
 
             plyRoundCards.Clear();
@@ -1226,15 +1255,21 @@ namespace OOP3Durak
         {
             if (myDealer.CardsRemaining > 0)
                 return;
+            SoundPlayer snd = null;
             String result = "";
             if (playerHand1.RemainingCards() == 0)
             {
+                 snd = new SoundPlayer(Properties.Resources.winner1);
+                snd.Play();
                 result = "Congrats!! You are the WINNER";
              pbResult.Image = Properties.Resources.ResourceManager.GetObject("winner") as Image;
             }
             else
-                    if (playerHand2.RemainingCards() == 0)
+        if (playerHand2.RemainingCards() == 0)
             {
+                snd = new SoundPlayer(Properties.Resources.sad);
+                snd.Stream.Position = 0;
+                snd.Play();
                 result = "Sorry!! your are the DURAK ";
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("durak") as Image;
             }
@@ -1317,10 +1352,10 @@ namespace OOP3Durak
 
 
 
+       
 
         #endregion
-
-
+ 
     }
 }
  

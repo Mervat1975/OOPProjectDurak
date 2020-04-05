@@ -184,6 +184,13 @@
       <DependentUpon>DurakDatabase.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\sad.wav" />
+    <None Include="Resources\losersound.wav" />
+    <None Include="Resources\wrong.wav" />
+    <None Include="Resources\winner.wav" />
+    <None Include="Resources\ready.wav" />
+    <None Include="Resources\card.wav" />
+    <None Include="Resources\trash.wav" />
     <None Include="Resources\wrong.png" />
     <None Include="Resources\good_jop.png" />
     <None Include="Resources\winner.png" />

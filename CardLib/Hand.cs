@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  Hand.cs - Defines the Hand class
+*  Author:     Mervat Mustafa
+*  Since:      March 2020 <update>
+*/
 using System.Collections;
-
+ 
 namespace CardLib
 {
    public class Hand

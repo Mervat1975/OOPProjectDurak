@@ -1,4 +1,4 @@
-﻿/* Card.cs - Defines the Card  class
+﻿/* CardDealer.cs - Defines the Card Dealer  class
  * Author:     Mervat Mustafa
  * Since:      March 2020 <update>
  */

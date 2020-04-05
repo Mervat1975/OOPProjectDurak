@@ -148,6 +148,8 @@ namespace OOP3Durak
             btnReady.Focus();
             player1Move = 0;
             player2Move = 0;
+            prgTrash.BackColor = Color.Black;
+            prgTrash.ForeColor = Color.Orange;
 
 
         }
@@ -184,13 +186,7 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnBat_Click(object sender, EventArgs e)
         {
-            playerHand1.CahangeRole();
-            playerHand2.CahangeRole();
-            isComputerFaildeffense = false;
-            FillHand();
-            SendTrash();
-            GetResult();
-            GetComputerAttack();
+            timTrash.Start();
         }
 
         private void btnOkResult_Click(object sender, EventArgs e)
@@ -232,6 +228,7 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnReady_Click(object sender, EventArgs e)
         {
+            prgTrash.Visible = false;
             Card card = null;
             //  create hand for players
             playerHand1 = new Hand(true, 1, myDealer.GetCard(TrumpIndexCard - 1).TheSuit);
@@ -257,12 +254,17 @@ namespace OOP3Durak
             pbTrumpCard.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             TrumpCard.FaceUp = false;
             myDealer.AddCard(TrumpCard);
-
+            Card smallestTrumpPlayer1 = null;
+            Card smallestTrumpPlayer2 = null;
             for (int i = 0; i < INITIAL_CARDS_NUMBER; i++)
             {
 
                 pnlCardPlayer1.Controls.Add(GetCardBox(playerHand1.CardList[i] as Card, PLAER));
-                pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
+                if ((playerHand1.CardList[i] as Card).TheSuit == TrumpCard.TheSuit)
+                    smallestTrumpPlayer1 = playerHand1.CardList[i] as Card;
+                   pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
+                if ((playerHand2.CardList[i] as Card).TheSuit == TrumpCard.TheSuit)
+                    smallestTrumpPlayer2 = playerHand2.CardList[i] as Card;
             }
 
             RealignCards(pnlCardPlayer2);
@@ -275,7 +277,46 @@ namespace OOP3Durak
             btnReady.ForeColor = Color.Gray;
             btnNewGame.Enabled = true;
             btnNewGame.ForeColor = Color.Orange;
-            lblTurn.Text = "Attack";
+            ///  determine who is the first attacker
+            if (smallestTrumpPlayer1 is null && smallestTrumpPlayer2 is null)
+            { 
+                playerHand1.IsAttacker = true;
+                playerHand2.IsAttacker = false;
+            }
+            else if (smallestTrumpPlayer1 is null && !( smallestTrumpPlayer2 is null))
+               {
+                playerHand1.IsAttacker = false;
+                playerHand2.IsAttacker = true;
+                }
+            else if (!(smallestTrumpPlayer1 is null) &&  smallestTrumpPlayer2 is null)
+            {
+                playerHand1.IsAttacker = true;
+                playerHand2.IsAttacker = false;
+            }
+            else
+            {
+                if(smallestTrumpPlayer1.TheRank< smallestTrumpPlayer2.TheRank)
+                {
+                    playerHand1.IsAttacker = true;
+                    playerHand2.IsAttacker = false;
+                }
+                    else
+                {
+                    playerHand1.IsAttacker = false;
+                    playerHand2.IsAttacker = true;
+                }
+
+            }
+             if(playerHand1.IsAttacker)
+            {
+                lblTurn.Text = "Attack";
+            }
+             else
+            {
+                GetComputerAttack();
+            }
+            ///
+
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
             player1Move = 0;
@@ -363,8 +404,9 @@ namespace OOP3Durak
             pnlRightButtons.Enabled = false;
             pnlPlay.Enabled = false;
             pnlCardPlayer1.Enabled = false;
-            
-             
+            prgTrash.Visible = false;
+
+
         }
 
         /// <summary>
@@ -392,6 +434,53 @@ namespace OOP3Durak
             isComputerFaildeffense = false;
             FillHand();
             GetResult();
+        }
+
+        /// <summary>
+        ///  Increase the progress bar value 
+        /// when the progress value reaches to the maximum 
+        /// check the who is the attacker and made the right 
+        ///  response and send the play area cards to trash
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timTrash_Tick(object sender, EventArgs e)
+        {
+            prgTrash.Visible = true;
+            prgTrash.Value += 10;
+            if (prgTrash.Value == prgTrash.Maximum)
+            {
+                if (!playerHand1.IsAttacker)
+                {
+                    btnTake.Enabled = false;
+                    btnTake.ForeColor = Color.Gray;
+                    btnTake.Focus();
+                    btnBat.Enabled = false;
+                    btnBat.ForeColor = Color.Gray;
+                    btnPass.Enabled = false;
+                    btnPass.ForeColor = Color.Gray;
+                    playerHand1.CahangeRole();
+                    playerHand2.CahangeRole();
+                    lblTurn.Text = "Attack";
+                    SendTrash();
+
+                }
+                else
+                {
+                    playerHand1.CahangeRole();
+                    playerHand2.CahangeRole();
+                    isComputerFaildeffense = false;
+                    FillHand();
+                    SendTrash();
+                    GetResult();
+                    GetComputerAttack();
+
+                }
+
+                prgTrash.Value = 0;
+                prgTrash.Visible = false;
+                timTrash.Stop();
+            }
         }
         /// <summary>
         /// Demise the panel Messsage
@@ -1065,17 +1154,9 @@ namespace OOP3Durak
             }
             else
             {
-                btnTake.Enabled = false;
-                btnTake.ForeColor = Color.Gray;
-                btnTake.Focus();
-                btnBat.Enabled = false;
-                btnBat.ForeColor = Color.Gray;
-                btnPass.Enabled = false;
-                btnPass.ForeColor = Color.Gray;
-                playerHand1.CahangeRole();
-                playerHand2.CahangeRole();
-                lblTurn.Text = "Attack";
-                SendTrash();
+                
+
+                timTrash.Start();
                 FillHand();
 
             }
@@ -1112,15 +1193,17 @@ namespace OOP3Durak
         /// <summary>
         /// Move the card from play area to trash area
         /// </summary>
-        public void SendTrash()
-        {   
+        public  void SendTrash()
+        {
+
+            
             TrashCardCount += pnlPlay.Controls.Count;
-           
-            PlyRoundCards.Clear();           
+
+            PlyRoundCards.Clear();
             lblTrashCount.Text = TrashCardCount.ToString();
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
-            if (TrashCardCount==2)
+            if (TrashCardCount == 2)
                 pbcTrash.Image = Properties.Resources.ResourceManager.GetObject("deck_equal_2") as Image;
 
             else
@@ -1221,14 +1304,16 @@ namespace OOP3Durak
             pnlRightButtons.Enabled = true;
             pnlPlay.Enabled = true;
             pnlCardPlayer1.Enabled = true;
+            prgTrash.Visible = false;
         }
+
 
 
 
 
         #endregion
 
-     
+
     }
 }
  

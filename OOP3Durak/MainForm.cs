@@ -88,8 +88,6 @@ namespace OOP3Durak
         /// </summary>
         private float playPanelPercOfCardWidthCovered = 0.30F;
 
-        bool reversePlayPanel = false;
-
         /// <summary>
         /// Used to generate Card objects from a Deck
         /// </summary>
@@ -299,6 +297,7 @@ namespace OOP3Durak
             isComputerFaildeffense = false;
             pnlPlay.Controls.Clear();          
             PlyRoundCards.Clear();
+            firstSuccessfulAttackInRound = lastComputerAttack;
             FillHand(); 
             lblTurn.Text = "";
             btnTake.Enabled = false;
@@ -897,9 +896,11 @@ namespace OOP3Durak
 
             else// no defence card
             {
-                if (firstSuccessfulAttackInRound == null)
+                //if no successful attack has been set
+                if (firstSuccessfulAttackInRound is null)
                 {
                     firstSuccessfulAttackInRound = dragCard;
+                    System.Diagnostics.Debug.WriteLine("GetComputerDefence: " + firstSuccessfulAttackInRound);
                 }
                 isComputerFaildeffense = true;
                 btnPass.Enabled = true;

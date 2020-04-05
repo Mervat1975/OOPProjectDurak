@@ -114,7 +114,9 @@ namespace OOP3Durak
         private const int PLAER = 1;
         private const int COMPUTER = 0;
 
-        private Cards PlyRoundCards = new Cards();
+        private Cards plyRoundCards = new Cards();
+        private List<CardBox.CardBox> orderedCardBoxes = new List<CardBox.CardBox>();
+
         private bool isComputerFaildeffense;
 
         /// <summary>
@@ -337,7 +339,8 @@ namespace OOP3Durak
             }
             isComputerFaildeffense = false;
             pnlPlay.Controls.Clear();          
-            PlyRoundCards.Clear();
+            plyRoundCards.Clear();
+            orderedCardBoxes.Clear();
             firstSuccessfulAttackInRound = lastComputerAttack;
             FillHand(); 
             lblTurn.Text = "";
@@ -423,7 +426,8 @@ namespace OOP3Durak
                 playerHand2.Add(aCardBox.TheCard);
             }
             pnlPlay.Controls.Clear();
-            PlyRoundCards.Clear();
+            plyRoundCards.Clear();
+            orderedCardBoxes.Clear();
             btnTake.Enabled = false;
             btnTake.ForeColor = Color.Gray;
             btnBat.Enabled = false;
@@ -632,7 +636,8 @@ namespace OOP3Durak
                     pnlCardPlayer1.Controls.Remove(dragCard);
                     // Add the card to the play Panel  and play card list  
                     pnlPlay.Controls.Add(dragCard);
-                    PlyRoundCards.Add(dragCard.TheCard);
+                    plyRoundCards.Add(dragCard.TheCard);
+                    orderedCardBoxes.Add(dragCard);
 
                     lblTurn.Text = "";
                     // get the computer defence
@@ -655,7 +660,8 @@ namespace OOP3Durak
                     playerHand1.Remove(dragCard.TheCard);
                     // Add the card to the Panel it was dropped in 
                     pnlPlay.Controls.Add(dragCard);
-                    PlyRoundCards.Add(dragCard.TheCard);
+                    plyRoundCards.Add(dragCard.TheCard);
+                    orderedCardBoxes.Add(dragCard);
                     GetComputerReAttack();
                 }
             }
@@ -769,23 +775,15 @@ namespace OOP3Durak
                 nextCardLocation.X += playPanelSidePadding;
                 nextCardLocation.Y += playPanelTopBottomPadding;
 
-                //Copy controls in panel to an array in order to maintain their order
-                CardBox.CardBox[] staticCardsArray = new CardBox.CardBox[numberOfCards];
-                playPanel.Controls.CopyTo(staticCardsArray, 0);
-
                 int secondColumnX = 0;
                 int thirdColummnX = 0;
                 //arrange the cards in the deck in reverse because the data structure returned
                 //by the "Controls" property behaves kinda like a stack
                 for (int index = 0; index < numberOfCards; index++)
                 {
-                    int working_index = index;
-                    if(working_index <= pmi)
-                    {
-                        working_index = pmi - working_index;
-                    }
+                    
                     //System.Diagnostics.Debug.WriteLine("Working index: " + working_index + "; Index: " + index);
-                    CardBox.CardBox currentCardBox = staticCardsArray[working_index];
+                    CardBox.CardBox currentCardBox = orderedCardBoxes[index];
                     currentCardBox.Width = cardWidth;
                     currentCardBox.Height = cardHeight;
                     currentCardBox.Location = nextCardLocation;
@@ -874,7 +872,8 @@ namespace OOP3Durak
             playerHand1.Clear();
             playerHand2.Clear();
             pnlPlay.Controls.Clear();
-            PlyRoundCards.Clear();
+            plyRoundCards.Clear();
+            orderedCardBoxes.Clear();
             lblTrump.Text = "";
             // Load the card dealer 
             myDealer.LoadCardDealer();
@@ -964,7 +963,8 @@ namespace OOP3Durak
                         pnlCardPlayer2.Controls.Remove(aCardBox);
                         aCardBox.FaceUp = true;
                         pnlPlay.Controls.Add(aCardBox);
-                        PlyRoundCards.Add(aCardBox.TheCard);
+                        plyRoundCards.Add(aCardBox.TheCard);
+                        orderedCardBoxes.Add(aCardBox);
                         btnBat.Enabled = true;
                         btnBat.ForeColor = Color.Orange;
                         btnPass.Enabled = false;
@@ -1103,7 +1103,8 @@ namespace OOP3Durak
 
                 // Add the card to the play panel   
                 pnlPlay.Controls.Add(aCardBox);
-                PlyRoundCards.Add(aCardBox.TheCard);
+                plyRoundCards.Add(aCardBox.TheCard);
+                orderedCardBoxes.Add(aCardBox);
                 // Realign cards in both Panels
                 //RealignPlayPanel(pnlPlay);
                 RealignCards(pnlCardPlayer2);
@@ -1121,7 +1122,7 @@ namespace OOP3Durak
         {
             if (player2Move == 6) return;
 
-            Card aCard = playerHand2.getReAttack(PlyRoundCards);
+            Card aCard = playerHand2.getReAttack(plyRoundCards);
 
             if (!(aCard is null))
             {   
@@ -1144,7 +1145,8 @@ namespace OOP3Durak
                 btnPass.ForeColor = Color.Gray;
                 // Add the card to the play panel   
                 pnlPlay.Controls.Add(aCardBox);
-                PlyRoundCards.Add(aCardBox.TheCard);
+                plyRoundCards.Add(aCardBox.TheCard);
+                orderedCardBoxes.Add(aCardBox);
                 lastComputerAttack = aCardBox;
                 // Realign cards in both Panels
                 //RealignPlayPanel(pnlPlay);
@@ -1199,7 +1201,8 @@ namespace OOP3Durak
             
             TrashCardCount += pnlPlay.Controls.Count;
 
-            PlyRoundCards.Clear();
+            plyRoundCards.Clear();
+            orderedCardBoxes.Clear();
             lblTrashCount.Text = TrashCardCount.ToString();
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
@@ -1266,9 +1269,9 @@ namespace OOP3Durak
        /// <returns></returns>
         public bool IsValidAttack(Card aReAttackCard)
         {
-            if (PlyRoundCards.Count == 0) return true;
+            if (plyRoundCards.Count == 0) return true;
              
-            foreach (Card aCard in PlyRoundCards)
+            foreach (Card aCard in plyRoundCards)
             {
                 if (aReAttackCard.TheRank == aCard.TheRank)
                     return true;

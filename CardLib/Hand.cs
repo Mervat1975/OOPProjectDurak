@@ -121,6 +121,7 @@ namespace CardLib
 
                         smallestRankCard = CardList[listCounter] as Card;
                     }
+                    listCounter++;
                 }
 
                 foreach (Card cardList in CardList )

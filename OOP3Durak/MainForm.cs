@@ -1046,7 +1046,7 @@ namespace OOP3Durak
 
             for (int i = 0; i < playerHand2.RemainingCards(); i++)
             {
-                pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, PLAER));
+                pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
             }
 
             lblCardCount.Text = myDealer.CardsRemaining.ToString();

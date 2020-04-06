@@ -372,7 +372,7 @@
             // btnOk
             // 
             this.btnOk.BackColor = System.Drawing.Color.White;
-            this.btnOk.Location = new System.Drawing.Point(93, 124);
+            this.btnOk.Location = new System.Drawing.Point(98, 124);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 42);
             this.btnOk.TabIndex = 0;

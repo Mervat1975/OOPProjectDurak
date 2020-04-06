@@ -234,8 +234,6 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void pnlPlay_DragDrop(object sender, DragEventArgs e)
         {
-           // MessageBox.Show("isAttacer"+playerHand1.IsAttacker.ToString());
-
             
             // If there is a CardBox to move
             if (dragCard != null)

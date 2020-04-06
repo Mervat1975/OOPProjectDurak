@@ -67,6 +67,9 @@
             this.btnMessageOk = new System.Windows.Forms.Button();
             this.prgTrash = new System.Windows.Forms.ProgressBar();
             this.timTrash = new System.Windows.Forms.Timer(this.components);
+            this.radClick = new System.Windows.Forms.RadioButton();
+            this.radDrag = new System.Windows.Forms.RadioButton();
+            this.lblMode = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrumpCard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbcTrash)).BeginInit();
@@ -136,7 +139,7 @@
             this.pnlPlay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.pnlPlay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlPlay.ForeColor = System.Drawing.Color.White;
-            this.pnlPlay.Location = new System.Drawing.Point(388, 211);
+            this.pnlPlay.Location = new System.Drawing.Point(388, 215);
             this.pnlPlay.Name = "pnlPlay";
             this.pnlPlay.Size = new System.Drawing.Size(550, 305);
             this.pnlPlay.TabIndex = 8;
@@ -232,7 +235,7 @@
             this.lblTurn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.lblTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTurn.ForeColor = System.Drawing.Color.Black;
-            this.lblTurn.Location = new System.Drawing.Point(388, 516);
+            this.lblTurn.Location = new System.Drawing.Point(388, 520);
             this.lblTurn.Name = "lblTurn";
             this.lblTurn.Size = new System.Drawing.Size(550, 38);
             this.lblTurn.TabIndex = 15;
@@ -330,12 +333,14 @@
             // pnlNumberOfCard
             // 
             this.pnlNumberOfCard.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlNumberOfCard.Controls.Add(this.radClick);
+            this.pnlNumberOfCard.Controls.Add(this.radDrag);
             this.pnlNumberOfCard.Controls.Add(this.lblNumberOfcard);
             this.pnlNumberOfCard.Controls.Add(this.cmpCardsNumber);
             this.pnlNumberOfCard.Controls.Add(this.btnOk);
-            this.pnlNumberOfCard.Location = new System.Drawing.Point(27, 79);
+            this.pnlNumberOfCard.Location = new System.Drawing.Point(27, 135);
             this.pnlNumberOfCard.Name = "pnlNumberOfCard";
-            this.pnlNumberOfCard.Size = new System.Drawing.Size(287, 157);
+            this.pnlNumberOfCard.Size = new System.Drawing.Size(287, 189);
             this.pnlNumberOfCard.TabIndex = 24;
             this.pnlNumberOfCard.Visible = false;
             // 
@@ -344,7 +349,7 @@
             this.lblNumberOfcard.BackColor = System.Drawing.Color.Black;
             this.lblNumberOfcard.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNumberOfcard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblNumberOfcard.Location = new System.Drawing.Point(6, 13);
+            this.lblNumberOfcard.Location = new System.Drawing.Point(16, 13);
             this.lblNumberOfcard.Name = "lblNumberOfcard";
             this.lblNumberOfcard.Size = new System.Drawing.Size(253, 32);
             this.lblNumberOfcard.TabIndex = 17;
@@ -359,15 +364,15 @@
             "20",
             "36",
             "52"});
-            this.cmpCardsNumber.Location = new System.Drawing.Point(83, 57);
+            this.cmpCardsNumber.Location = new System.Drawing.Point(78, 52);
             this.cmpCardsNumber.Name = "cmpCardsNumber";
-            this.cmpCardsNumber.Size = new System.Drawing.Size(121, 32);
+            this.cmpCardsNumber.Size = new System.Drawing.Size(126, 32);
             this.cmpCardsNumber.TabIndex = 1;
             // 
             // btnOk
             // 
             this.btnOk.BackColor = System.Drawing.Color.White;
-            this.btnOk.Location = new System.Drawing.Point(102, 102);
+            this.btnOk.Location = new System.Drawing.Point(93, 124);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 42);
             this.btnOk.TabIndex = 0;
@@ -494,12 +499,51 @@
             // 
             this.timTrash.Tick += new System.EventHandler(this.timTrash_Tick);
             // 
+            // radClick
+            // 
+            this.radClick.AutoSize = true;
+            this.radClick.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radClick.Location = new System.Drawing.Point(144, 95);
+            this.radClick.Name = "radClick";
+            this.radClick.Size = new System.Drawing.Size(60, 20);
+            this.radClick.TabIndex = 16;
+            this.radClick.Text = "Click";
+            this.radClick.UseVisualStyleBackColor = true;
+            // 
+            // radDrag
+            // 
+            this.radDrag.AutoSize = true;
+            this.radDrag.Checked = true;
+            this.radDrag.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radDrag.Location = new System.Drawing.Point(78, 93);
+            this.radDrag.Name = "radDrag";
+            this.radDrag.Size = new System.Drawing.Size(60, 20);
+            this.radDrag.TabIndex = 17;
+            this.radDrag.TabStop = true;
+            this.radDrag.Text = "Drag";
+            this.radDrag.UseVisualStyleBackColor = true;
+            this.radDrag.CheckedChanged += new System.EventHandler(this.radDrag_CheckedChanged);
+            // 
+            // lblMode
+            // 
+            this.lblMode.AutoSize = true;
+            this.lblMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMode.ForeColor = System.Drawing.Color.White;
+            this.lblMode.Location = new System.Drawing.Point(2, 74);
+            this.lblMode.Name = "lblMode";
+            this.lblMode.Size = new System.Drawing.Size(57, 20);
+            this.lblMode.TabIndex = 30;
+            this.lblMode.Text = "Mode: ";
+            this.FormUiDemoTips.SetToolTip(this.lblMode, "Home ");
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1267, 752);
+            this.Controls.Add(this.lblMode);
+            this.Controls.Add(this.lblTurn);
             this.Controls.Add(this.prgTrash);
             this.Controls.Add(this.pnlMessage);
             this.Controls.Add(this.pnlResult);
@@ -511,7 +555,6 @@
             this.Controls.Add(this.lblTrashCount);
             this.Controls.Add(this.lblPlayer2CardCount);
             this.Controls.Add(this.lblPlayer1CardCount);
-            this.Controls.Add(this.lblTurn);
             this.Controls.Add(this.pbTrumpCard);
             this.Controls.Add(this.pbcTrash);
             this.Controls.Add(this.pnlCardPlayer2);
@@ -533,6 +576,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbTrumpCard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbcTrash)).EndInit();
             this.pnlNumberOfCard.ResumeLayout(false);
+            this.pnlNumberOfCard.PerformLayout();
             this.pnlLeftButtons.ResumeLayout(false);
             this.pnlRightButtons.ResumeLayout(false);
             this.pnlResult.ResumeLayout(false);
@@ -582,6 +626,9 @@
         private System.Windows.Forms.Button btnMessageOk;
         private System.Windows.Forms.ProgressBar prgTrash;
         private System.Windows.Forms.Timer timTrash;
+        private System.Windows.Forms.RadioButton radDrag;
+        private System.Windows.Forms.RadioButton radClick;
+        private System.Windows.Forms.Label lblMode;
     }
 }
 

@@ -26,7 +26,7 @@ namespace OOP3Durak
     public partial class frmMainForm : Form
     {
         #region FIELDS AND PROPERTIES
-
+        public bool isDragMode = true;
         private static int TrashCardCount = 0;
         /// <summary>
         ///  Min number of the player card 
@@ -153,6 +153,18 @@ namespace OOP3Durak
             player2Move = 0;
             prgTrash.BackColor = Color.Black;
             prgTrash.ForeColor = Color.Orange;
+            if (isDragMode)
+            {
+                radClick.Checked = false;
+                radDrag.Checked = true;
+                lblMode.Text = "Mode: Drag";
+            }
+            else
+            {
+                radClick.Checked = true;
+                radDrag.Checked = false;
+                lblMode.Text = "Mode: Click";
+            }
 
 
         }
@@ -171,6 +183,17 @@ namespace OOP3Durak
             pnlRightButtons.Enabled = true;
             pnlPlay.Enabled = true;
             pnlCardPlayer1.Enabled = true;
+            if (radDrag.Checked)
+            {
+                isDragMode = true;
+               
+                lblMode.Text = "Mode: Drag";
+            }
+            else
+            {
+                isDragMode = false;
+                lblMode.Text = "Mode: Click";
+            }
             ResetDealer();
         }
 
@@ -218,7 +241,7 @@ namespace OOP3Durak
             if (dragCard != null)
             {
                 // MessageBox.Show( "Add card"+ x.ToString());
-                if (!AddCardTPlayPanel(dragCard))
+                if (!AddCardTPlayPanel())
                 {
                     SoundPlayer snd = new SoundPlayer(Properties.Resources.wrong1);
                     snd.Play();
@@ -529,8 +552,7 @@ namespace OOP3Durak
             if (aCardBox != null)
             {
                 aCardBox.Size = new Size(regularSize.Width + POP, regularSize.Height + POP);// Enlarge the card for visual effect
-                aCardBox.Top = 0;// move the card to the top edge of the panel.
-
+                aCardBox.Top = 0;// move the card to the top edge of the panel.              
             }
         }
         /// <summary>
@@ -546,6 +568,8 @@ namespace OOP3Durak
             {
                 aCardBox.Size = regularSize; // resize the card back to regular size
                 aCardBox.Top = POP; // move the card down to accommodate for the smaller size.
+               
+                
             }
         }
         /// <summary>
@@ -556,7 +580,7 @@ namespace OOP3Durak
 
             // Set dragCard 
             dragCard = sender as CardBox.CardBox;
-
+            
             // If the conversion worked
             if (dragCard != null)
             {
@@ -564,6 +588,17 @@ namespace OOP3Durak
                 // Set the data to be dragged and the allowed effect dragging will have
                 DoDragDrop(dragCard, DragDropEffects.Move);
             }
+        }
+
+        /// <summary>
+        /// Initiate a card move on the start of a drag.
+        /// </summary>
+        private void CardBox_MouseUp(object sender, MouseEventArgs e)
+        {
+
+            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
+           // MessageBox.Show("MouseUp" + aCardBox.ToString());
+
         }
         /// <summary>
         /// When a CardBox is clicked, move to the opposite panel.
@@ -573,48 +608,26 @@ namespace OOP3Durak
             // Convert sender to a CardBox
 
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-            MessageBox.Show("Card Click" + aCardBox.ToString());
+            
             // If the conversion worked
             if (aCardBox != null)
             {
-                AddCardTPlayPanel(aCardBox);
-            }
+                dragCard = aCardBox;               
+                if (!AddCardTPlayPanel())
+                {
+                    SoundPlayer snd = new SoundPlayer(Properties.Resources.wrong1);
+                    snd.Play();
+                    ShowMessage("Unacceptable Card", "wrong");
+                }
 
-        }
-
-        /// <summary>
-        /// When a drag is enters a card, enter the parent panel instead.
-        /// </summary>
-        private void CardBox_DragEnter(object sender, DragEventArgs e)
-        {
-            //// Convert sender to a CardBox
-            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-             
-            //// If the conversion worked
-            if (aCardBox != null)
-            {
-                //    // Do the operation on the parent panel instead
-                pnlPlay_DragEnter(aCardBox.Parent, e);
+                GetResult();
             }
         }
 
-        /// <summary>
-        /// When a drag is dropped on a card, drop on the parent panel instead.
-        /// </summary>
-        private void CardBox_DragDrop(object sender, DragEventArgs e)
-        {
-            //// Convert sender to a CardBox
-            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-             
-            //// If the conversion worked
-            if (aCardBox != null)
-            {
-                //    // Do the operation on the parent panel instead
-                pnlPlay_DragDrop(aCardBox.Parent, e);
-            }
-        }
+         
+  
 
-
+     
         #endregion
 
         #region HELPER METHODS
@@ -623,7 +636,7 @@ namespace OOP3Durak
         /// Add new card to the play area
         /// </summary>
         /// <param name="cardBox"></param>
-        public bool AddCardTPlayPanel(CardBox.CardBox cardBox)
+        public bool AddCardTPlayPanel()
         {
             //MessageBox.Show("playerHand1.IsAttacker: " + playerHand1.IsAttacker.ToString());
 
@@ -678,6 +691,7 @@ namespace OOP3Durak
                     dragCard.MouseEnter -= CardBox_MouseEnter;
                     dragCard.MouseLeave -= CardBox_MouseLeave;
                     dragCard.MouseDown -= CardBox_MouseDown;
+                    dragCard.Click -= CardBox_Click;
                     pnlCardPlayer1.Controls.Remove(dragCard);
                     playerHand1.Remove(dragCard.TheCard);
                     // Add the card to the Panel it was dropped in 
@@ -943,21 +957,21 @@ namespace OOP3Durak
             CardBox.CardBox aCardBox = null;
             // Create a new CardBox control based on the card drawn
             aCardBox = new CardBox.CardBox(card);
-            if (player != COMPUTER)
+           if (player != COMPUTER)
             {
                 aCardBox.FaceUp = true;
                 // Wire events handlers to the new control:
-                // Wire CardBox_Click
-                aCardBox.Click += CardBox_Click;
-                // wire CardBox_MouseDown, CardBox_DragEnter, and CardBox_DragDrop
-                aCardBox.MouseDown += CardBox_MouseDown;
-                aCardBox.DragDrop += CardBox_DragDrop;
-                aCardBox.DragEnter += CardBox_DragEnter;
+
+                if( radClick.Checked)
+                    aCardBox.Click += CardBox_Click;
+                else
+                 aCardBox.MouseDown += CardBox_MouseDown;
                 // wire CardBox_MouseEnter for the "POP" visual effect  
                 aCardBox.MouseEnter += CardBox_MouseEnter;
                 // wire CardBox_MouseLeave for the regular visual effect
                 aCardBox.MouseLeave += CardBox_MouseLeave;
             }
+
             return aCardBox;
         }
         /// <summary>
@@ -1115,7 +1129,7 @@ namespace OOP3Durak
                 playerHand2.Remove(aCard);
                 for (int i = 0; i < playerHand2.RemainingCards(); i++)
                 {
-                    pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, 0));
+                    pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
 
                 }
                 lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
@@ -1161,7 +1175,7 @@ namespace OOP3Durak
                 playerHand2.Remove(aCard);
                 for (int i = 0; i < playerHand2.RemainingCards(); i++)
                 {
-                    pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, 0));
+                    pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
                 }
                 lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
                 btnTake.Enabled = true;
@@ -1226,13 +1240,7 @@ namespace OOP3Durak
         public  void SendTrash()
         {
 
-            //
-           
-
-            //
-
             TrashCardCount += pnlPlay.Controls.Count;
-
             plyRoundCards.Clear();
             orderedCardBoxes.Clear();
             lblTrashCount.Text = TrashCardCount.ToString();
@@ -1353,10 +1361,19 @@ namespace OOP3Durak
 
 
 
-       
+
 
         #endregion
- 
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void radDrag_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
  

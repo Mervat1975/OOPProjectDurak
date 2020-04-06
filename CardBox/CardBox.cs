@@ -168,7 +168,6 @@ namespace CardBox
             if (Click != null)
                 Click(this, e);
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -185,32 +184,7 @@ namespace CardBox
                 MouseDown(this, e);
 
         }
-    
-
-        new public event DragEventHandler DragDrop;
-        private void pbMyPictureBox_DragDrop(object sender, DragEventArgs e)
-        {
-            if (DragDrop != null)
-                DragDrop(this, e);
-        }
-       
-        /// <summary>
-        /// 
-        /// </summary>
-        new public event DragEventHandler DragEnter;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pbMyPictureBox_DragEnter(object sender, DragEventArgs e)
-        {
-            if (DragEnter != null)
-                DragEnter(this, e);
-        }
-
-
-       
+ 
         new public event EventHandler MouseEnter;
         /// <summary>
         /// An event  handler for the user clicking the picturebox control.
@@ -235,7 +209,12 @@ namespace CardBox
                 MouseLeave(this, e);
 
         }
+
+
         #endregion
+
+      
+ 
     } 
 
        

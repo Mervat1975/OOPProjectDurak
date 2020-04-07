@@ -774,12 +774,12 @@ namespace OOP3Durak
                 int nMovesPerRow = 3;
                 int nMovesPerColumn = numberOfCards / nMovesPerRow;
                 float visibleWidthPercentage = 1 - playPanelPercOfCardWidthCovered;
-                int cardWidth = playPanel.Controls[0].Width;
-                int cardHeight = playPanel.Controls[0].Height;
+                int cardWidth = 100; // playPanel.Controls[0].Width;
+                int cardHeight = 153; // playPanel.Controls[0].Height;
                 double currentRatio = (double)cardWidth / cardHeight;
                 int visibleWidth = Convert.ToInt32(visibleWidthPercentage * cardWidth);
 
-                if (numberOfCards > nMovesPerRow * 2)
+             /*   if (numberOfCards > nMovesPerRow * 2)
                 {
                     //If the width of the cards is too big for them to fit in the panel
                     if ((nMovesPerRow * (cardWidth + visibleWidth)) + ((nMovesPerRow + 1) * playPanelSidePadding) > playPanel.Width)
@@ -796,7 +796,7 @@ namespace OOP3Durak
                         cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1)) / nMovesPerColumn);
                         cardWidth = Convert.ToInt32(currentRatio * cardHeight);
                     }
-                }
+                }*/
 
                 if(pmi > numberOfCards-1)
                 {

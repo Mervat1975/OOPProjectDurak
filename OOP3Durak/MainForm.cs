@@ -1289,7 +1289,7 @@ namespace OOP3Durak
 
                 int numericId = id ?? default(int);
                 int? currentWins = userDataHandler.getWins(numericId);
-                userDataHandler.setWins(numericId, (currentWins ?? default(int)));
+                userDataHandler.setWins(numericId, (currentWins ?? default(int))+1);
                 userDataHandler.UpdateAll();
             }
             else
@@ -1312,7 +1312,7 @@ namespace OOP3Durak
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("good_jop") as Image;
                 int numericId = id ?? default(int);
                 int? currentTies = userDataHandler.getTies(numericId);
-                userDataHandler.setTies(numericId, (currentTies ?? default(int)));
+                userDataHandler.setTies(numericId, (currentTies ?? default(int))+1);
                 userDataHandler.UpdateAll();
             }
             if (!result.Equals("")  && ! isResult)

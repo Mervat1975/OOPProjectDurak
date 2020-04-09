@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace GameLog
 {
@@ -56,6 +57,20 @@ namespace GameLog
             {
                 Records = new List<Dictionary<string, string>>();
             }
+        }
+
+        /// <summary>
+        /// Hash the password
+        /// </summary>
+        /// <param name="plainPassword"></param>
+        /// <returns></returns>
+        private string hashPassword(string plainPassword)
+        {
+            var sha1 = new SHA1CryptoServiceProvider();
+            byte[] hashBytes = sha1.ComputeHash(Encoding.ASCII.GetBytes(plainPassword));
+
+            sha1.Clear();
+            return new ASCIIEncoding().GetString(hashBytes);
         }
 
         /// <summary>
@@ -124,7 +139,7 @@ namespace GameLog
 
             if (!(Records is null))
             {
-                Dictionary<string, string> userRecord = Records.Find(record => (record[NameKey] == username && record[PwdKey] == password));
+                Dictionary<string, string> userRecord = Records.Find(record => (record[NameKey] == username && record[PwdKey] == hashPassword(password)));
                 if(!(userRecord is null))
                 {
                     id = getId(userRecord);
@@ -207,7 +222,7 @@ namespace GameLog
         {
             if (!(Records is null))
             {
-                Records[id][PwdKey] = password;
+                Records[id][PwdKey] = hashPassword(password);
             }
         }
 
@@ -385,7 +400,7 @@ namespace GameLog
                 Dictionary<string, string> record = new Dictionary<string, string>();
                 record[TextUserDataHandler.idKey] = Records.Count.ToString();
                 record[TextUserDataHandler.NameKey] = name;
-                record[TextUserDataHandler.PwdKey] = password;
+                record[TextUserDataHandler.PwdKey] = hashPassword(password);
                 record[TextUserDataHandler.TiesKey] = ties.ToString();
                 record[TextUserDataHandler.WinsKey] = wins.ToString();
                 record[TextUserDataHandler.LossesKey] = losses.ToString();

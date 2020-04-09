@@ -18,7 +18,7 @@ namespace TestTextDataHandler
 
 			TextUserDataHandler userDataHandler = new TextUserDataHandler(readFile, writeFile);
 
-			if (userDataHandler.insert("Theodore", "Reaves", 5, 6, 7))
+			if (userDataHandler.insert("Solomon", "Sally", 5, 6, 7))
 			{
 				Console.WriteLine("User inserted successfully");
 			}
@@ -30,11 +30,19 @@ namespace TestTextDataHandler
 			//userDataHandler.reload();
 			bool exists = userDataHandler.nameExists("Theodore");
 
-			int? id = userDataHandler.login("Solomon", "passkey");
+			int? nullId = userDataHandler.login("Solomon", "Sally");
+			if (nullId != null)
+			{
+				int id = nullId ?? default(int);
+				int ties = userDataHandler.getTies(id) ?? default(int);
+
+				userDataHandler.setTies(id, ties + 1);
+				userDataHandler.UpdateAll();
+			}
 
 			Console.WriteLine("User Solomon:  " + exists);
 			Console.WriteLine("User David: " + userDataHandler.nameExists("David"));
-			Console.WriteLine("Solomon id: " + id);
+			Console.WriteLine("Solomon id: " + nullId);
 
 			Console.ReadKey();
 		}

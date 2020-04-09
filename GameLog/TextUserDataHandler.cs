@@ -14,15 +14,13 @@ namespace GameLog
 
         private static int namePos = 0;
         private static int pwdPos = 1;
-        private static int nGamesPos = 2;
-        private static int winsPos = 3;
-        private static int tiesPos = 4;
-        private static int lossesPos = 5;
+        private static int winsPos = 2;
+        private static int tiesPos = 3;
+        private static int lossesPos = 4;
 
         private static readonly string idKey = "I";
         private static readonly string nameKey = "F";
         private static readonly string pwdKey = "P";
-        private static readonly string nGamesKey = "NG";
         private static readonly string winsKey = "W";
         private static readonly string lossesKey = "L";
         private static readonly string tiesKey = "T";
@@ -36,8 +34,6 @@ namespace GameLog
         public static string NameKey => nameKey;
 
         public static string PwdKey => pwdKey;
-
-        public static string NGamesKey => nGamesKey;
 
         public static string WinsKey => winsKey;
 
@@ -70,15 +66,14 @@ namespace GameLog
             FileStream fileStream = File.Create(WriteFilePath);
             foreach(Dictionary<string, string> record in Records)
             {
-                string[] line = new string[6];
+                string[] line = new string[5];
                 line[namePos] = record[NameKey];
-                line[nGamesPos] = record[NGamesKey];
                 line[pwdPos] = record[PwdKey];
                 line[winsPos] = record[WinsKey];
                 line[lossesPos] = record[LossesKey];
                 line[tiesPos] = record[TiesKey];
 
-                string joinedLine = string.Join(Delimiter.ToString(), line);
+                string joinedLine = string.Join(Delimiter.ToString(), line)+"\n";
 
                 fileStream.Write(Encoding.ASCII.GetBytes(joinedLine), 0, joinedLine.Length);
             }
@@ -97,7 +92,6 @@ namespace GameLog
 
             string[] line = new string[6];
             line[namePos] = record[NameKey];
-            line[nGamesPos] = record[NGamesKey];
             line[pwdPos] = record[PwdKey];
             line[winsPos] = record[WinsKey];
             line[lossesPos] = record[LossesKey];
@@ -228,23 +222,10 @@ namespace GameLog
 
             if (!(Records is null))
             {
-                nGames = int.Parse(Records[id][NGamesKey]);
+                nGames = getWins(id) + getLosses(id) + getTies(id);
             }
 
             return nGames;
-        }
-
-        /// <summary>
-        /// Set the number of games of the user
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="nGames"></param>
-        public void setNumberOfGames(int id, int nGames)
-        {
-            if (!(Records is null))
-            {
-                Records[id][NGamesKey] = nGames.ToString();
-            }
         }
 
         /// <summary>
@@ -375,7 +356,6 @@ namespace GameLog
                     Dictionary<string, string> record = new Dictionary<string, string>();
                     record[NameKey] = rawRecord[namePos];
                     record[PwdKey] = rawRecord[pwdPos];
-                    record[NGamesKey] = rawRecord[nGamesPos];
                     record[WinsKey] = rawRecord[winsPos];
                     record[LossesKey] = rawRecord[lossesPos];
                     record[TiesKey] = rawRecord[tiesPos];
@@ -409,7 +389,6 @@ namespace GameLog
                 record[TextUserDataHandler.TiesKey] = ties.ToString();
                 record[TextUserDataHandler.WinsKey] = wins.ToString();
                 record[TextUserDataHandler.LossesKey] = losses.ToString();
-                record[TextUserDataHandler.NGamesKey] = (wins + losses + ties).ToString();
 
                 Append(record);
                 inserted = true;

@@ -9,12 +9,12 @@ namespace OOP3Durak
     {
         public static Player loginPlayer;
         private string userName = "";
-        private string password = "";
-        private string storagePath;
+        private string storagePath = "userData.txt";
         TextUserDataHandler userDataHandler;
 
         public frmLogin()
         {
+            userDataHandler = new TextUserDataHandler(storagePath, storagePath);
             InitializeComponent();
         }
 
@@ -66,10 +66,8 @@ namespace OOP3Durak
                 lblError.Text = exc.ToString();
                 MessageBox.Show(lblError.Text);
             }
-            
-
-
         }
+
         /// <summary>
         /// 
         /// </summary>

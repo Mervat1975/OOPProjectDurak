@@ -163,6 +163,10 @@
       <Project>{9a9273e6-b58a-43fd-84b4-2aba4e50d880}</Project>
       <Name>CardLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameLog\GameLog.csproj">
+      <Project>{ad0b7d43-44b7-425e-8f7a-9ee870830f9a}</Project>
+      <Name>GameLog</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

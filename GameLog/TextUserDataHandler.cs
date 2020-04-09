@@ -70,7 +70,7 @@ namespace GameLog
             byte[] hashBytes = sha1.ComputeHash(Encoding.ASCII.GetBytes(plainPassword));
 
             sha1.Clear();
-            return new ASCIIEncoding().GetString(hashBytes);
+            return Convert.ToBase64String(hashBytes);
         }
 
         /// <summary>

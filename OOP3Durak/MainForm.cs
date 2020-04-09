@@ -19,6 +19,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Media;
+using GameLog;
 
 namespace OOP3Durak
 {
@@ -28,6 +29,12 @@ namespace OOP3Durak
         #region FIELDS AND PROPERTIES
         public bool isDragMode = true;
         private static int TrashCardCount = 0;
+
+        private int? id;
+        private string storagePath;
+
+        TextUserDataHandler userDataHandler;
+
         /// <summary>
         ///  Min number of the player card 
         /// </summary>
@@ -125,6 +132,15 @@ namespace OOP3Durak
         /// </summary>
         public frmMainForm()
         {
+            InitializeComponent();
+        }
+
+        public frmMainForm(int? id, string storagePath)
+        {
+            this.id = id;
+            this.storagePath = storagePath;
+            userDataHandler = new TextUserDataHandler(storagePath, storagePath);
+
             InitializeComponent();
         }
 
@@ -1269,7 +1285,12 @@ namespace OOP3Durak
                  snd = new SoundPlayer(Properties.Resources.winner1);
                 snd.Play();
                 result = "Congrats!! You are the WINNER";
-             pbResult.Image = Properties.Resources.ResourceManager.GetObject("winner") as Image;
+                pbResult.Image = Properties.Resources.ResourceManager.GetObject("winner") as Image;
+
+                int numericId = id ?? default(int);
+                int? currentWins = userDataHandler.getWins(numericId);
+                userDataHandler.setWins(numericId, (currentWins ?? default(int)));
+                userDataHandler.UpdateAll();
             }
             else
         if (playerHand2.RemainingCards() == 0)
@@ -1279,12 +1300,20 @@ namespace OOP3Durak
                 snd.Play();
                 result = "Sorry!! your are the DURAK ";
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("durak") as Image;
+
+                int numericId = id ?? default(int);
+                int? currentLosses = userDataHandler.getLosses(numericId);
+                userDataHandler.setLosses(numericId, (currentLosses??default(int))+ 1);
+                userDataHandler.UpdateAll();
             }
             else if (playerHand1.RemainingCards() == 0 && playerHand2.RemainingCards() == 0)
             {
                 result = "Draw!!! ";
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("good_jop") as Image;
-
+                int numericId = id ?? default(int);
+                int? currentTies = userDataHandler.getTies(numericId);
+                userDataHandler.setTies(numericId, (currentTies ?? default(int)));
+                userDataHandler.UpdateAll();
             }
             if (!result.Equals("")  && ! isResult)
             {
@@ -1355,12 +1384,6 @@ namespace OOP3Durak
             pnlCardPlayer1.Enabled = true;
             prgTrash.Visible = false;
         }
-
-
-
-
-
-
         #endregion
 
         private void panel1_Paint(object sender, PaintEventArgs e)

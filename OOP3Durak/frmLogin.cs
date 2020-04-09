@@ -1,16 +1,32 @@
 ﻿using System;
 using System.Windows.Forms;
 using CardLib;
+using GameLog;
+
 namespace OOP3Durak
 {
     public partial class frmLogin : Form
     {
         public static Player loginPlayer;
+        private string userName = "";
+        private string password = "";
+        private string storagePath;
+        TextUserDataHandler userDataHandler;
+
         public frmLogin()
         {
             InitializeComponent();
         }
- 
+
+        public frmLogin(string userName, string storagePath)
+        {
+            this.userName = userName;
+            this.storagePath = storagePath;
+            userDataHandler = new TextUserDataHandler(storagePath, storagePath);
+
+            InitializeComponent();
+        }
+
         /// <summary>
         /// End the application
         /// </summary>
@@ -30,12 +46,13 @@ namespace OOP3Durak
            
             try
             {
-                loginPlayer = DBL.Login(txtUserName.Text.Trim(), txtPassword.Text.Trim());
-                if (loginPlayer != null)
+                //loginPlayer = DBL.Login(txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                int? id = userDataHandler.login(txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                if (id != null)
                 {
                     
                     
-                    new frmPlayerHome().Show();
+                    new frmMainForm(id, storagePath).Show();
 
                     this.Close();
                 }
@@ -60,7 +77,7 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnNewUser_Click(object sender, EventArgs e)
         {
-            new frmNewPlayer().Show();
+            new frmNewPlayer(userName, storagePath).Show();
             this.Close();
 
         }

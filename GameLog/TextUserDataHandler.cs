@@ -10,7 +10,7 @@ namespace GameLog
         private string readFilePath;
         private string writeFilePath;
 
-        public char delimiter = ';';
+        private char delimiter = ';';
 
         private static int namePos = 0;
         private static int pwdPos = 1;
@@ -45,6 +45,8 @@ namespace GameLog
 
         public static string TiesKey => tiesKey;
 
+        public char Delimiter{ get => delimiter; set => delimiter = value; }
+
         /// <summary>
         /// Initialize TextDataReader and load records into memory
         /// </summary>
@@ -76,7 +78,7 @@ namespace GameLog
                 line[lossesPos] = record[LossesKey];
                 line[tiesPos] = record[TiesKey];
 
-                string joinedLine = string.Join(delimiter.ToString(), line);
+                string joinedLine = string.Join(Delimiter.ToString(), line);
 
                 fileStream.Write(Encoding.ASCII.GetBytes(joinedLine), 0, joinedLine.Length);
             }
@@ -101,7 +103,7 @@ namespace GameLog
             line[lossesPos] = record[LossesKey];
             line[tiesPos] = record[TiesKey];
 
-            string joinedLine = string.Join(delimiter.ToString(), line);
+            string joinedLine = string.Join(Delimiter.ToString(), line);
 
             fileStream.WriteLine(joinedLine);
 
@@ -369,7 +371,7 @@ namespace GameLog
                 int count = 0;
                 foreach(string line in File.ReadLines(this.ReadFilePath))
                 {
-                    string[] rawRecord = line.Split(this.delimiter);
+                    string[] rawRecord = line.Split(this.Delimiter);
                     Dictionary<string, string> record = new Dictionary<string, string>();
                     record[NameKey] = rawRecord[namePos];
                     record[PwdKey] = rawRecord[pwdPos];

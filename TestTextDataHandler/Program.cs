@@ -11,23 +11,30 @@ namespace TestTextDataHandler
 	{
 		static void Main(string[] args)
 		{
-			string writeFile = "out.txt";
-			string readFile = "out.txt";
+			string writeFile = "userData.txt";
+			string readFile = "userData.txt";
 
 			Dictionary<string, string> record = new Dictionary<string, string>();
 
 			TextUserDataHandler userDataHandler = new TextUserDataHandler(readFile, writeFile);
 
-			//userDataHandler.Append(record);
+			if (userDataHandler.insert("Theodore", "Reaves", 5, 6, 7))
+			{
+				Console.WriteLine("User inserted successfully");
+			}
+			else
+			{
+				Console.WriteLine("User exists");
+			}
 
-			userDataHandler.reload();
+			//userDataHandler.reload();
 			bool exists = userDataHandler.nameExists("Theodore");
 
-			int? id = userDataHandler.login("Roll", "akin");
+			int? id = userDataHandler.login("Solomon", "passkey");
 
-			Console.WriteLine("User Theodore:  " + exists);
+			Console.WriteLine("User Solomon:  " + exists);
 			Console.WriteLine("User David: " + userDataHandler.nameExists("David"));
-			Console.WriteLine("Theodore id: " + id);
+			Console.WriteLine("Solomon id: " + id);
 
 			Console.ReadKey();
 		}

@@ -20,11 +20,11 @@ namespace GameLog
         private static int lossesPos = 4;
 
         private static readonly string idKey = "I";
-        private static readonly string nameKey = "F";
-        private static readonly string pwdKey = "P";
-        private static readonly string winsKey = "W";
-        private static readonly string lossesKey = "L";
-        private static readonly string tiesKey = "T";
+        private static readonly string nameKey = "First Name";
+        private static readonly string pwdKey = "Password";
+        private static readonly string winsKey = "Wins";
+        private static readonly string lossesKey = "Losses";
+        private static readonly string tiesKey = "Draws";
 
         private List<Dictionary<string, string>> records;
 

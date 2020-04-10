@@ -182,7 +182,10 @@ namespace OOP3Durak
                 lblMode.Text = "Mode: Click";
             }
 
-
+            //  create hand for players
+            playerHand1 = new Hand(true, 1, myDealer.GetCard(TrumpIndexCard - 1).TheSuit);
+            playerHand2 = new Hand(false, 2, myDealer.GetCard(TrumpIndexCard - 1).TheSuit);
+            displayOptions();
         }
         /// <summary>
         /// change the cards number setting
@@ -438,11 +441,7 @@ namespace OOP3Durak
             }
         }
 
-
-        /// <summary>
-        /// Clears the panels and resets the card dealer.
-        /// </summary>
-        private void btnNewGame_Click(object sender, EventArgs e)
+        public void displayOptions()
         {
             // Reset the card dealer
             pnlNumberOfCard.Top = (this.Height - pnlNumberOfCard.Height) / 2;
@@ -453,8 +452,14 @@ namespace OOP3Durak
             pnlPlay.Enabled = false;
             pnlCardPlayer1.Enabled = false;
             prgTrash.Visible = false;
+        }
 
-
+        /// <summary>
+        /// Clears the panels and resets the card dealer.
+        /// </summary>
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            displayOptions();
         }
 
         /// <summary>

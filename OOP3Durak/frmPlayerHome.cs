@@ -54,8 +54,7 @@ namespace OOP3Durak
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new frmMainForm(userID, userDataHandler.ReadFilePath).ShowDialog();
-            this.Close();
+            new frmMainForm(userID, userDataHandler.ReadFilePath).Show();
         }
     }
 }

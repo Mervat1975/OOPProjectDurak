@@ -19,6 +19,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Media;
+using System.IO;
 using GameLog;
 
 namespace OOP3Durak
@@ -377,6 +378,7 @@ namespace OOP3Durak
             player1Move = 0;
             player2Move = 0;
         }
+
         /// <summary>
         /// add the cards from play area to  the player area hand
         /// </summary>
@@ -1286,10 +1288,12 @@ namespace OOP3Durak
         /// </summary>
         public void GetResult()
         {
+            
             if (myDealer.CardsRemaining > 0)
                 return;
             SoundPlayer snd = null;
             String result = "";
+            
             if (playerHand1.RemainingCards() == 0)
             {
                  snd = new SoundPlayer(Properties.Resources.winner1);
@@ -1398,7 +1402,20 @@ namespace OOP3Durak
         }
         #endregion
 
-        
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void radDrag_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
  

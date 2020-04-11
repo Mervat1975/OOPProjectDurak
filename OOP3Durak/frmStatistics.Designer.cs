@@ -33,6 +33,7 @@
 			this.lstStats = new System.Windows.Forms.ListView();
 			this.btnHome = new System.Windows.Forms.Button();
 			this.btnClose = new System.Windows.Forms.Button();
+			this.btnReload = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// rbYours
@@ -58,9 +59,11 @@
 			this.rbAll.TabStop = true;
 			this.rbAll.Text = "All Users\' statistics";
 			this.rbAll.UseVisualStyleBackColor = true;
+			this.rbAll.CheckedChanged += new System.EventHandler(this.rbAll_CheckedChanged);
 			// 
 			// lstStats
 			// 
+			this.lstStats.FullRowSelect = true;
 			this.lstStats.HideSelection = false;
 			this.lstStats.Location = new System.Drawing.Point(121, -1);
 			this.lstStats.Name = "lstStats";
@@ -77,6 +80,7 @@
 			this.btnHome.TabIndex = 4;
 			this.btnHome.Text = "<< Go Home";
 			this.btnHome.UseVisualStyleBackColor = true;
+			this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
 			// 
 			// btnClose
 			// 
@@ -88,23 +92,36 @@
 			this.btnClose.TabIndex = 5;
 			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = false;
+			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+			// 
+			// btnReload
+			// 
+			this.btnReload.BackgroundImage = global::OOP3Durak.Properties.Resources.refresh;
+			this.btnReload.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.btnReload.Location = new System.Drawing.Point(34, 409);
+			this.btnReload.Name = "btnReload";
+			this.btnReload.Size = new System.Drawing.Size(37, 29);
+			this.btnReload.TabIndex = 6;
+			this.btnReload.UseVisualStyleBackColor = true;
+			this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
 			// 
 			// frmStatistics
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.btnReload);
 			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.btnHome);
 			this.Controls.Add(this.lstStats);
 			this.Controls.Add(this.rbAll);
 			this.Controls.Add(this.rbYours);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "frmStatistics";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Game statistics";
 			this.Load += new System.EventHandler(this.frmStatistics_Load);
+			this.Resize += new System.EventHandler(this.frmStatistics_Resize);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -116,5 +133,6 @@
 		private System.Windows.Forms.ListView lstStats;
 		private System.Windows.Forms.Button btnHome;
 		private System.Windows.Forms.Button btnClose;
+		private System.Windows.Forms.Button btnReload;
 	}
 }

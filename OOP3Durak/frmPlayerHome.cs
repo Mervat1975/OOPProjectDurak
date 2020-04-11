@@ -13,9 +13,7 @@ namespace OOP3Durak
 {
     public partial class frmPlayerHome : Form
     {
-        private string userName;
-        private string password;
-        private string storagePath;
+        int userID;
         TextUserDataHandler userDataHandler;
 
         public frmPlayerHome()
@@ -23,11 +21,9 @@ namespace OOP3Durak
             InitializeComponent();
         }
 
-        public frmPlayerHome(string userName, string password, string storagePath)
+        public frmPlayerHome(int userID, string storagePath)
         {
-            this.userName = userName;
-            this.password = password;
-            this.storagePath = storagePath;
+            this.userID = userID;
             userDataHandler = new TextUserDataHandler(storagePath, storagePath);
 
             InitializeComponent();
@@ -45,6 +41,21 @@ namespace OOP3Durak
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnPlayerStatistics_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new frmStatistics(userID, userDataHandler.ReadFilePath).ShowDialog();
+
+            this.Close();
+        }
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new frmMainForm(userID, userDataHandler.ReadFilePath).ShowDialog();
+            this.Close();
         }
     }
 }

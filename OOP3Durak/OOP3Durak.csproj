@@ -197,6 +197,7 @@
       <DependentUpon>DurakDatabase.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\refresh.gif" />
     <None Include="Resources\slide.wav" />
     <None Include="Resources\sad.wav" />
     <None Include="Resources\losersound.wav" />

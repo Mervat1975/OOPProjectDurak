@@ -13,6 +13,7 @@ namespace OOP3Durak
 {
 	public partial class frmStatistics : Form
 	{
+		int userID;
 		TextUserDataHandler userDataHandler;
 
 		public frmStatistics()
@@ -21,10 +22,18 @@ namespace OOP3Durak
 			InitializeComponent();
 		}
 
+		public frmStatistics(int userID, string storagePath)
+		{
+			this.userID = userID;
+			userDataHandler = new TextUserDataHandler(storagePath, storagePath);
+			InitializeComponent();
+		}
+
 		private void frmStatistics_Load(object sender, EventArgs e)
 		{
 
 			//lstStats.View = View.Details;
+
 			int columnWidth = Convert.ToInt32(Math.Round((double)lstStats.Width / 5));
 
 			lstStats.Columns.Add("Name", columnWidth, HorizontalAlignment.Center);
@@ -33,19 +42,7 @@ namespace OOP3Durak
 			lstStats.Columns.Add("Losses", columnWidth, HorizontalAlignment.Center);
 			lstStats.Columns.Add("Number Of Games", columnWidth, HorizontalAlignment.Center);
 
-			for(int id = 0; id < userDataHandler.Records.Count; id++)
-			{
-				ListViewItem userListItem = new ListViewItem(userDataHandler.getName(id));
-
-				userListItem.Checked = true;
-				userListItem.SubItems.Add(userDataHandler.getWins(id).ToString());
-				userListItem.SubItems.Add(userDataHandler.getTies(id).ToString());
-				userListItem.SubItems.Add(userDataHandler.getLosses(id).ToString());
-				userListItem.SubItems.Add(userDataHandler.getNumberOfGames(id).ToString());
-
-				lstStats.Items.Add(userListItem);
-			}
-
+			populateListView();
 			/*
 			bool columnsAdded = false;
 			foreach(Dictionary<string, string> record in records)
@@ -65,6 +62,78 @@ namespace OOP3Durak
 				dgStats.Rows.Add(values);
 			}
 			*/
+		}
+
+		/// <summary>
+		/// Populate the listview with the data of users
+		/// </summary>
+		private void populateListView()
+		{
+			lstStats.Items.Clear();
+
+			if (rbAll.Checked)
+			{
+				for (int id = 0; id < userDataHandler.Records.Count; id++)
+				{
+					ListViewItem userListItem = new ListViewItem(userDataHandler.getName(id));
+
+					userListItem.Checked = true;
+					userListItem.SubItems.Add(userDataHandler.getWins(id).ToString());
+					userListItem.SubItems.Add(userDataHandler.getTies(id).ToString());
+					userListItem.SubItems.Add(userDataHandler.getLosses(id).ToString());
+					userListItem.SubItems.Add(userDataHandler.getNumberOfGames(id).ToString());
+
+					lstStats.Items.Add(userListItem);
+				}
+			}
+			else
+			{
+				ListViewItem userListItem = new ListViewItem(userDataHandler.getName(userID));
+				userListItem.Checked = true;
+				userListItem.SubItems.Add(userDataHandler.getWins(userID).ToString());
+				userListItem.SubItems.Add(userDataHandler.getTies(userID).ToString());
+				userListItem.SubItems.Add(userDataHandler.getLosses(userID).ToString());
+				userListItem.SubItems.Add(userDataHandler.getNumberOfGames(userID).ToString());
+
+				lstStats.Items.Add(userListItem);
+			}
+		}
+
+		private void btnClose_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void btnHome_Click(object sender, EventArgs e)
+		{
+			this.Hide();
+			new frmPlayerHome(userID, userDataHandler.ReadFilePath).ShowDialog();
+			this.Close();
+		}
+
+		private void frmStatistics_Resize(object sender, EventArgs e)
+		{
+
+			lstStats.Width = this.Width - (rbAll.Width+1);
+			lstStats.Height = this.Height;
+			int columnWidth = Convert.ToInt32(Math.Round((double)lstStats.Width / 5));
+
+			foreach(ColumnHeader column in lstStats.Columns)
+			{
+				column.Width = columnWidth;
+			}
+		}
+
+		private void btnReload_Click(object sender, EventArgs e)
+		{
+			userDataHandler.reload();
+
+			populateListView();
+		}
+
+		private void rbAll_CheckedChanged(object sender, EventArgs e)
+		{
+			populateListView();
 		}
 	}
 }

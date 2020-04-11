@@ -50,10 +50,10 @@ namespace OOP3Durak
                 int? id = userDataHandler.login(txtUserName.Text.Trim(), txtPassword.Text.Trim());
                 if (id != null)
                 {
-                    
-                    
-                    new frmMainForm(id, storagePath).Show();
 
+                    int userID = id ?? default(int);
+                    this.Hide();
+                    new frmPlayerHome(userID, storagePath).ShowDialog();
                     this.Close();
                 }
                 else
@@ -75,7 +75,8 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnNewUser_Click(object sender, EventArgs e)
         {
-            new frmNewPlayer(userName, storagePath).Show();
+            this.Hide();
+            new frmNewPlayer(userName, storagePath).ShowDialog();
             this.Close();
 
         }

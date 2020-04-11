@@ -30,7 +30,7 @@ namespace OOP3Durak
         public bool isDragMode = true;
         private static int TrashCardCount = 0;
 
-        private int? id;
+        private int userID;
         private string storagePath;
 
         TextUserDataHandler userDataHandler;
@@ -135,13 +135,18 @@ namespace OOP3Durak
             InitializeComponent();
         }
 
-        public frmMainForm(int? id, string storagePath)
+        public frmMainForm(int userID, string storagePath)
         {
-            this.id = id;
+            this.userID = userID;
             this.storagePath = storagePath;
             userDataHandler = new TextUserDataHandler(storagePath, storagePath);
 
             InitializeComponent();
+
+            lblUserNameValue.Text = userDataHandler.getName(userID);
+            lblLossesValue.Text = userDataHandler.getLosses(userID).ToString();
+            lblWinsValue.Text = userDataHandler.getWins(userID).ToString();
+            lblDrawsValue.Text = userDataHandler.getTies(userID).ToString();
         }
 
         /// <summary>
@@ -1292,10 +1297,10 @@ namespace OOP3Durak
                 result = "Congrats!! You are the WINNER";
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("winner") as Image;
 
-                int numericId = id ?? default(int);
-                int? currentWins = userDataHandler.getWins(numericId);
-                userDataHandler.setWins(numericId, (currentWins ?? default(int))+1);
+                int? currentWins = userDataHandler.getWins(userID);
+                userDataHandler.setWins(userID, (currentWins ?? default(int))+1);
                 userDataHandler.UpdateAll();
+                lblWinsValue.Text = ((currentWins ?? default(int)) + 1).ToString();
             }
             else
         if (playerHand2.RemainingCards() == 0)
@@ -1306,19 +1311,21 @@ namespace OOP3Durak
                 result = "Sorry!! your are the DURAK ";
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("durak") as Image;
 
-                int numericId = id ?? default(int);
-                int? currentLosses = userDataHandler.getLosses(numericId);
-                userDataHandler.setLosses(numericId, (currentLosses??default(int))+ 1);
+                int? currentLosses = userDataHandler.getLosses(userID);
+                userDataHandler.setLosses(userID, (currentLosses??default(int))+ 1);
                 userDataHandler.UpdateAll();
+                lblLossesValue.Text = ((currentLosses ?? default(int)) + 1).ToString();
             }
             else if (playerHand1.RemainingCards() == 0 && playerHand2.RemainingCards() == 0)
             {
                 result = "Draw!!! ";
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("good_jop") as Image;
-                int numericId = id ?? default(int);
-                int? currentTies = userDataHandler.getTies(numericId);
-                userDataHandler.setTies(numericId, (currentTies ?? default(int))+1);
+
+                int? currentTies = userDataHandler.getTies(userID);
+                userDataHandler.setTies(userID, (currentTies ?? default(int))+1);
                 userDataHandler.UpdateAll();
+
+                lblDrawsValue.Text = ((currentTies ?? default(int)) + 1).ToString();
             }
             if (!result.Equals("")  && ! isResult)
             {
@@ -1397,6 +1404,11 @@ namespace OOP3Durak
         }
 
         private void radDrag_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

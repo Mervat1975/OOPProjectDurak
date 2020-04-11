@@ -387,7 +387,6 @@
 			this.radDrag.TabStop = true;
 			this.radDrag.Text = "Drag";
 			this.radDrag.UseVisualStyleBackColor = true;
-			this.radDrag.CheckedChanged += new System.EventHandler(this.radDrag_CheckedChanged);
 			// 
 			// lblNumberOfcard
 			// 
@@ -616,7 +615,6 @@
 			this.lblLossesValue.Size = new System.Drawing.Size(16, 18);
 			this.lblLossesValue.TabIndex = 37;
 			this.lblLossesValue.Text = "0";
-			this.lblLossesValue.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// lblDrawsValue
 			// 

@@ -44,8 +44,8 @@ namespace OOP3Durak
         private void btnLogin_Click(object sender, EventArgs e)
         { 
            
-            try
-            {
+            //try
+            //{
                 //loginPlayer = DBL.Login(txtUserName.Text.Trim(), txtPassword.Text.Trim());
                 int? id = userDataHandler.login(txtUserName.Text.Trim(), txtPassword.Text.Trim());
                 if (id != null)
@@ -53,19 +53,18 @@ namespace OOP3Durak
 
                     int userID = id ?? default(int);
                     this.Hide();
-                    new frmPlayerHome(userID, storagePath).ShowDialog();
-                    this.Close();
+                    new frmPlayerHome(userID, storagePath).Show();
                 }
                 else
                 {
                     lblError.Text = "Wrong Login data!! Please Try again...";
                 }
-            }
+            /*}
             catch (Exception exc)
             {
                 lblError.Text = exc.ToString();
                 MessageBox.Show(lblError.Text);
-            }
+            }*/
         }
 
         /// <summary>

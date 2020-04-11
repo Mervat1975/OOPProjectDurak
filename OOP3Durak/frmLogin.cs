@@ -52,8 +52,8 @@ namespace OOP3Durak
                 {
 
                     int userID = id ?? default(int);
+                    this.Hide();
                     new frmPlayerHome(userID, storagePath).Show();
-                    //this.Close();
                 }
                 else
                 {

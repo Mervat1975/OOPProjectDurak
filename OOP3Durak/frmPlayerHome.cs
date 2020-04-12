@@ -1,4 +1,10 @@
-﻿using System;
+﻿/**
+ * @author Oghenefejiro Abohweyere
+ * @description This form displays the home window which allows the user to navigate
+ *              to different parts of the application
+ * @since 2020-04-12
+ */
+using System;
 using System.Windows.Forms;
 using GameLog;
 

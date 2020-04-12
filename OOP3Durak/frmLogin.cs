@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**
+ * @author Oghenefejiro Abohweyere
+ * @description This form displays login form
+ * @since 2020-04-12
+ */
+using System;
 using System.Windows.Forms;
 using GameLog;
 

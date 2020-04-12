@@ -10,16 +10,12 @@
  * @image source https://favpng.com/png_view/king-cap-and-bells-jester-hat-card-game-durak-club-penguin-png/1gqKmMAV
  */
 
-
-
-using CardBox;
 using CardLib;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Media;
-using System.IO;
 using GameLog;
 
 namespace OOP3Durak
@@ -136,6 +132,11 @@ namespace OOP3Durak
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initialize game form and display user data
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="storagePath"></param>
         public frmMainForm(int userID, string storagePath)
         {
             this.userID = userID;
@@ -193,6 +194,7 @@ namespace OOP3Durak
             playerHand2 = new Hand(false, 2, myDealer.GetCard(TrumpIndexCard - 1).TheSuit);
             displayOptions();
         }
+
         /// <summary>
         /// change the cards number setting
         /// </summary>
@@ -225,11 +227,11 @@ namespace OOP3Durak
         /// <summary>
         /// Closes the current form.
         /// </summary>
-
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
         /// <summary>
         /// fill the player Hand
         /// </summary>
@@ -422,7 +424,6 @@ namespace OOP3Durak
         /// <summary>
         /// Make the mouse pointer a "move" pointer when a drag enters a Panel.
         /// </summary>
-
         private void pnlPlay_DragEnter(object sender, DragEventArgs e)
         {
 
@@ -432,6 +433,12 @@ namespace OOP3Durak
                 e.Effect = DragDropEffects.None;
         }
 
+        /// <summary>
+        /// Give the mouse pointer a move effect when a card is dragged over
+        /// to player 1's panel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pnlCardPlayer1_DragOver(object sender, DragEventArgs e)
         {
             if (dragCard != null)
@@ -440,6 +447,12 @@ namespace OOP3Durak
             }
         }
 
+        /// <summary>
+        /// Give the mouse pointer a move effect when a card is dragged over
+        /// to the play panel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pnlPlay_DragOver(object sender, DragEventArgs e)
         {
             if (dragCard != null)
@@ -448,6 +461,11 @@ namespace OOP3Durak
             }
         }
 
+        /// <summary>
+        /// Display the panel for the player to decide on the options
+        /// for the game i.e number of cards and whether to interact with the cards
+        /// by dragging or by clicking
+        /// </summary>
         public void displayOptions()
         {
             // Reset the card dealer
@@ -807,25 +825,6 @@ namespace OOP3Durak
                 double currentRatio = (double)cardWidth / cardHeight;
                 int visibleWidth = Convert.ToInt32(visibleWidthPercentage * cardWidth);
 
-             /*   if (numberOfCards > nMovesPerRow * 2)
-                {
-                    //If the width of the cards is too big for them to fit in the panel
-                    if ((nMovesPerRow * (cardWidth + visibleWidth)) + ((nMovesPerRow + 1) * playPanelSidePadding) > playPanel.Width)
-                    {
-                        //Choose the width of the cards to make them fit
-                        cardWidth = Convert.ToInt32((playPanel.Width - (nMovesPerRow * playPanelSidePadding + 1)) / (nMovesPerRow * visibleWidthPercentage + 1));
-                        cardHeight = Convert.ToInt32(cardWidth / currentRatio);
-                    }
-
-                    //If the height of the cards is too big for them to fit in the panel
-                    if ((nMovesPerColumn * cardHeight) + ((nMovesPerColumn + 1) * playPanelTopBottomPadding) > playPanel.Height)
-                    {
-                        //Choose the height of the cards to make them fit
-                        cardHeight = Convert.ToInt32((playPanel.Height - (nMovesPerColumn * playPanelTopBottomPadding + 1)) / nMovesPerColumn);
-                        cardWidth = Convert.ToInt32(currentRatio * cardHeight);
-                    }
-                }*/
-
                 if(pmi > numberOfCards-1)
                 {
                     pmi = 0;
@@ -1000,6 +999,7 @@ namespace OOP3Durak
 
             return aCardBox;
         }
+
         /// <summary>
         /// get the computer defence card
         /// </summary>
@@ -1067,8 +1067,9 @@ namespace OOP3Durak
             }
             
         }
+
         /// <summary>
-        /// to fill the players hand from the card dealer
+        /// Fill the players hand from the card dealer
         /// </summary>
         public void FillHand()
         { 
@@ -1137,6 +1138,7 @@ namespace OOP3Durak
             }
 
         }
+
         /// <summary>
         /// Get the computer attack
         /// </summary>
@@ -1181,6 +1183,7 @@ namespace OOP3Durak
                 GetResult();
             }
         }
+
         /// <summary>
         /// Get the computer attack
         /// </summary>
@@ -1233,6 +1236,7 @@ namespace OOP3Durak
             
 
         }
+
         /// <summary>
         /// This function checks if the player defence card is valid
         /// returns true unless returns false
@@ -1260,6 +1264,7 @@ namespace OOP3Durak
             
 
         }
+
         /// <summary>
         /// Move the card from play area to trash area
         /// </summary>
@@ -1283,6 +1288,7 @@ namespace OOP3Durak
             pmi = 0;
             firstSuccessfulAttackInRound = null;
         }
+
         /// <summary>
         /// Get the Result
         /// </summary>
@@ -1306,8 +1312,7 @@ namespace OOP3Durak
                 userDataHandler.UpdateAll();
                 lblWinsValue.Text = ((currentWins ?? default(int)) + 1).ToString();
             }
-            else
-        if (playerHand2.RemainingCards() == 0)
+            else if (playerHand2.RemainingCards() == 0)
             {
                 snd = new SoundPlayer(Properties.Resources.sad);
                 snd.Stream.Position = 0;
@@ -1331,6 +1336,7 @@ namespace OOP3Durak
 
                 lblDrawsValue.Text = ((currentTies ?? default(int)) + 1).ToString();
             }
+
             if (!result.Equals("")  && ! isResult)
             {
                 
@@ -1370,13 +1376,14 @@ namespace OOP3Durak
 
             return false;
         }
+
         /// <summary>
         /// View the message panel and enable/disenable form panels
         /// </summary>
         /// <param name="message"></param>
         /// <param name="imgName"></param>
          public void ShowMessage( string message, string imgName)
-        {
+         {
             lblMessage.Text = message;
             pbMessage.Image = Properties.Resources.ResourceManager.GetObject(imgName) as Image;
 
@@ -1387,7 +1394,8 @@ namespace OOP3Durak
             pnlRightButtons.Enabled = false;
             pnlPlay.Enabled = false;
             pnlCardPlayer1.Enabled = false;
-        }
+         }
+
         /// <summary>
         /// Demise the Messag box panel and enable/disanable form panels
         /// </summary>
@@ -1405,6 +1413,12 @@ namespace OOP3Durak
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnHome_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new frmPlayerHome(userID, userDataHandler.ReadFilePath).Show();
         }
     }
 }

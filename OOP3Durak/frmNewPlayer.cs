@@ -1,14 +1,12 @@
 ﻿using System;
- 
 using System.Windows.Forms;
-using CardLib;
 using GameLog;
 
 namespace OOP3Durak
 {
     public partial class frmNewPlayer : Form
     {
-        string userName;
+        string userName="";
         string storagePath;
         TextUserDataHandler userDataHandler;
 
@@ -17,6 +15,12 @@ namespace OOP3Durak
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initialize the new player form with the current username
+        /// and the current storage path
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="storagePath"></param>
         public frmNewPlayer(string userName, string storagePath)
         {
             this.userName = userName;
@@ -35,15 +39,36 @@ namespace OOP3Durak
         {
             try
             {
-                if (userDataHandler.insert(txtUserName.Text.Trim(), txtPassword.Text.Trim(), 0, 0, 0))
+                if (txtUserName.Text.Length > 0)
                 {
-                    this.Hide();
-                    (new frmLogin(txtUserName.Text.Trim(), storagePath)).ShowDialog();
-                    this.Close();
+                    if (txtPassword.Text.Length > 0)
+                    {
+                        if (txtPassword.Text == txtConfirmPassword.Text)
+                        {
+                            if (userDataHandler.insert(txtUserName.Text.Trim(), txtPassword.Text.Trim(), 0, 0, 0))
+                            {
+                                this.Hide();
+                                (new frmLogin(txtUserName.Text.Trim(), storagePath)).Show();
+                                //this.Close();
+                            }
+                            else
+                            {
+                                lblError.Text = "Error!! User Name already exists";
+                            }
+                        }
+                        else
+                        {
+                            lblError.Text = "Error!! Password and \"Confirm Password\" must be the same";
+                        }
+                    }
+                    else
+                    {
+                        lblError.Text = "Error!! Password cannot be blank";
+                    }
                 }
                 else
                 {
-                    lblError.Text = "Error!! Player has not been added. Name already exists";
+                    lblError.Text = "Error!! Username cannot be blank";
                 }
             }
             catch (Exception exc)
@@ -53,6 +78,7 @@ namespace OOP3Durak
                 lblError.Text = exc.ToString();
             }    
         }
+
         /// <summary>
         /// End the application
         /// </summary>
@@ -61,6 +87,28 @@ namespace OOP3Durak
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        /// <summary>
+        /// Go back to the login page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            (new frmLogin()).Show();
+        }
+
+        /// <summary>
+        /// Put the username passed from the previous form in the
+        /// username textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void frmNewPlayer_Load(object sender, EventArgs e)
+        {
+            txtUserName.Text = userName;
         }
     }
 }

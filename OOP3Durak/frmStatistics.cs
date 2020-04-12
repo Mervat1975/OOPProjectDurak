@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/**
+ * @author Oghenefejiro Abohweyere
+ * @description This form displays the statistics for each user
+ * @since 2020-04-12
+ */
+using System;
 using System.Windows.Forms;
 using GameLog;
 
@@ -16,12 +14,20 @@ namespace OOP3Durak
 		int userID;
 		TextUserDataHandler userDataHandler;
 
+		/// <summary>
+		/// Initialize the form with the default user data storage path
+		/// </summary>
 		public frmStatistics()
 		{
 			userDataHandler = new TextUserDataHandler("userData.txt", "userData.txt");
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Store user id as well as the storage path of the user data file
+		/// </summary>
+		/// <param name="userID"></param>
+		/// <param name="storagePath"></param>
 		public frmStatistics(int userID, string storagePath)
 		{
 			this.userID = userID;
@@ -29,6 +35,11 @@ namespace OOP3Durak
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Add the column headers to the list view as soon as the form loads
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void frmStatistics_Load(object sender, EventArgs e)
 		{
 
@@ -43,25 +54,6 @@ namespace OOP3Durak
 			lstStats.Columns.Add("Number Of Games", columnWidth, HorizontalAlignment.Center);
 
 			populateListView();
-			/*
-			bool columnsAdded = false;
-			foreach(Dictionary<string, string> record in records)
-			{
-				string[] values = new string[record.Keys.Count];
-				int count = 0;
-				foreach(string key in record.Keys)
-				{
-					if (!columnsAdded)
-					{
-						dgStats.Columns.Add(key, key);
-					}
-					values[count] = record[key];
-					count++;
-				}
-				columnsAdded = true;
-				dgStats.Rows.Add(values);
-			}
-			*/
 		}
 
 		/// <summary>
@@ -99,31 +91,46 @@ namespace OOP3Durak
 			}
 		}
 
+		/// <summary>
+		/// Close the entire application including hidden forms
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnClose_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
 		}
 
+		/// <summary>
+		/// Display player home form
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnHome_Click(object sender, EventArgs e)
 		{
 			this.Hide();
-			new frmPlayerHome(userID, userDataHandler.ReadFilePath).ShowDialog();
-			this.Close();
+			new frmPlayerHome(userID, userDataHandler.ReadFilePath).Show();
 		}
 
+		/// <summary>
+		/// Resize the list view with the form window
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void frmStatistics_Resize(object sender, EventArgs e)
 		{
 
 			lstStats.Width = this.Width - (rbAll.Width+1);
 			lstStats.Height = this.Height;
-			int columnWidth = Convert.ToInt32(Math.Round((double)lstStats.Width / 5));
 
-			foreach(ColumnHeader column in lstStats.Columns)
-			{
-				column.Width = columnWidth;
-			}
+			lstStats.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 		}
 
+		/// <summary>
+		/// Reload the list view in case something has changed in the user data file
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnReload_Click(object sender, EventArgs e)
 		{
 			userDataHandler.reload();
@@ -131,6 +138,12 @@ namespace OOP3Durak
 			populateListView();
 		}
 
+		/// <summary>
+		/// Populate the list view based on the checked
+		/// radio button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void rbAll_CheckedChanged(object sender, EventArgs e)
 		{
 			populateListView();

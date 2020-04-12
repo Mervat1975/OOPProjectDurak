@@ -38,8 +38,8 @@ namespace OOP3Durak
                 if (userDataHandler.insert(txtUserName.Text.Trim(), txtPassword.Text.Trim(), 0, 0, 0))
                 {
                     this.Hide();
-                    (new frmLogin(txtUserName.Text.Trim(), storagePath)).ShowDialog();
-                    this.Close();
+                    (new frmLogin(txtUserName.Text.Trim(), storagePath)).Show();
+                    //this.Close();
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace OOP3Durak
         private void btnLogin_Click(object sender, EventArgs e)
         {
             this.Hide();
-            (new frmLogin()).ShowDialog();
+            (new frmLogin()).Show();
         }
     }
 }

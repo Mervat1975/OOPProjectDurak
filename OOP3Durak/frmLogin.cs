@@ -75,8 +75,8 @@ namespace OOP3Durak
         private void btnNewUser_Click(object sender, EventArgs e)
         {
             this.Hide();
-            new frmNewPlayer(userName, storagePath).ShowDialog();
-            this.Close();
+            new frmNewPlayer(userName, storagePath).Show();
+            //this.Close();
 
         }
     }

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using OOP3Durak;
+﻿/**
+ * @author  Mervat Mustafa
+ * @description This form displays Splash screen
+ * @since 2020-04-12
+ */
+using System;
+ using System.Windows.Forms;
 namespace OOP3Durak
 {
     public partial class frmSplashScreen : Form
@@ -17,7 +14,11 @@ namespace OOP3Durak
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// move the progress bar and view the next form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (counter < prgSplash.Maximum)

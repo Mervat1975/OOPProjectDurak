@@ -1,7 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/**
+ * program.cs -The main class of the application  
+ * @author       Mervat Mustafa <mervat.mustafa@durhamcollege.ca>
+ * @version     0.0
+ * @since       2020-03-18
+ **/
+using System;
 using System.Windows.Forms;
 
 namespace OOP3Durak
@@ -16,7 +19,7 @@ namespace OOP3Durak
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmLogin());
+            Application.Run(new frmSplashScreen());
             
         }
     }

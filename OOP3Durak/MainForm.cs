@@ -86,7 +86,7 @@ namespace OOP3Durak
         /// else
         /// </summary>
         private int playPanelTopBottomPadding = 6;
-        
+
         /// <summary>
         /// Percentage of the card's width that is covered when cards are stacked on each
         /// other
@@ -205,7 +205,7 @@ namespace OOP3Durak
             pnlNumberOfCard.Visible = false;
             StartCard = CardSettingData[cmpCardsNumber.SelectedIndex];
             myDealer = new CardDealer(StartCard, TrumpIndexCard);
-            lblCardNumber.Text = "Number of Cards:"+myDealer.CardsRemaining.ToString();
+            lblCardNumber.Text = "Number of Cards:" + myDealer.CardsRemaining.ToString();
             pnlLeftButtons.Enabled = true;
             pnlRightButtons.Enabled = true;
             pnlPlay.Enabled = true;
@@ -213,7 +213,7 @@ namespace OOP3Durak
             if (radDrag.Checked)
             {
                 isDragMode = true;
-               
+
                 lblMode.Text = "Mode: Drag";
             }
             else
@@ -241,7 +241,11 @@ namespace OOP3Durak
         {
             timTrash.Start();
         }
-
+        /// <summary>
+        /// Deimss the  result message box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOkResult_Click(object sender, EventArgs e)
         {
             pnlResult.Visible = false;
@@ -252,6 +256,17 @@ namespace OOP3Durak
             ResetDealer();
 
         }
+        /// <summary>
+        ///  go back to the home screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnHome_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new frmPlayerHome(userID, userDataHandler.ReadFilePath).Show();
+        }
+
 
         /// <summary>
         /// Drag Drop on the play area 
@@ -261,7 +276,7 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void pnlPlay_DragDrop(object sender, DragEventArgs e)
         {
-            
+
             // If there is a CardBox to move
             if (dragCard != null)
             {
@@ -270,8 +285,9 @@ namespace OOP3Durak
                 {
                     SoundPlayer snd = new SoundPlayer(Properties.Resources.wrong1);
                     snd.Play();
-                    ShowMessage("Unacceptable Card", "wrong"); }
-                 
+                    ShowMessage("Unacceptable Card", "wrong");
+                }
+
                 GetResult();
             }
         }
@@ -306,8 +322,8 @@ namespace OOP3Durak
             // get the trump card
             myDealer.DrawCard(ref TrumpCard);
             TrumpCard.FaceUp = true;
-            
-            lblTrump.Text ="Trump: " + TrumpCard.TheSuit.ToString();
+
+            lblTrump.Text = "Trump: " + TrumpCard.TheSuit.ToString();
             pbTrumpCard.Image = TrumpCard.GetCardImage() as Image;
             pbTrumpCard.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             TrumpCard.FaceUp = false;
@@ -320,7 +336,7 @@ namespace OOP3Durak
                 pnlCardPlayer1.Controls.Add(GetCardBox(playerHand1.CardList[i] as Card, PLAER));
                 if ((playerHand1.CardList[i] as Card).TheSuit == TrumpCard.TheSuit)
                     smallestTrumpPlayer1 = playerHand1.CardList[i] as Card;
-                   pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
+                pnlCardPlayer2.Controls.Add(GetCardBox(playerHand2.CardList[i] as Card, COMPUTER));
                 if ((playerHand2.CardList[i] as Card).TheSuit == TrumpCard.TheSuit)
                     smallestTrumpPlayer2 = playerHand2.CardList[i] as Card;
             }
@@ -337,39 +353,39 @@ namespace OOP3Durak
             btnNewGame.ForeColor = Color.Orange;
             ///  determine who is the first attacker
             if (smallestTrumpPlayer1 is null && smallestTrumpPlayer2 is null)
-            { 
+            {
                 playerHand1.IsAttacker = true;
                 playerHand2.IsAttacker = false;
             }
-            else if (smallestTrumpPlayer1 is null && !( smallestTrumpPlayer2 is null))
-               {
+            else if (smallestTrumpPlayer1 is null && !(smallestTrumpPlayer2 is null))
+            {
                 playerHand1.IsAttacker = false;
                 playerHand2.IsAttacker = true;
-                }
-            else if (!(smallestTrumpPlayer1 is null) &&  smallestTrumpPlayer2 is null)
+            }
+            else if (!(smallestTrumpPlayer1 is null) && smallestTrumpPlayer2 is null)
             {
                 playerHand1.IsAttacker = true;
                 playerHand2.IsAttacker = false;
             }
             else
             {
-                if(smallestTrumpPlayer1.TheRank< smallestTrumpPlayer2.TheRank)
+                if (smallestTrumpPlayer1.TheRank < smallestTrumpPlayer2.TheRank)
                 {
                     playerHand1.IsAttacker = true;
                     playerHand2.IsAttacker = false;
                 }
-                    else
+                else
                 {
                     playerHand1.IsAttacker = false;
                     playerHand2.IsAttacker = true;
                 }
 
             }
-             if(playerHand1.IsAttacker)
+            if (playerHand1.IsAttacker)
             {
                 lblTurn.Text = "Attack";
             }
-             else
+            else
             {
                 GetComputerAttack();
             }
@@ -388,18 +404,18 @@ namespace OOP3Durak
         /// <param name="e"></param>
         private void btnTake_Click(object sender, EventArgs e)
         {
-            
+
             foreach (CardBox.CardBox aCardBox in pnlPlay.Controls)
             {
                 aCardBox.TheCard.FaceUp = true;
                 playerHand1.Add(aCardBox.TheCard);
             }
             isComputerFaildeffense = false;
-            pnlPlay.Controls.Clear();          
+            pnlPlay.Controls.Clear();
             plyRoundCards.Clear();
             orderedCardBoxes.Clear();
             firstSuccessfulAttackInRound = lastComputerAttack;
-            FillHand(); 
+            FillHand();
             lblTurn.Text = "";
             btnTake.Enabled = false;
             btnTake.ForeColor = Color.Gray;
@@ -500,7 +516,7 @@ namespace OOP3Durak
                 aCardBox.TheCard.FaceUp = false;
                 playerHand2.Add(aCardBox.TheCard);
             }
-            
+
             pnlPlay.Controls.Clear();
             plyRoundCards.Clear();
             orderedCardBoxes.Clear();
@@ -612,8 +628,8 @@ namespace OOP3Durak
             {
                 aCardBox.Size = regularSize; // resize the card back to regular size
                 aCardBox.Top = POP; // move the card down to accommodate for the smaller size.
-               
-                
+
+
             }
         }
         /// <summary>
@@ -624,7 +640,7 @@ namespace OOP3Durak
 
             // Set dragCard 
             dragCard = sender as CardBox.CardBox;
-            
+
             // If the conversion worked
             if (dragCard != null)
             {
@@ -641,7 +657,7 @@ namespace OOP3Durak
         {
 
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-           // MessageBox.Show("MouseUp" + aCardBox.ToString());
+            // MessageBox.Show("MouseUp" + aCardBox.ToString());
 
         }
         /// <summary>
@@ -652,11 +668,11 @@ namespace OOP3Durak
             // Convert sender to a CardBox
 
             CardBox.CardBox aCardBox = sender as CardBox.CardBox;
-            
+
             // If the conversion worked
             if (aCardBox != null)
             {
-                dragCard = aCardBox;               
+                dragCard = aCardBox;
                 if (!AddCardTPlayPanel())
                 {
                     SoundPlayer snd = new SoundPlayer(Properties.Resources.wrong1);
@@ -668,10 +684,10 @@ namespace OOP3Durak
             }
         }
 
-         
-  
 
-     
+
+
+
         #endregion
 
         #region HELPER METHODS
@@ -684,14 +700,14 @@ namespace OOP3Durak
         {
             //MessageBox.Show("playerHand1.IsAttacker: " + playerHand1.IsAttacker.ToString());
 
-           
+
 
             if (player1Move == 6) return false;
             bool isAcceptable = false;
             // the droped card comes from player1 as attacker
             if (playerHand1.IsAttacker == true)
-            { 
-                
+            {
+
                 //MessageBox.Show("IsValidAttack: " + (IsValidAttack(dragCard.TheCard)).ToString());
                 //  either the first attack or re-attack
                 if (IsValidAttack(dragCard.TheCard))
@@ -724,7 +740,7 @@ namespace OOP3Durak
             }
             else
             {
-               // MessageBox.Show("IsValidDefence:" + (IsValidDefence(dragCard.TheCard)).ToString());
+                // MessageBox.Show("IsValidDefence:" + (IsValidDefence(dragCard.TheCard)).ToString());
                 if (IsValidDefence(dragCard.TheCard))
                 {
                     SoundPlayer snd = new SoundPlayer(Properties.Resources.card);
@@ -749,7 +765,7 @@ namespace OOP3Durak
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             RealignCards(pnlCardPlayer1);
             RealignPlayPanel(pnlPlay);
-         
+
             return isAcceptable;
         }
 
@@ -825,7 +841,7 @@ namespace OOP3Durak
                 double currentRatio = (double)cardWidth / cardHeight;
                 int visibleWidth = Convert.ToInt32(visibleWidthPercentage * cardWidth);
 
-                if(pmi > numberOfCards-1)
+                if (pmi > numberOfCards - 1)
                 {
                     pmi = 0;
                 }
@@ -842,7 +858,7 @@ namespace OOP3Durak
                 //by the "Controls" property behaves kinda like a stack
                 for (int index = 0; index < numberOfCards; index++)
                 {
-                    
+
                     //System.Diagnostics.Debug.WriteLine("Working index: " + working_index + "; Index: " + index);
                     CardBox.CardBox currentCardBox = orderedCardBoxes[index];
                     currentCardBox.Width = cardWidth;
@@ -943,8 +959,8 @@ namespace OOP3Durak
             pbcTrash.Image = null;
             pbTrumpCard.Image = null;
             TrashCardCount = 0;
-            lblTrashCount.Text ="";
-            
+            lblTrashCount.Text = "";
+
             // Display the number of cards remaining in the deck. 
             lblCardCount.Text = myDealer.CardsRemaining.ToString();
             // fix the buttons Enabels and Fore color
@@ -956,12 +972,12 @@ namespace OOP3Durak
             btnPass.ForeColor = Color.Gray;
             btnNewGame.Enabled = true;
             btnNewGame.ForeColor = Color.Orange;
-            
+
             lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
             lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
             btnReady.Enabled = true;
             btnReady.ForeColor = Color.Orange;
-            
+
             lblPlayer1CardCount.Text = "";
             lblPlayer2CardCount.Text = "";
             lblTurn.Text = "";
@@ -982,15 +998,15 @@ namespace OOP3Durak
             CardBox.CardBox aCardBox = null;
             // Create a new CardBox control based on the card drawn
             aCardBox = new CardBox.CardBox(card);
-           if (player != COMPUTER)
+            if (player != COMPUTER)
             {
                 aCardBox.FaceUp = true;
                 // Wire events handlers to the new control:
 
-                if( radClick.Checked)
+                if (radClick.Checked)
                     aCardBox.Click += CardBox_Click;
                 else
-                 aCardBox.MouseDown += CardBox_MouseDown;
+                    aCardBox.MouseDown += CardBox_MouseDown;
                 // wire CardBox_MouseEnter for the "POP" visual effect  
                 aCardBox.MouseEnter += CardBox_MouseEnter;
                 // wire CardBox_MouseLeave for the regular visual effect
@@ -1006,10 +1022,10 @@ namespace OOP3Durak
         /// <param name="aCard"></param>
         public void GetComputerDefence(Card aCard)
         {
-            if ( player2Move == 6) return;
-                Card defencCard;
-             
-                defencCard = playerHand2.GetDefenceCard(aCard);
+            if (player2Move == 6) return;
+            Card defencCard;
+
+            defencCard = playerHand2.GetDefenceCard(aCard);
 
             if (!(defencCard is null))
             {
@@ -1044,7 +1060,7 @@ namespace OOP3Durak
                 //RealignCards(pnlPlay);
                 lblPlayer1CardCount.Text = playerHand1.RemainingCards().ToString();
                 lblPlayer2CardCount.Text = playerHand2.RemainingCards().ToString();
-              GetResult(); 
+                GetResult();
             }
 
             else// no defence card
@@ -1063,38 +1079,65 @@ namespace OOP3Durak
                 btnTake.Enabled = false;
                 btnTake.ForeColor = Color.Gray;
                 btnPass.Focus();
-                lblTurn.Text = "Pass";                
+                lblTurn.Text = "Pass";
             }
-            
+
         }
 
         /// <summary>
         /// Fill the players hand from the card dealer
         /// </summary>
         public void FillHand()
-        { 
-             
+        {
+
             Card card = null;
-             
-            while (playerHand1.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
-            { if (myDealer.CardsRemaining > 0)
+            if (!playerHand1.IsAttacker)
+            {
+                while (playerHand1.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
                 {
-                    myDealer.DrawCard(ref card);
-                    playerHand1.Add(card);
+                    if (myDealer.CardsRemaining > 0)
+                    {
+                        myDealer.DrawCard(ref card);
+                        playerHand1.Add(card);
+                    }
+
                 }
 
-            }
-            
-           while ( playerHand2.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
-            {    
-                if (myDealer.CardsRemaining > 0)
+                while (playerHand2.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
                 {
-                    myDealer.DrawCard(ref card);
-                    playerHand2.Add(card);
+                    if (myDealer.CardsRemaining > 0)
+                    {
+                        myDealer.DrawCard(ref card);
+                        playerHand2.Add(card);
+                    }
                 }
             }
+            else
+            {
+                while (playerHand2.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
+                {
+                    if (myDealer.CardsRemaining > 0)
+                    {
+                        myDealer.DrawCard(ref card);
+                        playerHand2.Add(card);
+                    }
+                }
 
-           
+                while (playerHand1.RemainingCards() < INITIAL_CARDS_NUMBER && myDealer.CardsRemaining != 0)
+                {
+                    if (myDealer.CardsRemaining > 0)
+                    {
+                        myDealer.DrawCard(ref card);
+                        playerHand1.Add(card);
+                    }
+
+                }
+
+                
+
+            }
+
+
             playerHand1.Sort();
             playerHand2.Sort();
 
@@ -1124,7 +1167,7 @@ namespace OOP3Durak
             }
             else if (myDealer.CardsRemaining == 3)
             {
-                pbDeck.Image =Properties.Resources.ResourceManager.GetObject("deck_equal_2") as Image;
+                pbDeck.Image = Properties.Resources.ResourceManager.GetObject("deck_equal_2") as Image;
 
             }
             else if (myDealer.CardsRemaining == 2)
@@ -1178,7 +1221,9 @@ namespace OOP3Durak
                 RealignCards(pnlCardPlayer2);
                 lastComputerAttack = aCardBox;
                 lblTurn.Text = "Defence or Take";
-            }else
+                GetResult();
+            }
+            else
             {
                 GetResult();
             }
@@ -1197,7 +1242,7 @@ namespace OOP3Durak
             {
                 SoundPlayer snd = new SoundPlayer(Properties.Resources.card);
                 snd.Play();
-              player2Move ++;
+                player2Move++;
                 CardBox.CardBox aCardBox = new CardBox.CardBox(aCard);
                 aCardBox.FaceUp = true;
                 pnlCardPlayer2.Controls.Clear();
@@ -1227,13 +1272,13 @@ namespace OOP3Durak
             }
             else
             {
-                
+
 
                 timTrash.Start();
                 FillHand();
 
             }
-            
+
 
         }
 
@@ -1245,30 +1290,30 @@ namespace OOP3Durak
         /// <returns></returns>
         public bool IsValidDefence(Card aCard)
         {
-            
+
             CardBox.CardBox attakedCard = lastComputerAttack;
-             // MessageBox.Show(lastComputerAttack.ToString() + "VS" + aCard.ToString());
-              
-             
-                if (aCard.TheSuit == attakedCard.TheCard.TheSuit)
-                {
+            // MessageBox.Show(lastComputerAttack.ToString() + "VS" + aCard.ToString());
+
+
+            if (aCard.TheSuit == attakedCard.TheCard.TheSuit)
+            {
                 if (aCard.TheRank == Rank.Ace) return true;
                 if (attakedCard.TheRank == Rank.Ace) return false;
                 return (aCard.TheRank > attakedCard.TheRank);
 
-                }
-                else
-                {
-                    return (aCard.TheSuit == TrumpCard.TheSuit);
-                }
-            
+            }
+            else
+            {
+                return (aCard.TheSuit == TrumpCard.TheSuit);
+            }
+
 
         }
 
         /// <summary>
         /// Move the card from play area to trash area
         /// </summary>
-        public  void SendTrash()
+        public void SendTrash()
         {
 
             TrashCardCount += pnlPlay.Controls.Count;
@@ -1294,21 +1339,21 @@ namespace OOP3Durak
         /// </summary>
         public void GetResult()
         {
-            
+
             if (myDealer.CardsRemaining > 0)
                 return;
             SoundPlayer snd = null;
             String result = "";
-            
+
             if (playerHand1.RemainingCards() == 0)
             {
-                 snd = new SoundPlayer(Properties.Resources.winner1);
+                snd = new SoundPlayer(Properties.Resources.winner1);
                 snd.Play();
                 result = "Congrats!! You are the WINNER";
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("winner") as Image;
 
                 int? currentWins = userDataHandler.getWins(userID);
-                userDataHandler.setWins(userID, (currentWins ?? default(int))+1);
+                userDataHandler.setWins(userID, (currentWins ?? default(int)) + 1);
                 userDataHandler.UpdateAll();
                 lblWinsValue.Text = ((currentWins ?? default(int)) + 1).ToString();
             }
@@ -1321,7 +1366,7 @@ namespace OOP3Durak
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("durak") as Image;
 
                 int? currentLosses = userDataHandler.getLosses(userID);
-                userDataHandler.setLosses(userID, (currentLosses??default(int))+ 1);
+                userDataHandler.setLosses(userID, (currentLosses ?? default(int)) + 1);
                 userDataHandler.UpdateAll();
                 lblLossesValue.Text = ((currentLosses ?? default(int)) + 1).ToString();
             }
@@ -1331,15 +1376,15 @@ namespace OOP3Durak
                 pbResult.Image = Properties.Resources.ResourceManager.GetObject("good_jop") as Image;
 
                 int? currentTies = userDataHandler.getTies(userID);
-                userDataHandler.setTies(userID, (currentTies ?? default(int))+1);
+                userDataHandler.setTies(userID, (currentTies ?? default(int)) + 1);
                 userDataHandler.UpdateAll();
 
                 lblDrawsValue.Text = ((currentTies ?? default(int)) + 1).ToString();
             }
 
-            if (!result.Equals("")  && ! isResult)
+            if (!result.Equals("") && !isResult)
             {
-                
+
                 pnlResult.Top = (this.Height - pnlResult.Height) / 2;
                 pnlResult.Left = (this.Width - pnlResult.Width) / 2;
                 lblResult.Text = result;
@@ -1349,25 +1394,25 @@ namespace OOP3Durak
                 pnlPlay.Enabled = false;
                 pnlCardPlayer1.Enabled = false;
                 isResult = true;
-                 
-               
-                
+
+
+
             }
 
         }
-    
-       /// <summary>
-       /// This function checks the player reattack returns true 
-       /// if it is valid unless returns false
-       /// </summary>
-       /// <param name="aReAttackCard"></param>
-       /// <returns></returns>
+
+        /// <summary>
+        /// This function checks the player reattack returns true 
+        /// if it is valid unless returns false
+        /// </summary>
+        /// <param name="aReAttackCard"></param>
+        /// <returns></returns>
         public bool IsValidAttack(Card aReAttackCard)
         {
 
-             
-            if (plyRoundCards.Count == 0 ) return true;
-             
+
+            if (plyRoundCards.Count == 0) return true;
+
             foreach (Card aCard in plyRoundCards)
             {
                 if (aReAttackCard.TheRank == aCard.TheRank)
@@ -1382,8 +1427,8 @@ namespace OOP3Durak
         /// </summary>
         /// <param name="message"></param>
         /// <param name="imgName"></param>
-         public void ShowMessage( string message, string imgName)
-         {
+        public void ShowMessage(string message, string imgName)
+        {
             lblMessage.Text = message;
             pbMessage.Image = Properties.Resources.ResourceManager.GetObject(imgName) as Image;
 
@@ -1394,7 +1439,7 @@ namespace OOP3Durak
             pnlRightButtons.Enabled = false;
             pnlPlay.Enabled = false;
             pnlCardPlayer1.Enabled = false;
-         }
+        }
 
         /// <summary>
         /// Demise the Messag box panel and enable/disanable form panels
@@ -1408,18 +1453,9 @@ namespace OOP3Durak
             pnlCardPlayer1.Enabled = true;
             prgTrash.Visible = false;
         }
+
         #endregion
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void btnHome_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            new frmPlayerHome(userID, userDataHandler.ReadFilePath).Show();
-        }
     }
+
 }
- 

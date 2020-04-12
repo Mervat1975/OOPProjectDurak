@@ -107,8 +107,7 @@ namespace OOP3Durak
 		private void btnHome_Click(object sender, EventArgs e)
 		{
 			this.Hide();
-			new frmPlayerHome(userID, userDataHandler.ReadFilePath).ShowDialog();
-			this.Close();
+			new frmPlayerHome(userID, userDataHandler.ReadFilePath).Show();
 		}
 
 		private void frmStatistics_Resize(object sender, EventArgs e)
@@ -116,12 +115,15 @@ namespace OOP3Durak
 
 			lstStats.Width = this.Width - (rbAll.Width+1);
 			lstStats.Height = this.Height;
+
+			lstStats.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+			/*
 			int columnWidth = Convert.ToInt32(Math.Round((double)lstStats.Width / 5));
 
 			foreach(ColumnHeader column in lstStats.Columns)
 			{
 				column.Width = columnWidth;
-			}
+			}*/
 		}
 
 		private void btnReload_Click(object sender, EventArgs e)

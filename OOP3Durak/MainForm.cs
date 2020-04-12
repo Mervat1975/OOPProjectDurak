@@ -1406,6 +1406,12 @@ namespace OOP3Durak
         {
 
         }
+
+        private void btnHome_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            new frmPlayerHome(userID, userDataHandler.ReadFilePath).Show();
+        }
     }
 }
  

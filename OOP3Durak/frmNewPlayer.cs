@@ -62,5 +62,16 @@ namespace OOP3Durak
         {
             Application.Exit();
         }
+
+        /// <summary>
+        /// Go back to the login page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            (new frmLogin()).ShowDialog();
+        }
     }
 }

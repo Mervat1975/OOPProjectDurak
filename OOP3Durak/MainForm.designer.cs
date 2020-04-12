@@ -78,6 +78,7 @@
 			this.lblDraws = new System.Windows.Forms.Label();
 			this.lblLossesValue = new System.Windows.Forms.Label();
 			this.lblDrawsValue = new System.Windows.Forms.Label();
+			this.btnHome = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbTrumpCard)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbcTrash)).BeginInit();
@@ -627,12 +628,25 @@
 			this.lblDrawsValue.TabIndex = 38;
 			this.lblDrawsValue.Text = "0";
 			// 
+			// btnHome
+			// 
+			this.btnHome.BackColor = System.Drawing.Color.White;
+			this.btnHome.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnHome.Location = new System.Drawing.Point(6, 667);
+			this.btnHome.Name = "btnHome";
+			this.btnHome.Size = new System.Drawing.Size(131, 37);
+			this.btnHome.TabIndex = 39;
+			this.btnHome.Text = "<< Go Home";
+			this.btnHome.UseVisualStyleBackColor = false;
+			this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
+			// 
 			// frmMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(1267, 752);
+			this.Controls.Add(this.btnHome);
 			this.Controls.Add(this.lblDrawsValue);
 			this.Controls.Add(this.lblLossesValue);
 			this.Controls.Add(this.lblDraws);
@@ -736,6 +750,7 @@
 		private System.Windows.Forms.Label lblDraws;
 		private System.Windows.Forms.Label lblLossesValue;
 		private System.Windows.Forms.Label lblDrawsValue;
+		private System.Windows.Forms.Button btnHome;
 	}
 }
 

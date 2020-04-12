@@ -39,15 +39,36 @@ namespace OOP3Durak
         {
             try
             {
-                if (userDataHandler.insert(txtUserName.Text.Trim(), txtPassword.Text.Trim(), 0, 0, 0))
+                if (txtUserName.Text.Length > 0)
                 {
-                    this.Hide();
-                    (new frmLogin(txtUserName.Text.Trim(), storagePath)).Show();
-                    //this.Close();
+                    if (txtPassword.Text.Length > 0)
+                    {
+                        if (txtPassword.Text == txtConfirmPassword.Text)
+                        {
+                            if (userDataHandler.insert(txtUserName.Text.Trim(), txtPassword.Text.Trim(), 0, 0, 0))
+                            {
+                                this.Hide();
+                                (new frmLogin(txtUserName.Text.Trim(), storagePath)).Show();
+                                //this.Close();
+                            }
+                            else
+                            {
+                                lblError.Text = "Error!! User Name already exists";
+                            }
+                        }
+                        else
+                        {
+                            lblError.Text = "Error!! Password and \"Confirm Password\" must be the same";
+                        }
+                    }
+                    else
+                    {
+                        lblError.Text = "Error!! Password cannot be blank";
+                    }
                 }
                 else
                 {
-                    lblError.Text = "Error!! User Name already exists";
+                    lblError.Text = "Error!! Username cannot be blank";
                 }
             }
             catch (Exception exc)

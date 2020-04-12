@@ -134,6 +134,7 @@
 			// btnExit
 			// 
 			this.btnExit.BackColor = System.Drawing.Color.Orange;
+			this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnExit.Location = new System.Drawing.Point(2, 3);
 			this.btnExit.Margin = new System.Windows.Forms.Padding(2);
 			this.btnExit.Name = "btnExit";
@@ -147,7 +148,7 @@
 			// 
 			this.lblError.AutoSize = true;
 			this.lblError.ForeColor = System.Drawing.Color.Red;
-			this.lblError.Location = new System.Drawing.Point(130, 206);
+			this.lblError.Location = new System.Drawing.Point(130, 171);
 			this.lblError.Name = "lblError";
 			this.lblError.Size = new System.Drawing.Size(0, 13);
 			this.lblError.TabIndex = 13;
@@ -166,9 +167,11 @@
 			// 
 			// frmNewPlayer
 			// 
+			this.AcceptButton = this.btnSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
+			this.CancelButton = this.btnLogin;
 			this.ClientSize = new System.Drawing.Size(550, 341);
 			this.Controls.Add(this.btnLogin);
 			this.Controls.Add(this.lblError);

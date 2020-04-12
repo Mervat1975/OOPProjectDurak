@@ -43,8 +43,8 @@
 			this.rbYours.Location = new System.Drawing.Point(4, 59);
 			this.rbYours.Name = "rbYours";
 			this.rbYours.Size = new System.Drawing.Size(90, 17);
-			this.rbYours.TabIndex = 1;
-			this.rbYours.Text = "Your statistics";
+			this.rbYours.TabIndex = 0;
+			this.rbYours.Text = "&Your statistics";
 			this.rbYours.UseVisualStyleBackColor = true;
 			// 
 			// rbAll
@@ -55,9 +55,9 @@
 			this.rbAll.Location = new System.Drawing.Point(4, 94);
 			this.rbAll.Name = "rbAll";
 			this.rbAll.Size = new System.Drawing.Size(111, 17);
-			this.rbAll.TabIndex = 2;
+			this.rbAll.TabIndex = 1;
 			this.rbAll.TabStop = true;
-			this.rbAll.Text = "All Users\' statistics";
+			this.rbAll.Text = "&All Users\' statistics";
 			this.rbAll.UseVisualStyleBackColor = true;
 			this.rbAll.CheckedChanged += new System.EventHandler(this.rbAll_CheckedChanged);
 			// 
@@ -70,17 +70,19 @@
 			this.lstStats.Location = new System.Drawing.Point(121, -1);
 			this.lstStats.Name = "lstStats";
 			this.lstStats.Size = new System.Drawing.Size(680, 451);
-			this.lstStats.TabIndex = 3;
+			this.lstStats.TabIndex = 2;
+			this.lstStats.TabStop = false;
 			this.lstStats.UseCompatibleStateImageBehavior = false;
 			this.lstStats.View = System.Windows.Forms.View.Details;
 			// 
 			// btnHome
 			// 
+			this.btnHome.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnHome.Location = new System.Drawing.Point(12, 291);
 			this.btnHome.Name = "btnHome";
 			this.btnHome.Size = new System.Drawing.Size(82, 27);
-			this.btnHome.TabIndex = 4;
-			this.btnHome.Text = "<< Go Home";
+			this.btnHome.TabIndex = 3;
+			this.btnHome.Text = "<< Go &Home";
 			this.btnHome.UseVisualStyleBackColor = true;
 			this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
 			// 
@@ -103,7 +105,7 @@
 			this.btnReload.Location = new System.Drawing.Point(34, 409);
 			this.btnReload.Name = "btnReload";
 			this.btnReload.Size = new System.Drawing.Size(37, 29);
-			this.btnReload.TabIndex = 6;
+			this.btnReload.TabIndex = 4;
 			this.btnReload.UseVisualStyleBackColor = false;
 			this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
 			// 

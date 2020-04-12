@@ -48,36 +48,36 @@
 			this.lblUserName.AutoSize = true;
 			this.lblUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblUserName.ForeColor = System.Drawing.Color.White;
-			this.lblUserName.Location = new System.Drawing.Point(124, 65);
+			this.lblUserName.Location = new System.Drawing.Point(148, 65);
 			this.lblUserName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblUserName.Name = "lblUserName";
 			this.lblUserName.Size = new System.Drawing.Size(98, 20);
 			this.lblUserName.TabIndex = 0;
-			this.lblUserName.Text = "UserName:";
+			this.lblUserName.Text = "&UserName:";
 			// 
 			// lblPassword
 			// 
 			this.lblPassword.AutoSize = true;
 			this.lblPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblPassword.ForeColor = System.Drawing.Color.White;
-			this.lblPassword.Location = new System.Drawing.Point(129, 98);
+			this.lblPassword.Location = new System.Drawing.Point(155, 103);
 			this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblPassword.Name = "lblPassword";
 			this.lblPassword.Size = new System.Drawing.Size(91, 20);
-			this.lblPassword.TabIndex = 1;
-			this.lblPassword.Text = "Password:";
+			this.lblPassword.TabIndex = 2;
+			this.lblPassword.Text = "&Password:";
 			// 
 			// lblConfirmPassword
 			// 
 			this.lblConfirmPassword.AutoSize = true;
 			this.lblConfirmPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblConfirmPassword.ForeColor = System.Drawing.Color.White;
-			this.lblConfirmPassword.Location = new System.Drawing.Point(89, 133);
+			this.lblConfirmPassword.Location = new System.Drawing.Point(88, 136);
 			this.lblConfirmPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblConfirmPassword.Name = "lblConfirmPassword";
 			this.lblConfirmPassword.Size = new System.Drawing.Size(158, 20);
-			this.lblConfirmPassword.TabIndex = 2;
-			this.lblConfirmPassword.Text = "Confirm Password:";
+			this.lblConfirmPassword.TabIndex = 4;
+			this.lblConfirmPassword.Text = "&Confirm Password:";
 			// 
 			// txtUserName
 			// 
@@ -86,7 +86,7 @@
 			this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
 			this.txtUserName.Name = "txtUserName";
 			this.txtUserName.Size = new System.Drawing.Size(204, 26);
-			this.txtUserName.TabIndex = 4;
+			this.txtUserName.TabIndex = 1;
 			// 
 			// txtPassword
 			// 
@@ -96,7 +96,7 @@
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '*';
 			this.txtPassword.Size = new System.Drawing.Size(204, 26);
-			this.txtPassword.TabIndex = 5;
+			this.txtPassword.TabIndex = 3;
 			// 
 			// txtConfirmPassword
 			// 
@@ -106,7 +106,7 @@
 			this.txtConfirmPassword.Name = "txtConfirmPassword";
 			this.txtConfirmPassword.PasswordChar = '*';
 			this.txtConfirmPassword.Size = new System.Drawing.Size(204, 26);
-			this.txtConfirmPassword.TabIndex = 6;
+			this.txtConfirmPassword.TabIndex = 5;
 			// 
 			// btnSave
 			// 
@@ -116,8 +116,8 @@
 			this.btnSave.Margin = new System.Windows.Forms.Padding(2);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(112, 36);
-			this.btnSave.TabIndex = 8;
-			this.btnSave.Text = "Save";
+			this.btnSave.TabIndex = 6;
+			this.btnSave.Text = "&Save";
 			this.btnSave.UseVisualStyleBackColor = false;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
@@ -138,7 +138,7 @@
 			this.btnExit.Margin = new System.Windows.Forms.Padding(2);
 			this.btnExit.Name = "btnExit";
 			this.btnExit.Size = new System.Drawing.Size(29, 27);
-			this.btnExit.TabIndex = 11;
+			this.btnExit.TabIndex = 8;
 			this.btnExit.Text = "X";
 			this.btnExit.UseVisualStyleBackColor = false;
 			this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -159,8 +159,8 @@
 			this.btnLogin.Location = new System.Drawing.Point(364, 206);
 			this.btnLogin.Name = "btnLogin";
 			this.btnLogin.Size = new System.Drawing.Size(106, 36);
-			this.btnLogin.TabIndex = 14;
-			this.btnLogin.Text = "Back To Login";
+			this.btnLogin.TabIndex = 7;
+			this.btnLogin.Text = "Back To &Login";
 			this.btnLogin.UseVisualStyleBackColor = false;
 			this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
 			// 
@@ -186,6 +186,7 @@
 			this.Name = "frmNewPlayer";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Add a New Player Interface";
+			this.Load += new System.EventHandler(this.frmNewPlayer_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

@@ -46,12 +46,12 @@
 			this.lblUsername.AutoSize = true;
 			this.lblUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblUsername.ForeColor = System.Drawing.Color.White;
-			this.lblUsername.Location = new System.Drawing.Point(107, 84);
+			this.lblUsername.Location = new System.Drawing.Point(102, 84);
 			this.lblUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblUsername.Name = "lblUsername";
 			this.lblUsername.Size = new System.Drawing.Size(103, 20);
 			this.lblUsername.TabIndex = 0;
-			this.lblUsername.Text = "User Name:";
+			this.lblUsername.Text = "&User Name:";
 			// 
 			// lblPassword
 			// 
@@ -62,8 +62,8 @@
 			this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblPassword.Name = "lblPassword";
 			this.lblPassword.Size = new System.Drawing.Size(91, 20);
-			this.lblPassword.TabIndex = 1;
-			this.lblPassword.Text = "Password:";
+			this.lblPassword.TabIndex = 2;
+			this.lblPassword.Text = "&Password:";
 			// 
 			// txtUserName
 			// 
@@ -72,7 +72,7 @@
 			this.txtUserName.Margin = new System.Windows.Forms.Padding(2);
 			this.txtUserName.Name = "txtUserName";
 			this.txtUserName.Size = new System.Drawing.Size(215, 26);
-			this.txtUserName.TabIndex = 4;
+			this.txtUserName.TabIndex = 1;
 			// 
 			// txtPassword
 			// 
@@ -82,7 +82,7 @@
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '*';
 			this.txtPassword.Size = new System.Drawing.Size(216, 26);
-			this.txtPassword.TabIndex = 5;
+			this.txtPassword.TabIndex = 3;
 			// 
 			// btnLogin
 			// 
@@ -93,8 +93,8 @@
 			this.btnLogin.Margin = new System.Windows.Forms.Padding(2);
 			this.btnLogin.Name = "btnLogin";
 			this.btnLogin.Size = new System.Drawing.Size(93, 30);
-			this.btnLogin.TabIndex = 6;
-			this.btnLogin.Text = "Login";
+			this.btnLogin.TabIndex = 4;
+			this.btnLogin.Text = "&Login";
 			this.btnLogin.UseVisualStyleBackColor = false;
 			this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
 			// 
@@ -106,7 +106,7 @@
 			this.btnExit.Margin = new System.Windows.Forms.Padding(2);
 			this.btnExit.Name = "btnExit";
 			this.btnExit.Size = new System.Drawing.Size(29, 27);
-			this.btnExit.TabIndex = 7;
+			this.btnExit.TabIndex = 6;
 			this.btnExit.Text = "X";
 			this.btnExit.UseVisualStyleBackColor = false;
 			this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
@@ -119,8 +119,8 @@
 			this.btnNewUser.Location = new System.Drawing.Point(302, 164);
 			this.btnNewUser.Name = "btnNewUser";
 			this.btnNewUser.Size = new System.Drawing.Size(117, 30);
-			this.btnNewUser.TabIndex = 8;
-			this.btnNewUser.Text = "New Player";
+			this.btnNewUser.TabIndex = 5;
+			this.btnNewUser.Text = "&New Player";
 			this.btnNewUser.UseVisualStyleBackColor = false;
 			this.btnNewUser.Click += new System.EventHandler(this.btnNewUser_Click);
 			// 
